@@ -139,9 +139,29 @@ const weights = [0.4, 0.4, 0.2]
     end
 
     @testset "StdDev" begin
-        stat = StdDev{Float64}()
-        fit!(stat, TSLA)
-        @test isapprox(value(stat), 60.5448, atol = ATOL)
+        @testset "StdDev of prices" begin
+            _stddev = StdDev{Float64}()
+            fit!(_stddev, TSLA)
+            @test isapprox(value(_stddev), 60.5448, atol = ATOL)    
+        end
+
+        @testset "StdDev of returns" begin
+            source = from(TSLA)
+            _ret = SimpleAssetReturn{Float64}()
+            _stddev = StdDev{Float64}()
+            mapped_source =
+                source |>
+                map(Union{Missing,Float64}, price -> (fit!(_ret, price);
+                value(_ret))) |>
+                filter(!ismissing) |>
+                map(Float64, r -> (fit!(_stddev, r); value(_stddev)))
+            stddev_returns = Float64[]
+            function observer(value)
+                push!(stddev_returns, value)
+            end
+            subscribe!(mapped_source, observer)
+            @test isapprox(stddev_returns[end], 0.1496, atol = ATOL)
+        end
     end
 
     @testset "ArithmeticMeanReturn" begin
