@@ -1,4 +1,4 @@
-mutable struct StdDev{T} <: PortfolioAnalysis{T}
+mutable struct StdDev{T} <: PortfolioAnalytics{T}
     value::T
     n::Int
 

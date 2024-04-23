@@ -1,4 +1,4 @@
-mutable struct SimpleAssetReturn{T} <: PortfolioAnalysis{T}
+mutable struct SimpleAssetReturn{T} <: PortfolioAnalytics{T}
     value::Union{Missing,T}
     n::Int
 
@@ -8,7 +8,7 @@ mutable struct SimpleAssetReturn{T} <: PortfolioAnalysis{T}
 
     input_values::CircBuff
 
-    function SimpleAssetReturn{T}(; period::Int=1) where {T}
+    function SimpleAssetReturn{T}(; period::Int = 1) where {T}
         input_values = CircBuff(T, period + 1, rev = false)
         new{T}(missing, 0, false, period, input_values)
     end
@@ -28,9 +28,7 @@ function OnlineStatsBase._fit!(stat::SimpleAssetReturn, data)
     end
 end
 
-
-
-mutable struct LogAssetReturn{T} <: PortfolioAnalysis{T}
+mutable struct LogAssetReturn{T} <: PortfolioAnalytics{T}
     value::Union{Missing,T}
     n::Int
 
@@ -40,7 +38,7 @@ mutable struct LogAssetReturn{T} <: PortfolioAnalysis{T}
 
     input_values::CircBuff
 
-    function LogAssetReturn{T}(; period::Int=1) where {T}
+    function LogAssetReturn{T}(; period::Int = 1) where {T}
         input_values = CircBuff(T, period + 1, rev = false)
         new{T}(missing, 0, false, period, input_values)
     end
