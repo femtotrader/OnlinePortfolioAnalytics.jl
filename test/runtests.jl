@@ -348,7 +348,7 @@ const weights = [0.4, 0.4, 0.2]
     @testset "Sharpe" begin
         source = from(TSLA)
         _ret = SimpleAssetReturn{Float64}()
-        _sharpe = Sharpe{Float64}()
+        _sharpe = Sharpe{Float64}(period=1)
 
         mapped_source =
             source |>
