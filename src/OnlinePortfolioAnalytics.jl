@@ -13,6 +13,7 @@ export CumulativeReturn
 export DrawDowns, ArithmeticDrawDowns
 export AssetReturnMoments
 export Sharpe
+export Sortino
 
 export fit!, value
 
@@ -25,6 +26,7 @@ include("std_dev.jl")
 include("drawdowns.jl")
 include("moments.jl")
 include("sharpe.jl")
+include("sortino.jl")
 
 include("value_at_risk.jl")
 

@@ -362,8 +362,28 @@ const weights = [0.4, 0.4, 0.2]
             push!(sharpes, value)
         end
         subscribe!(mapped_source, observer)
-        
+
         @test isapprox(sharpes[end], 0.2886, atol = ATOL)
     end
 
+    @testset "Sortino" begin
+        source = from(TSLA)
+        _ret = SimpleAssetReturn{Float64}()
+        _sortino = Sortino{Float64}()
+
+        mapped_source =
+            source |>
+            map(Union{Missing,Float64}, price -> (fit!(_ret, price);
+            value(_ret))) |>
+            filter(!ismissing) |>
+            map(Any, r -> (fit!(_sortino, r); value(_sortino)))
+    
+        sortinos = Float64[]
+        function observer(value)
+            push!(sortinos, value)
+        end
+        subscribe!(mapped_source, observer)
+        
+        @test isapprox(sortinos[end], 11.4992, atol = ATOL)
+    end
 end
