@@ -70,6 +70,7 @@ const weights = [0.4, 0.4, 0.2]
         @testset "SimpleAssetReturn with period=1 and Rocket" begin
             stat = SimpleAssetReturn{Float64}()
             source = from(TSLA)
+
             mapped_source =
                 source |>
                 map(Union{Missing,Float64}, price -> (fit!(stat, price); value(stat)))
@@ -110,6 +111,7 @@ const weights = [0.4, 0.4, 0.2]
         @testset "several points" begin
             stat = LogAssetReturn{Float64}()
             source = from(TSLA)
+
             mapped_source =
                 source |>
                 map(Union{Missing,Float64}, price -> (fit!(stat, price); value(stat)))
@@ -142,13 +144,14 @@ const weights = [0.4, 0.4, 0.2]
         @testset "StdDev of prices" begin
             _stddev = StdDev{Float64}()
             fit!(_stddev, TSLA)
-            @test isapprox(value(_stddev), 60.5448, atol = ATOL)    
+            @test isapprox(value(_stddev), 60.5448, atol = ATOL)
         end
 
         @testset "StdDev of returns" begin
             source = from(TSLA)
             _ret = SimpleAssetReturn{Float64}()
             _stddev = StdDev{Float64}()
+
             mapped_source =
                 source |>
                 map(Union{Missing,Float64}, price -> (fit!(_ret, price);
@@ -168,6 +171,7 @@ const weights = [0.4, 0.4, 0.2]
         source = from(TSLA)
         _ret = SimpleAssetReturn{Float64}()
         _mean = Mean()
+
         mapped_source =
             source |>
             map(Union{Missing,Float64}, price -> (fit!(_ret, price);
@@ -186,6 +190,7 @@ const weights = [0.4, 0.4, 0.2]
         source = from(TSLA)
         _ret = SimpleAssetReturn{Float64}()
         _mean = GeometricMeanReturn{Float64}()
+
         mapped_source =
             source |>
             map(Union{Missing,Float64}, price -> (fit!(_ret, price);
@@ -313,11 +318,9 @@ const weights = [0.4, 0.4, 0.2]
     end
 
     @testset "Moments" begin
-
         source = from(TSLA)
         _ret = SimpleAssetReturn{Float64}()
         _moments = AssetReturnMoments{Float64}()
-        #_moments = Moments()
 
         mapped_source =
             source |>
