@@ -333,17 +333,37 @@ const weights = [0.4, 0.4, 0.2]
             (:mean, :std, :skewness, :kurtosis),
             Tuple{Float64,Float64,Float64,Float64},
         }
-        expected_moments = NT[]
+        moments = NT[]
         function observer(value)
-            push!(expected_moments, value)
+            push!(moments, value)
         end
         subscribe!(mapped_source, observer)
-        moments = expected_moments[end]
-        @test isapprox(moments.mean, 0.0431772, atol = ATOL)
-        @test isapprox(moments.std, 0.1496, atol = ATOL)
-        @test isapprox(moments.skewness, 1.3688, atol = ATOL)
-        @test isapprox(moments.kurtosis, 2.1968, atol = ATOL)
+        moments_latest = moments[end]
+        @test isapprox(moments_latest.mean, 0.0431772, atol = ATOL)
+        @test isapprox(moments_latest.std, 0.1496, atol = ATOL)
+        @test isapprox(moments_latest.skewness, 1.3688, atol = ATOL)
+        @test isapprox(moments_latest.kurtosis, 2.1968, atol = ATOL)
     end
 
+    @testset "Sharpe" begin
+        source = from(TSLA)
+        _ret = SimpleAssetReturn{Float64}()
+        _sharpe = Sharpe{Float64}()
+
+        mapped_source =
+            source |>
+            map(Union{Missing,Float64}, price -> (fit!(_ret, price);
+            value(_ret))) |>
+            filter(!ismissing) |>
+            map(Any, r -> (fit!(_sharpe, r); value(_sharpe)))
+    
+        sharpes = Float64[]
+        function observer(value)
+            push!(sharpes, value)
+        end
+        subscribe!(mapped_source, observer)
+        
+        @test isapprox(sharpes[end], 0.2886, atol = ATOL)
+    end
 
 end

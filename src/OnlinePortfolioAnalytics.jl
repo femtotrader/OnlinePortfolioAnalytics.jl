@@ -12,6 +12,7 @@ export StdDev
 export CumulativeReturn
 export DrawDowns, ArithmeticDrawDowns
 export AssetReturnMoments
+export Sharpe
 
 export fit!, value
 
@@ -23,6 +24,7 @@ include("cumulative_return.jl")
 include("std_dev.jl")
 include("drawdowns.jl")
 include("moments.jl")
+include("sharpe.jl")
 
 include("value_at_risk.jl")
 
