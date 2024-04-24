@@ -7,7 +7,8 @@ makedocs(
     format = Documenter.HTML(),
     modules = [OnlinePortfolioAnalytics],
     pages = [
-        "Home" => "index.md"
+        "Home" => "index.md",
+        "API" => "api.md"
     ]
 )
 deploydocs(; repo = "github.com/femtotrader/OnlinePortfolioAnalytics.jl")

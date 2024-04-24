@@ -11,5 +11,6 @@ It depends especially on [OnlineStatsBase.jl](https://joshday.github.io/OnlineSt
 ```@contents
 Pages = [
     "index.md",
+    "api.md"
 ]
 ```
