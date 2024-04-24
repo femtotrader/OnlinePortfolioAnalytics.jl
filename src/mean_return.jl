@@ -1,7 +1,7 @@
 """
     Prod(T::Type = Float64)
 
-Track the overall prod.
+Track the overall product.
 """
 mutable struct Prod{T} <: OnlineStat{Number}
     prod::T
@@ -22,7 +22,11 @@ OnlineStatsBase._merge!(o::T, o2::T) where {T<:Prod} = (o.prod *= o2.prod; o.n +
 # https://github.com/joshday/OnlineStatsBase.jl/issues/41
 
 @doc """
-    WIP
+$(TYPEDEF)
+
+    GeometricMeanReturn{T}()
+
+The `GeometricMeanReturn` type implements geometric mean returns calculations.
 """
 mutable struct GeometricMeanReturn{T} <: PortfolioAnalytics{T}
     value::T

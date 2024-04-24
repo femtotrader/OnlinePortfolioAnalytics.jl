@@ -167,42 +167,44 @@ const weights = [0.4, 0.4, 0.2]
         end
     end
 
-    @testset "ArithmeticMeanReturn" begin
-        source = from(TSLA)
-        _ret = SimpleAssetReturn{Float64}()
-        _mean = Mean()
+    @testset "MeanReturn" begin
+        @testset "ArithmeticMeanReturn" begin
+            source = from(TSLA)
+            _ret = SimpleAssetReturn{Float64}()
+            _mean = Mean()
 
-        mapped_source =
-            source |>
-            map(Union{Missing,Float64}, price -> (fit!(_ret, price);
-            value(_ret))) |>
-            filter(!ismissing) |>
-            map(Float64, r -> (fit!(_mean, r); value(_mean)))
-        mean_returns = Float64[]
-        function observer(value)
-            push!(mean_returns, value)
+            mapped_source =
+                source |>
+                map(Union{Missing,Float64}, price -> (fit!(_ret, price);
+                value(_ret))) |>
+                filter(!ismissing) |>
+                map(Float64, r -> (fit!(_mean, r); value(_mean)))
+            mean_returns = Float64[]
+            function observer(value)
+                push!(mean_returns, value)
+            end
+            subscribe!(mapped_source, observer)
+            @test isapprox(mean_returns[end], 0.0432, atol = ATOL)
         end
-        subscribe!(mapped_source, observer)
-        @test isapprox(mean_returns[end], 0.0432, atol = ATOL)
-    end
 
-    @testset "GeometricMeanReturn" begin
-        source = from(TSLA)
-        _ret = SimpleAssetReturn{Float64}()
-        _mean = GeometricMeanReturn{Float64}()
+        @testset "GeometricMeanReturn" begin
+            source = from(TSLA)
+            _ret = SimpleAssetReturn{Float64}()
+            _mean = GeometricMeanReturn{Float64}()
 
-        mapped_source =
-            source |>
-            map(Union{Missing,Float64}, price -> (fit!(_ret, price);
-            value(_ret))) |>
-            filter(!ismissing) |>
-            map(Float64, r -> (fit!(_mean, r); value(_mean)))
-        mean_returns = Float64[]
-        function observer(value)
-            push!(mean_returns, value)
+            mapped_source =
+                source |>
+                map(Union{Missing,Float64}, price -> (fit!(_ret, price);
+                value(_ret))) |>
+                filter(!ismissing) |>
+                map(Float64, r -> (fit!(_mean, r); value(_mean)))
+            mean_returns = Float64[]
+            function observer(value)
+                push!(mean_returns, value)
+            end
+            subscribe!(mapped_source, observer)
+            @test isapprox(mean_returns[end], 0.0342, atol = ATOL)
         end
-        subscribe!(mapped_source, observer)
-        @test isapprox(mean_returns[end], 0.0342, atol = ATOL)
     end
 
     @testset "CumulativeReturn" begin
@@ -242,7 +244,6 @@ const weights = [0.4, 0.4, 0.2]
         @test all(isapprox.(cum_returns, expected_cum_returns, atol = ATOL))
 
     end
-
 
     @testset "DrawDowns" begin
         @testset "Geometric" begin

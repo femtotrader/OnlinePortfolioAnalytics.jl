@@ -1,5 +1,9 @@
 @doc """
-    WIP
+$(TYPEDEF)
+
+    DrawDowns{T}()
+
+The `DrawDowns` type implements drawdowns calculations (geometric method).
 """
 mutable struct DrawDowns{T} <: PortfolioAnalytics{T}
     value::T
@@ -26,7 +30,11 @@ end
 
 
 @doc """
-    WIP
+$(TYPEDEF)
+
+    ArithmeticDrawDowns{T}()
+
+The `ArithmeticDrawDowns` type implements drawdowns calculations (arithmetic method).
 """
 mutable struct ArithmeticDrawDowns{T} <: PortfolioAnalytics{T}
     value::T

@@ -2,6 +2,10 @@
 
 ## Portfolio analytics
 
+```@meta
+CurrentModule = OnlinePortfolioAnalytics
+```
+
 ### Modules
 
 ```@docs
@@ -11,55 +15,57 @@ OnlinePortfolioAnalytics.OnlinePortfolioAnalytics
 ### Asset return
 
 ```@docs
-OnlinePortfolioAnalytics.SimpleAssetReturn
-OnlinePortfolioAnalytics.LogAssetReturn
+SimpleAssetReturn
+LogAssetReturn
 ```
 
 ### Mean return
 
+[OnlineStatsBase.Mean](https://joshday.github.io/OnlineStats.jl/latest/api/#OnlineStatsBase.Mean)
+
 ```@docs
-OnlinePortfolioAnalytics.GeometricMeanReturn
+GeometricMeanReturn
 ```
 
 ### Cumulative return
 
 ```@docs
-OnlinePortfolioAnalytics.CumulativeReturn
+CumulativeReturn
 ```
 
 ### Standard deviation
 
 ```@docs
-OnlinePortfolioAnalytics.StdDev
+StdDev
 ```
 
 ### Drawdowns
 
 ```@docs
-OnlinePortfolioAnalytics.DrawDowns
-OnlinePortfolioAnalytics.ArithmeticDrawDowns
+DrawDowns
+ArithmeticDrawDowns
 ```
 
 ### Statistical moments
 
 ```@docs
-OnlinePortfolioAnalytics.AssetReturnMoments
+AssetReturnMoments
 ```
 
 ### Sharpe ratio
 
 ```@docs
-OnlinePortfolioAnalytics.Sharpe
+Sharpe
 ```
 
 ### Sortino ratio
 
 ```@docs
-OnlinePortfolioAnalytics.Sortino
+Sortino
 ```
 
 ## Other
 
 ```@docs
-OnlinePortfolioAnalytics.Prod
+Prod
 ```

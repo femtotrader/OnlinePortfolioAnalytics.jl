@@ -7,13 +7,13 @@ It depends especially on [OnlineStatsBase.jl](https://joshday.github.io/OnlineSt
 It's inspired by the following projects:
 
 - Julia
-  - PortfolioAnalytics.jl https://github.com/doganmehmet/PortfolioAnalytics.jl
+  - [PortfolioAnalytics.jl](https://github.com/doganmehmet/PortfolioAnalytics.jl)
 - R
-  - PerformanceAnalytics https://cran.r-project.org/web/packages/PerformanceAnalytics/
-  - PortfolioAnalytics https://cran.r-project.org/web/packages/PortfolioAnalytics/
+  - [PerformanceAnalytics](https://cran.r-project.org/web/packages/PerformanceAnalytics/)
+  - [PortfolioAnalytics](https://cran.r-project.org/web/packages/PortfolioAnalytics/)
 - Python
-  - pyfolio https://github.com/quantopian/pyfolio
-  - empyrical https://quantopian.github.io/empyrical
+  - [pyfolio](https://github.com/quantopian/pyfolio)
+  - [empyrical](https://quantopian.github.io/empyrical)
 
 ## Installation
 

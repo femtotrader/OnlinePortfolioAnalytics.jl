@@ -1,5 +1,9 @@
 @doc """
-    WIP
+$(TYPEDEF)
+
+    CumulativeReturn{T}()
+
+The `CumulativeReturn` type implements cumulative return calculations.
 """
 mutable struct CumulativeReturn{T} <: PortfolioAnalytics{T}
     value::T

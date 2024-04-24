@@ -1,5 +1,9 @@
 @doc """
-    WIP
+$(TYPEDEF)
+
+    StdDev{T}()
+
+The `StdDev` type implements standard deviation calculations.
 """
 mutable struct StdDev{T} <: PortfolioAnalytics{T}
     value::T
