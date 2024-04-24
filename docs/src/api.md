@@ -29,6 +29,9 @@ OnlinePortfolioAnalytics.CumulativeReturn
 
 ### Standard deviation
 
+```@docs
+OnlinePortfolioAnalytics.StdDev
+```
 
 ### Drawdowns
 

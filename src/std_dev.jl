@@ -1,3 +1,6 @@
+@doc """
+    WIP
+"""
 mutable struct StdDev{T} <: PortfolioAnalytics{T}
     value::T
     n::Int
