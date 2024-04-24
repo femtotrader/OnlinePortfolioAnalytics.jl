@@ -1,6 +1,6 @@
 using Dates
 using OnlinePortfolioAnalytics
-using OnlinePortfolioAnalytics: ismultioutput
+using OnlinePortfolioAnalytics: ismultioutput, expected_return_type
 using OnlineStatsBase
 using Rocket
 using Test
@@ -63,7 +63,9 @@ const weights = [0.4, 0.4, 0.2]
                 fit!(stat, TSLA[1])
                 fit!(stat, TSLA[2])
                 @test round(value(stat), digits = 4) == 0.1245
-                @test !ismultioutput(typeof(stat))
+                T = typeof(stat)
+                @test !ismultioutput(T)
+                @test expected_return_type(T) == Float64
             end
             @testset "SimpleAssetReturn with period=3" begin
                 stat = SimpleAssetReturn{Float64}(period = 3)
@@ -109,7 +111,9 @@ const weights = [0.4, 0.4, 0.2]
         @testset "LogAssetReturn" begin
             @testset "1 point" begin
                 stat = LogAssetReturn{Float64}()
-                @test !ismultioutput(typeof(stat))
+                T = typeof(stat)
+                @test !ismultioutput(T)
+                @test expected_return_type(T) == Float64
                 fit!(stat, TSLA[1])
                 fit!(stat, TSLA[2])
                 @test isapprox(value(stat), 0.1174, atol = ATOL)
@@ -150,7 +154,9 @@ const weights = [0.4, 0.4, 0.2]
         @testset "StdDev" begin
             @testset "StdDev of prices" begin
                 _stddev = StdDev{Float64}()
-                @test !ismultioutput(typeof(_stddev))
+                T = typeof(_stddev)
+                @test !ismultioutput(T)
+                @test expected_return_type(T) == Float64
                 fit!(_stddev, TSLA)
                 @test isapprox(value(_stddev), 60.5448, atol = ATOL)
             end
@@ -200,7 +206,9 @@ const weights = [0.4, 0.4, 0.2]
                 source = from(TSLA)
                 _ret = SimpleAssetReturn{Float64}()
                 _mean = GeometricMeanReturn{Float64}()
-                @test !ismultioutput(typeof(_mean))
+                T = typeof(_mean)
+                @test !ismultioutput(T)
+                @test expected_return_type(T) == Float64
 
                 mapped_source =
                     source |>
@@ -221,7 +229,9 @@ const weights = [0.4, 0.4, 0.2]
             source = from(TSLA)
             ret = SimpleAssetReturn{Float64}()
             cum_ret = CumulativeReturn{Float64}()
-            @test !ismultioutput(typeof(cum_ret))
+            T = typeof(cum_ret)
+            @test !ismultioutput(T)
+            @test expected_return_type(T) == Float64
 
             mapped_source =
                 source |>
@@ -261,7 +271,9 @@ const weights = [0.4, 0.4, 0.2]
                 source = from(TSLA)
                 _ret = SimpleAssetReturn{Float64}()
                 _ddowns = DrawDowns{Float64}()
-                @test !ismultioutput(typeof(_ddowns))
+                T = typeof(_ddowns)
+                @test !ismultioutput(T)
+                @test expected_return_type(T) == Float64
 
                 mapped_source =
                     source |>
@@ -297,7 +309,9 @@ const weights = [0.4, 0.4, 0.2]
                 source = from(TSLA)
                 _ret = SimpleAssetReturn{Float64}()
                 _ddowns = ArithmeticDrawDowns{Float64}()
-                @test !ismultioutput(typeof(_ddowns))
+                T = typeof(_ddowns)
+                @test !ismultioutput(T)
+                @test expected_return_type(T) == Float64
 
                 mapped_source =
                     source |>
@@ -335,9 +349,10 @@ const weights = [0.4, 0.4, 0.2]
             source = from(TSLA)
             _ret = SimpleAssetReturn{Float64}()
             _moments = AssetReturnMoments{Float64}()
-            @test ismultioutput(typeof(_moments))
-
-            NT = NamedTuple{
+            T = typeof(_moments)
+            @test ismultioutput(T)
+            NT = expected_return_type(T)
+            @test NT == NamedTuple{
                 (:mean, :std, :skewness, :kurtosis),
                 Tuple{Float64,Float64,Float64,Float64},
             }
@@ -365,7 +380,9 @@ const weights = [0.4, 0.4, 0.2]
             source = from(TSLA)
             _ret = SimpleAssetReturn{Float64}()
             _sharpe = Sharpe{Float64}(period = 1)
-            @test !ismultioutput(typeof(_sharpe))
+            T = typeof(_sharpe)
+            @test !ismultioutput(T)
+            @test expected_return_type(T) == Float64
 
             mapped_source =
                 source |>
@@ -387,7 +404,9 @@ const weights = [0.4, 0.4, 0.2]
             source = from(TSLA)
             _ret = SimpleAssetReturn{Float64}()
             _sortino = Sortino{Float64}()
-            @test !ismultioutput(typeof(_sortino))
+            T = typeof(_sortino)
+            @test !ismultioutput(T)
+            @test expected_return_type(T) == Float64
 
             mapped_source =
                 source |>
@@ -412,7 +431,7 @@ const weights = [0.4, 0.4, 0.2]
         using OnlinePortfolioAnalytics: load!, PortfolioAnalyticsWrapper
 
         @testset "TSFrames" begin
-            prices_ts = TSFrame([TSLA NFLX MSFT], dates, colnames=[:TSLA, :NFLX, :MSFT])
+            prices_ts = TSFrame([TSLA NFLX MSFT], dates, colnames = [:TSLA, :NFLX, :MSFT])
             pa_wrapper = PortfolioAnalyticsWrapper(SimpleAssetReturn)
             load!(prices_ts, pa_wrapper)
             #@test prices_ts == 1

@@ -27,3 +27,10 @@ function OnlineStatsBase._fit!(stat::AssetReturnMoments, ret)
         kurtosis = StatsBase.kurtosis(stat.moments),
     )
 end
+
+function expected_return_type(ind::Type{AssetReturnMoments{T}}) where {T}
+    return NamedTuple{
+        (:mean, :std, :skewness, :kurtosis),
+        Tuple{Float64,Float64,Float64,Float64},
+    }
+end

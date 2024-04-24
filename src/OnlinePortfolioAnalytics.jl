@@ -29,8 +29,13 @@ abstract type PortfolioAnalytics{T} <: OnlineStat{T} end
 abstract type PortfolioAnalyticsSingleOutput{T} <: PortfolioAnalytics{T} end
 abstract type PortfolioAnalyticsMultiOutput{T} <: PortfolioAnalytics{T} end
 
-ismultioutput(ind::Type{O}) where {O<:PortfolioAnalytics} =
-    ind <: PortfolioAnalyticsMultiOutput
+function ismultioutput(ind::Type{O}) where {O<:PortfolioAnalytics}
+    return ind <: PortfolioAnalyticsMultiOutput
+end
+
+function expected_return_type(ind::Type{O}) where {O<:PortfolioAnalyticsSingleOutput}
+    return ind.parameters[end]
+end
 
 include("asset_return.jl")
 include("mean_return.jl")
