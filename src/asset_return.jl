@@ -1,3 +1,6 @@
+"""
+    S
+"""
 mutable struct SimpleAssetReturn{T} <: PortfolioAnalytics{T}
     value::Union{Missing,T}
     n::Int
@@ -28,6 +31,24 @@ function OnlineStatsBase._fit!(stat::SimpleAssetReturn, data)
     end
 end
 
+"""
+The [`TYPEDEF`](@ref) abbreviation includes the type signature:
+
+$(TYPEDEF)
+
+---
+
+The [`FIELDS`](@ref) abbreviation creates a list of all the fields of the type.
+If the fields has a docstring attached, that will also get included.
+
+$(FIELDS)
+
+---
+
+[`TYPEDFIELDS`](@ref) also adds in types for the fields:
+
+$(TYPEDFIELDS)
+"""
 mutable struct LogAssetReturn{T} <: PortfolioAnalytics{T}
     value::Union{Missing,T}
     n::Int

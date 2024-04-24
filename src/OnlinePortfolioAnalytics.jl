@@ -1,3 +1,20 @@
+"""
+[`OnlinePortfolioAnalytics`](@ref) module aims to provide users with functionality for performing quantitative portfolio analytics via [online algorithms](https://en.wikipedia.org/wiki/Online_algorithm).
+
+[`EXPORTS`](@ref)
+$(EXPORTS)
+
+[`IMPORTS`](@ref)
+$(IMPORTS)
+
+---
+
+$(README)
+
+---
+
+The [`LICENSE`](@ref) abbreviation can be used in the same way for the `LICENSE.md` file.
+"""
 module OnlinePortfolioAnalytics
 
 using OnlineStatsBase
