@@ -23,7 +23,7 @@ Type `] dev https://github.com/femtotrader/OnlinePortfolioAnalytics.jl/`
 
 ## Usage
 
-See [unit tests](test/)
+See [unit tests](https://github.com/femtotrader/OnlinePortfolioAnalytics.jl/tree/main/test)
 
 
 🚧 This software is under construction. API can have breaking changes.
