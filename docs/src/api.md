@@ -21,7 +21,7 @@ OnlinePortfolioAnalytics.LogAssetReturn
 
 ### Sharpe ratio
 
-### Sortino ration
+### Sortino ratio
 
 ## Other
 

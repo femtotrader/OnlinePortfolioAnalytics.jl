@@ -17,6 +17,7 @@ The [`LICENSE`](@ref) abbreviation can be used in the same way for the `LICENSE.
 """
 module OnlinePortfolioAnalytics
 
+using DocStringExtensions
 using OnlineStatsBase
 #using OnlineStats: GeometricMean
 using Statistics
