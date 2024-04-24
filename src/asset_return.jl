@@ -1,5 +1,5 @@
 @doc """
-    S
+    WIP
 """
 mutable struct SimpleAssetReturn{T} <: PortfolioAnalytics{T}
     value::Union{Missing,T}

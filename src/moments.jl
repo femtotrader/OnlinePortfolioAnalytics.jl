@@ -1,3 +1,6 @@
+@doc """
+    WIP
+"""
 mutable struct AssetReturnMoments{T} <: PortfolioAnalytics{T}
     value::NamedTuple
     n::Int

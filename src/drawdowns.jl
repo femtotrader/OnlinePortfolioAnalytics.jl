@@ -1,3 +1,6 @@
+@doc """
+    WIP
+"""
 mutable struct DrawDowns{T} <: PortfolioAnalytics{T}
     value::T
     n::Int
@@ -22,6 +25,9 @@ function OnlineStatsBase._fit!(stat::DrawDowns, ret)
 end
 
 
+@doc """
+    WIP
+"""
 mutable struct ArithmeticDrawDowns{T} <: PortfolioAnalytics{T}
     value::T
     n::Int

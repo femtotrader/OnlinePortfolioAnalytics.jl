@@ -1,3 +1,6 @@
+@doc """
+    WIP
+"""
 mutable struct Sharpe{T} <: PortfolioAnalytics{T}
     value::T
     n::Int

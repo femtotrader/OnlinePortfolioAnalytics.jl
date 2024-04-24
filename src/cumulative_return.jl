@@ -1,3 +1,6 @@
+@doc """
+    WIP
+"""
 mutable struct CumulativeReturn{T} <: PortfolioAnalytics{T}
     value::T
     n::Int

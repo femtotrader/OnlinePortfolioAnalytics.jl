@@ -21,6 +21,9 @@ OnlineStatsBase._merge!(o::T, o2::T) where {T<:Prod} = (o.prod *= o2.prod; o.n +
 
 # https://github.com/joshday/OnlineStatsBase.jl/issues/41
 
+@doc """
+    WIP
+"""
 mutable struct GeometricMeanReturn{T} <: PortfolioAnalytics{T}
     value::T
     n::Int
