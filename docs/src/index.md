@@ -4,6 +4,28 @@ This project aims to provide users with functionality for performing quantitativ
 
 It depends especially on [OnlineStatsBase.jl](https://joshday.github.io/OnlineStats.jl/).
 
+It's inspired by the following projects:
+
+- Julia
+  - PortfolioAnalytics.jl https://github.com/doganmehmet/PortfolioAnalytics.jl
+- R
+  - PerformanceAnalytics https://cran.r-project.org/web/packages/PerformanceAnalytics/
+  - PortfolioAnalytics https://cran.r-project.org/web/packages/PortfolioAnalytics/
+- Python
+  - pyfolio https://github.com/quantopian/pyfolio
+  - empyrical https://quantopian.github.io/empyrical
+
+## Installation
+
+Open Julia command line interface. 
+
+Type `] dev https://github.com/femtotrader/OnlinePortfolioAnalytics.jl/`
+
+## Usage
+
+See [unit tests](test/)
+
+
 🚧 This software is under construction. API can have breaking changes.
 
 ## Contents
