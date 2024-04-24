@@ -9,4 +9,4 @@ This project aims to provide users with functionality for performing quantitativ
 - **Documentation**: https://femtotrader.github.io/OnlinePortfolioAnalytics.jl/
 
 [docs-dev-img]: https://img.shields.io/badge/docs-dev-blue.svg
-[docs-dev-url]: https://femtotrader.github.io/OnlinePortfolioAnalytics/dev/
+[docs-dev-url]: https://femtotrader.github.io/OnlinePortfolioAnalytics.jl/dev/
