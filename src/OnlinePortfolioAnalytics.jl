@@ -12,6 +12,7 @@ using OnlineStatsBase
 #using OnlineStats: GeometricMean
 using Statistics
 import StatsBase
+using Tables
 
 export SimpleAssetReturn, LogAssetReturn
 export Mean  # from OnlineStatsBase
@@ -37,5 +38,7 @@ include("sharpe.jl")
 include("sortino.jl")
 
 include("value_at_risk.jl")
+
+include("integrations/tables.jl")
 
 end
