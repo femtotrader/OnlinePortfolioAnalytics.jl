@@ -323,17 +323,18 @@ const weights = [0.4, 0.4, 0.2]
         _ret = SimpleAssetReturn{Float64}()
         _moments = AssetReturnMoments{Float64}()
 
+        NT = NamedTuple{
+            (:mean, :std, :skewness, :kurtosis),
+            Tuple{Float64,Float64,Float64,Float64},
+        }
+
         mapped_source =
             source |>
             map(Union{Missing,Float64}, price -> (fit!(_ret, price);
             value(_ret))) |>
             filter(!ismissing) |>
-            map(Any, r -> (fit!(_moments, r); value(_moments)))
+            map(NT, r -> (fit!(_moments, r); value(_moments)))
 
-        NT = NamedTuple{
-            (:mean, :std, :skewness, :kurtosis),
-            Tuple{Float64,Float64,Float64,Float64},
-        }
         moments = NT[]
         function observer(value)
             push!(moments, value)
@@ -349,15 +350,15 @@ const weights = [0.4, 0.4, 0.2]
     @testset "Sharpe" begin
         source = from(TSLA)
         _ret = SimpleAssetReturn{Float64}()
-        _sharpe = Sharpe{Float64}(period=1)
+        _sharpe = Sharpe{Float64}(period = 1)
 
         mapped_source =
             source |>
             map(Union{Missing,Float64}, price -> (fit!(_ret, price);
             value(_ret))) |>
             filter(!ismissing) |>
-            map(Any, r -> (fit!(_sharpe, r); value(_sharpe)))
-    
+            map(Float64, r -> (fit!(_sharpe, r); value(_sharpe)))
+
         sharpes = Float64[]
         function observer(value)
             push!(sharpes, value)
@@ -377,14 +378,14 @@ const weights = [0.4, 0.4, 0.2]
             map(Union{Missing,Float64}, price -> (fit!(_ret, price);
             value(_ret))) |>
             filter(!ismissing) |>
-            map(Any, r -> (fit!(_sortino, r); value(_sortino)))
-    
+            map(Float64, r -> (fit!(_sortino, r); value(_sortino)))
+
         sortinos = Float64[]
         function observer(value)
             push!(sortinos, value)
         end
         subscribe!(mapped_source, observer)
-        
+
         @test isapprox(sortinos[end], 11.4992, atol = ATOL)
     end
 end

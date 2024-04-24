@@ -13,14 +13,14 @@ The `Sharpe` type implements sharpe ratio calculations.
 mutable struct Sharpe{T} <: PortfolioAnalytics{T}
     value::T
     n::Int
-    
+
     mean::Mean
     stddev::StdDev
 
     period::Int
     risk_free::T
 
-    function Sharpe{T}(; period=252, risk_free=0) where {T}
+    function Sharpe{T}(; period = 252, risk_free = 0) where {T}
         new{T}(T(0), 0, Mean(), StdDev{T}(), period, risk_free)
     end
 end
