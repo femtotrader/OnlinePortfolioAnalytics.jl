@@ -1,4 +1,4 @@
-"""
+@doc """
     S
 """
 mutable struct SimpleAssetReturn{T} <: PortfolioAnalytics{T}
@@ -31,7 +31,7 @@ function OnlineStatsBase._fit!(stat::SimpleAssetReturn, data)
     end
 end
 
-"""
+@doc """
 The [`TYPEDEF`](@ref) abbreviation includes the type signature:
 
 $(TYPEDEF)

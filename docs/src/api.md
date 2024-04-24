@@ -2,6 +2,12 @@
 
 ## Portfolio analytics
 
+### Modules
+
+```@docs
+OnlinePortfolioAnalytics.OnlinePortfolioAnalytics
+```
+
 ### Asset return
 
 ```@docs
