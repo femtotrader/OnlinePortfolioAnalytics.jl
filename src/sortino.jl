@@ -10,7 +10,7 @@ The `Sortino` type implements Sortino ratio calculations.
 - `period`: default is `252`. Daily (`252`), Hourly (`252*6.5`), Minutely(`252*6.5*60`) etc...
 - `risk_free`: default is `0`. Constant risk-free return throughout the period.
 """
-mutable struct Sortino{T} <: PortfolioAnalytics{T}
+mutable struct Sortino{T} <: PortfolioAnalyticsSingleOutput{T}
     value::T
     n::Int
 

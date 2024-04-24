@@ -12,7 +12,6 @@ using OnlineStatsBase
 #using OnlineStats: GeometricMean
 using Statistics
 import StatsBase
-using Tables
 
 export SimpleAssetReturn, LogAssetReturn
 export Mean  # from OnlineStatsBase
@@ -27,6 +26,11 @@ export Sortino
 export fit!, value
 
 abstract type PortfolioAnalytics{T} <: OnlineStat{T} end
+abstract type PortfolioAnalyticsSingleOutput{T} <: PortfolioAnalytics{T} end
+abstract type PortfolioAnalyticsMultiOutput{T} <: PortfolioAnalytics{T} end
+
+ismultioutput(ind::Type{O}) where {O<:PortfolioAnalytics} =
+    ind <: PortfolioAnalyticsMultiOutput
 
 include("asset_return.jl")
 include("mean_return.jl")

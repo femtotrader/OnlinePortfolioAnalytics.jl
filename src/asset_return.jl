@@ -27,7 +27,7 @@ The `SimpleAssetReturn` implements asset return (simple method) calculations.
     julia> value(ret)
     0.1
 """
-mutable struct SimpleAssetReturn{T} <: PortfolioAnalytics{T}
+mutable struct SimpleAssetReturn{T} <: PortfolioAnalyticsSingleOutput{T}
     value::Union{Missing,T}
     n::Int
 
@@ -86,7 +86,7 @@ The `LogAssetReturn` implements asset return (natural log method) calculations.
     julia> value(ret)
     0.09531017980432493
 """
-mutable struct LogAssetReturn{T} <: PortfolioAnalytics{T}
+mutable struct LogAssetReturn{T} <: PortfolioAnalyticsSingleOutput{T}
     value::Union{Missing,T}
     n::Int
 

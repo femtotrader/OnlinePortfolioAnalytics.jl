@@ -5,7 +5,7 @@ $(TYPEDEF)
 
 The `DrawDowns` type implements drawdowns calculations (geometric method).
 """
-mutable struct DrawDowns{T} <: PortfolioAnalytics{T}
+mutable struct DrawDowns{T} <: PortfolioAnalyticsSingleOutput{T}
     value::T
     n::Int
 
@@ -36,7 +36,7 @@ $(TYPEDEF)
 
 The `ArithmeticDrawDowns` type implements drawdowns calculations (arithmetic method).
 """
-mutable struct ArithmeticDrawDowns{T} <: PortfolioAnalytics{T}
+mutable struct ArithmeticDrawDowns{T} <: PortfolioAnalyticsSingleOutput{T}
     value::T
     n::Int
 

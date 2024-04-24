@@ -28,7 +28,7 @@ $(TYPEDEF)
 
 The `GeometricMeanReturn` type implements geometric mean returns calculations.
 """
-mutable struct GeometricMeanReturn{T} <: PortfolioAnalytics{T}
+mutable struct GeometricMeanReturn{T} <: PortfolioAnalyticsSingleOutput{T}
     value::T
     n::Int
 

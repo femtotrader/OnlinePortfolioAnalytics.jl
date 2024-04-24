@@ -5,7 +5,7 @@ $(TYPEDEF)
 
 The `AssetReturnMoments` type implements 4 first statistical moments (`mean`, `std`, `skewness`, `kurtosis`) calculations.
 """
-mutable struct AssetReturnMoments{T} <: PortfolioAnalytics{T}
+mutable struct AssetReturnMoments{T} <: PortfolioAnalyticsMultiOutput{T}
     value::NamedTuple
     n::Int
 

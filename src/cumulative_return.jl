@@ -5,7 +5,7 @@ $(TYPEDEF)
 
 The `CumulativeReturn` type implements cumulative return calculations.
 """
-mutable struct CumulativeReturn{T} <: PortfolioAnalytics{T}
+mutable struct CumulativeReturn{T} <: PortfolioAnalyticsSingleOutput{T}
     value::T
     n::Int
 

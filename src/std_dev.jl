@@ -5,7 +5,7 @@ $(TYPEDEF)
 
 The `StdDev` type implements standard deviation calculations.
 """
-mutable struct StdDev{T} <: PortfolioAnalytics{T}
+mutable struct StdDev{T} <: PortfolioAnalyticsSingleOutput{T}
     value::T
     n::Int
 
