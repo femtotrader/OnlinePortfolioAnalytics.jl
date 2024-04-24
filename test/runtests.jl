@@ -432,9 +432,19 @@ const weights = [0.4, 0.4, 0.2]
 
         @testset "TSFrames" begin
             prices_ts = TSFrame([TSLA NFLX MSFT], dates, colnames = [:TSLA, :NFLX, :MSFT])
-            pa_wrapper = PortfolioAnalyticsWrapper(SimpleAssetReturn)
-            load!(prices_ts, pa_wrapper)
-            #@test prices_ts == 1
+
+            @testset "SimpleAssetReturn" begin
+                pa_wrapper = PortfolioAnalyticsWrapper(SimpleAssetReturn)
+                load!(prices_ts, pa_wrapper)
+                #@test prices_ts == 1
+            end
+
+            @testset "Moments" begin
+                pa_wrapper = PortfolioAnalyticsWrapper(AssetReturnMoments)
+                load!(prices_ts, pa_wrapper)
+                #@test prices_ts == 1
+            end
+
         end
     end
 

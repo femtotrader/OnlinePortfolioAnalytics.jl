@@ -56,30 +56,35 @@ function load!(
     end
     Ttime = Tables.columntype(sch, index)
 
-    #all_pa = [pa_wrap.portfolio_analytics_type{Tin}(pa_wrap.args...; pa_wrap.kwargs...) for colname in _names]
-    #println(all_pa)
-
+    vTout = Type[]
+    v_pa = PortfolioAnalytics[]
     for colname in _names
         if !(colname in POSSIBLE_INDEX)
             Tin = Tables.columntype(sch, colname)
             pa = pa_wrap.portfolio_analytics_type{Tin}(pa_wrap.args...; pa_wrap.kwargs...)
-            println(pa)
-            #println(expected_return_type(pa))
+            push!(v_pa, pa)
+            Tout = expected_return_type(typeof(pa))
+            push!(vTout, Tout)
         else
 
         end
     end
+    println(vTout)
 
+    v_out = vTout[]
+    j = 1
     for colname in _names
         if !(colname in POSSIBLE_INDEX)
             Tin = Tables.columntype(sch, colname)
-            pa = pa_wrap.portfolio_analytics_type{Tin}(pa_wrap.args...; pa_wrap.kwargs...)
+            pa = v_pa[j]
 
+            #out = vTout
             for row in rows
                 data = row[colname]
                 fit!(pa, data)
+                println(colname, " ", pa)
             end
-            println(colname, " ", pa)
+            j += 1
         else
 
         end
