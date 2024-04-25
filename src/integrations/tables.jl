@@ -46,6 +46,7 @@ function process_col(row, pa::PA, colname) where {PA <: PortfolioAnalyticsSingle
     _values = (value(pa), )
     output_val = (; zip(_keys, _values)...)
     println(colname, " ", output_val)
+    return output_val
 end
 
 function process_col(row, pa::PA, colname) where {PA <: PortfolioAnalyticsMultiOutput}
@@ -58,11 +59,14 @@ function process_col(row, pa::PA, colname) where {PA <: PortfolioAnalyticsMultiO
     _values = values(output_val)
     output_val = (; zip(_keys, _values)...)
     println(colname, " ", output_val)
+    return output_val
 end
 
 
 function process_row(row, _names, v_pa)
     j = 1
+    
+    #map(colname -> (process_col(row, pa, colname)), filter(colname -> !(colname in POSSIBLE_INDEX), _names))
     for colname in _names
         if !(colname in POSSIBLE_INDEX)
             pa = v_pa[j]
@@ -98,9 +102,10 @@ function load!(
     for colname in _names
         if !(colname in POSSIBLE_INDEX)
             Tin = Tables.columntype(sch, colname)
-            pa = pa_wrap.portfolio_analytics_type{Tin}(pa_wrap.args...; pa_wrap.kwargs...)
+            PA = pa_wrap.portfolio_analytics_type
+            pa = PA{Tin}(pa_wrap.args...; pa_wrap.kwargs...)
             push!(v_pa, pa)
-            Tout = expected_return_type(typeof(pa))
+            Tout = expected_return_type(PA{Tin})
             push!(vTout, Tout)
         else
 

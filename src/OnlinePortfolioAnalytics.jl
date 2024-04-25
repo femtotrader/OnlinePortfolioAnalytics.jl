@@ -14,8 +14,8 @@ using Statistics
 import StatsBase
 
 export SimpleAssetReturn, LogAssetReturn
-export Mean  # from OnlineStatsBase
-export GeometricMeanReturn  # different from OnlineStats: GeometricMean
+# export Mean  # from OnlineStatsBase
+export ArithmeticMeanReturn, GeometricMeanReturn  # GeometricMeanReturn is different from OnlineStats: GeometricMean
 export StdDev
 export CumulativeReturn
 export DrawDowns, ArithmeticDrawDowns
@@ -38,6 +38,7 @@ function expected_return_type(ind::Type{O}) where {O<:PortfolioAnalyticsSingleOu
 end
 
 include("asset_return.jl")
+include("prod.jl")
 include("mean_return.jl")
 include("cumulative_return.jl")
 include("std_dev.jl")

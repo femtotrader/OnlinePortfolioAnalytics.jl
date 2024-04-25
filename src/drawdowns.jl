@@ -1,3 +1,5 @@
+abstract type AbstractDrawDowns{T} <: PortfolioAnalyticsSingleOutput{T} end
+
 @doc """
 $(TYPEDEF)
 
@@ -5,7 +7,7 @@ $(TYPEDEF)
 
 The `DrawDowns` type implements drawdowns calculations (geometric method).
 """
-mutable struct DrawDowns{T} <: PortfolioAnalyticsSingleOutput{T}
+mutable struct DrawDowns{T} <: AbstractDrawDowns{T}
     value::T
     n::Int
 
@@ -36,7 +38,7 @@ $(TYPEDEF)
 
 The `ArithmeticDrawDowns` type implements drawdowns calculations (arithmetic method).
 """
-mutable struct ArithmeticDrawDowns{T} <: PortfolioAnalyticsSingleOutput{T}
+mutable struct ArithmeticDrawDowns{T} <: AbstractDrawDowns{T}
     value::T
     n::Int
 

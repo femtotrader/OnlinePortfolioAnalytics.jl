@@ -1,25 +1,30 @@
-"""
-    Prod(T::Type = Float64)
+abstract type AbstractMeanReturn{T} <: PortfolioAnalyticsSingleOutput{T} end
 
-Track the overall product.
+@doc """
+$(TYPEDEF)
+
+    ArithmeticMeanReturn{T}()
+
+The `ArithmeticMeanReturn` type implements arithmetic mean returns calculations.
 """
-mutable struct Prod{T} <: OnlineStat{Number}
-    prod::T
+mutable struct ArithmeticMeanReturn{T} <: AbstractMeanReturn{T}
+    value::T
     n::Int
-end
-Prod(T::Type = Float64) = Prod(T(1), 0)
-Base.prod(o::Prod) = o.prod
-OnlineStatsBase._fit!(o::Prod{T}, x::Real) where {T<:AbstractFloat} =
-    (o.prod *= convert(T, x); o.n += 1)
-OnlineStatsBase._fit!(o::Prod{T}, x::Real) where {T<:Integer} =
-    (o.prod *= round(T, x); o.n += 1)
-OnlineStatsBase._fit!(o::Prod{T}, x::Real, n) where {T<:AbstractFloat} =
-    (o.prod *= convert(T, x * n); o.n += n)
-OnlineStatsBase._fit!(o::Prod{T}, x::Real, n) where {T<:Integer} =
-    (o.prod *= round(T, x * n); o.n += n)
-OnlineStatsBase._merge!(o::T, o2::T) where {T<:Prod} = (o.prod *= o2.prod; o.n += o2.n; o)
 
-# https://github.com/joshday/OnlineStatsBase.jl/issues/41
+    sum::Sum
+
+    function ArithmeticMeanReturn{T}() where {T}
+        s = Sum()
+        new{T}(T(0), 0, s)
+    end
+end
+
+function OnlineStatsBase._fit!(stat::ArithmeticMeanReturn, data)
+    fit!(stat.sum, data)
+    stat.n += 1
+    stat.value = value(stat.sum) / stat.n
+end
+
 
 @doc """
 $(TYPEDEF)
@@ -28,7 +33,7 @@ $(TYPEDEF)
 
 The `GeometricMeanReturn` type implements geometric mean returns calculations.
 """
-mutable struct GeometricMeanReturn{T} <: PortfolioAnalyticsSingleOutput{T}
+mutable struct GeometricMeanReturn{T} <: AbstractMeanReturn{T}
     value::T
     n::Int
 

@@ -185,8 +185,8 @@ const weights = [0.4, 0.4, 0.2]
             @testset "ArithmeticMeanReturn" begin
                 source = from(TSLA)
                 _ret = SimpleAssetReturn{Float64}()
-                _mean = Mean()
-                # @test !ismultioutput(typeof(_mean))  # ToFix
+                _mean = ArithmeticMeanReturn{Float64}()
+                @test !ismultioutput(typeof(_mean))  # ToFix
 
                 mapped_source =
                     source |>
