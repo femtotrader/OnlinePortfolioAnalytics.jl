@@ -21,9 +21,8 @@ LogAssetReturn
 
 ### Mean return
 
-[OnlineStatsBase.Mean](https://joshday.github.io/OnlineStats.jl/latest/api/#OnlineStatsBase.Mean)
-
 ```@docs
+ArithmeticMeanReturn
 GeometricMeanReturn
 ```
 
