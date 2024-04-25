@@ -38,30 +38,36 @@ function Base.push!(results::PortfolioAnalyticsResults, result)
 end
 =#
 
-function process_col(row, j, colname, v_pa)
+function process_col(row, pa::PA, colname) where {PA <: PortfolioAnalyticsSingleOutput}
     data = row[colname]
-    pa = v_pa[j]
     fit!(pa, data)
-    if !ismultioutput(typeof(pa))
-        _keys = (colname, )
-        _values = (value(pa), )
-        output_val = (; zip(_keys, _values)...)
-        println(colname, " ", output_val)
-    else
-        output_val = value(pa)
-        _keys = keys(output_val)
-        _keys = map(v -> Symbol("$(colname)_$(v)"), _keys)
-        _values = values(output_val)
-        output_val = (; zip(_keys, _values)...)
-        println(colname, " ", output_val)
-    end
-    j += 1
+
+    _keys = (colname, )
+    _values = (value(pa), )
+    output_val = (; zip(_keys, _values)...)
+    println(colname, " ", output_val)
 end
 
-function process_row(row, _names, j, v_pa)
+function process_col(row, pa::PA, colname) where {PA <: PortfolioAnalyticsMultiOutput}
+    data = row[colname]
+    fit!(pa, data)
+
+    output_val = value(pa)
+    _keys = keys(output_val)
+    _keys = map(v -> Symbol("$(colname)_$(v)"), _keys)
+    _values = values(output_val)
+    output_val = (; zip(_keys, _values)...)
+    println(colname, " ", output_val)
+end
+
+
+function process_row(row, _names, v_pa)
+    j = 1
     for colname in _names
         if !(colname in POSSIBLE_INDEX)
-            j = process_col(row, j, colname, v_pa)
+            pa = v_pa[j]
+            process_col(row, pa, colname)
+            j += 1
         end
     end
 end
@@ -87,12 +93,6 @@ function load!(
     #all_pa = [pa_wrap.portfolio_analytics_type{Tin}(pa_wrap.args...; pa_wrap.kwargs...) for colname in _names]
     #println(all_pa)
 
-    #if !ismultioutput(pa_wrap.portfolio_analytics_type)
-    #    ...
-    #else
-    #    ...
-    #end
-
     vTout = Type[]
     v_pa = PortfolioAnalytics[]
     for colname in _names
@@ -108,9 +108,15 @@ function load!(
     end
     println(vTout)
 
+
+    #if !ismultioutput(pa_wrap.portfolio_analytics_type)
+    #    ...
+    #else
+    #    ...
+    #end
+
     for row in rows
-        j = 1
-        process_row(row, _names, j, v_pa)
+        process_row(row, _names, v_pa)
     end
     #v_out = vTout[]
     #j = 1
