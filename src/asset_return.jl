@@ -60,8 +60,8 @@ function OnlineStatsBase._fit!(stat::SimpleAssetReturn, data)
     end
 end
 
-function expected_return_type(::Type{SimpleAssetReturn{T}}) where {T}
-    Union{Missing,T}
+function expected_return_types(::Type{SimpleAssetReturn{T}}) where {T}
+    (Union{Missing,T},)
 end
 
 @doc """
@@ -123,6 +123,6 @@ function OnlineStatsBase._fit!(stat::LogAssetReturn, data)
     end
 end
 
-function expected_return_type(::Type{LogAssetReturn{T}}) where {T}
-    Union{Missing,T}
+function expected_return_types(::Type{LogAssetReturn{T}}) where {T}
+    (Union{Missing,T},)
 end

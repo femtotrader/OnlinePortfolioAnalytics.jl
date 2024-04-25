@@ -1,6 +1,6 @@
 using Dates
 using OnlinePortfolioAnalytics
-using OnlinePortfolioAnalytics: ismultioutput, expected_return_type
+using OnlinePortfolioAnalytics: ismultioutput, expected_return_types, expected_return_values
 using OnlineStatsBase
 using Rocket
 using Test
@@ -65,7 +65,7 @@ const weights = [0.4, 0.4, 0.2]
                 @test round(value(stat), digits = 4) == 0.1245
                 T = typeof(stat)
                 @test !ismultioutput(T)
-                @test expected_return_type(T) == Union{Missing, Float64}
+                @test expected_return_types(T) == (Union{Missing,Float64},)
             end
             @testset "SimpleAssetReturn with period=3" begin
                 stat = SimpleAssetReturn{Float64}(period = 3)
@@ -113,7 +113,7 @@ const weights = [0.4, 0.4, 0.2]
                 stat = LogAssetReturn{Float64}()
                 T = typeof(stat)
                 @test !ismultioutput(T)
-                @test expected_return_type(T) == Union{Missing, Float64}
+                @test expected_return_types(T) == (Union{Missing,Float64},)
                 fit!(stat, TSLA[1])
                 fit!(stat, TSLA[2])
                 @test isapprox(value(stat), 0.1174, atol = ATOL)
@@ -156,7 +156,7 @@ const weights = [0.4, 0.4, 0.2]
                 _stddev = StdDev{Float64}()
                 T = typeof(_stddev)
                 @test !ismultioutput(T)
-                @test expected_return_type(T) == Float64
+                @test expected_return_types(T) == (Float64,)
                 fit!(_stddev, TSLA)
                 @test isapprox(value(_stddev), 60.5448, atol = ATOL)
             end
@@ -208,7 +208,7 @@ const weights = [0.4, 0.4, 0.2]
                 _mean = GeometricMeanReturn{Float64}()
                 T = typeof(_mean)
                 @test !ismultioutput(T)
-                @test expected_return_type(T) == Float64
+                @test expected_return_types(T) == (Float64,)
 
                 mapped_source =
                     source |>
@@ -231,7 +231,7 @@ const weights = [0.4, 0.4, 0.2]
             cum_ret = CumulativeReturn{Float64}()
             T = typeof(cum_ret)
             @test !ismultioutput(T)
-            @test expected_return_type(T) == Float64
+            @test expected_return_types(T) == (Float64,)
 
             mapped_source =
                 source |>
@@ -273,7 +273,7 @@ const weights = [0.4, 0.4, 0.2]
                 _ddowns = DrawDowns{Float64}()
                 T = typeof(_ddowns)
                 @test !ismultioutput(T)
-                @test expected_return_type(T) == Float64
+                @test expected_return_types(T) == (Float64,)
 
                 mapped_source =
                     source |>
@@ -311,7 +311,7 @@ const weights = [0.4, 0.4, 0.2]
                 _ddowns = ArithmeticDrawDowns{Float64}()
                 T = typeof(_ddowns)
                 @test !ismultioutput(T)
-                @test expected_return_type(T) == Float64
+                @test expected_return_types(T) == (Float64,)
 
                 mapped_source =
                     source |>
@@ -351,8 +351,11 @@ const weights = [0.4, 0.4, 0.2]
             _moments = AssetReturnMoments{Float64}()
             T = typeof(_moments)
             @test ismultioutput(T)
-            NT = expected_return_type(T)
-            @test NT == NamedTuple{
+            @test expected_return_types(T) == (Float64, Float64, Float64, Float64)
+            @test expected_return_values(AssetReturnMoments) ==
+                  (:mean, :std, :skewness, :kurtosis)
+
+            NT = NamedTuple{
                 (:mean, :std, :skewness, :kurtosis),
                 Tuple{Float64,Float64,Float64,Float64},
             }
@@ -382,7 +385,7 @@ const weights = [0.4, 0.4, 0.2]
             _sharpe = Sharpe{Float64}(period = 1)
             T = typeof(_sharpe)
             @test !ismultioutput(T)
-            @test expected_return_type(T) == Float64
+            @test expected_return_types(T) == (Float64,)
 
             mapped_source =
                 source |>
@@ -406,7 +409,7 @@ const weights = [0.4, 0.4, 0.2]
             _sortino = Sortino{Float64}()
             T = typeof(_sortino)
             @test !ismultioutput(T)
-            @test expected_return_type(T) == Float64
+            @test expected_return_types(T) == (Float64,)
 
             mapped_source =
                 source |>

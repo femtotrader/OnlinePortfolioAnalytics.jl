@@ -9,7 +9,8 @@ struct PortfolioAnalyticsWrapper{T}
     args::Tuple
     kwargs::Base.Pairs
     function PortfolioAnalyticsWrapper(portfolio_analytics_type, args...; kwargs...)
-        new{typeof(portfolio_analytics_type)}(portfolio_analytics_type, args, kwargs)
+        T = typeof(portfolio_analytics_type)
+        new{T}(portfolio_analytics_type, args, kwargs)
     end
 end
 
@@ -38,18 +39,18 @@ function Base.push!(results::PortfolioAnalyticsResults, result)
 end
 =#
 
-function process_col(row, pa::PA, colname) where {PA <: PortfolioAnalyticsSingleOutput}
+function process_col(row, pa::PA, colname) where {PA<:PortfolioAnalyticsSingleOutput}
     data = row[colname]
     fit!(pa, data)
 
-    _keys = (colname, )
-    _values = (value(pa), )
+    _keys = (colname,)
+    _values = (value(pa),)
     output_val = (; zip(_keys, _values)...)
     println(colname, " ", output_val)
     return output_val
 end
 
-function process_col(row, pa::PA, colname) where {PA <: PortfolioAnalyticsMultiOutput}
+function process_col(row, pa::PA, colname) where {PA<:PortfolioAnalyticsMultiOutput}
     data = row[colname]
     fit!(pa, data)
 
@@ -62,10 +63,20 @@ function process_col(row, pa::PA, colname) where {PA <: PortfolioAnalyticsMultiO
     return output_val
 end
 
+function get_column_names(::Type{PA}, colnames) where {PA<:PortfolioAnalyticsSingleOutput}
+    return colnames
+end
+
+function get_column_names(T::Type{PA}, colnames) where {PA<:PortfolioAnalyticsMultiOutput}
+    values = expected_return_values(T)
+    return tuple(
+        [Symbol(join([col, "_", val])) for (val, col) in Base.product(values, colnames)]...,
+    )
+end
 
 function process_row(row, _names, v_pa)
     j = 1
-    
+
     #map(colname -> (process_col(row, pa, colname)), filter(colname -> !(colname in POSSIBLE_INDEX), _names))
     for colname in _names
         if !(colname in POSSIBLE_INDEX)
@@ -86,59 +97,45 @@ function load!(
     sch = Tables.schema(table)
     _names = sch.names  # name of columns of input
 
+    println("# input schema")
     println(sch)
-    println(fieldnames(typeof(sch)))
 
     if index ∉ sch.names
         index = collect(intersect(Set(sch.names), Set(others_possible_index)))[1]
     end
     Ttime = Tables.columntype(sch, index)
 
-    #all_pa = [pa_wrap.portfolio_analytics_type{Tin}(pa_wrap.args...; pa_wrap.kwargs...) for colname in _names]
-    #println(all_pa)
-
     vTout = Type[]
     v_pa = PortfolioAnalytics[]
+    _names_except_index = Symbol[]
+    _name_possible_index = Symbol[]
+    _type_possible_index = Type[]
+    PA = pa_wrap.portfolio_analytics_type
+
     for colname in _names
         if !(colname in POSSIBLE_INDEX)
+            push!(_names_except_index, colname)
             Tin = Tables.columntype(sch, colname)
-            PA = pa_wrap.portfolio_analytics_type
             pa = PA{Tin}(pa_wrap.args...; pa_wrap.kwargs...)
             push!(v_pa, pa)
-            Tout = expected_return_type(PA{Tin})
-            push!(vTout, Tout)
+            Tout = expected_return_types(PA{Tin})
+            push!(vTout, Tout...)
         else
-
+            push!(_name_possible_index, colname)
+            Tidx = Tables.columntype(sch, colname)
+            push!(_type_possible_index, Tidx)
         end
     end
-    println(vTout)
+    #_names_except_index = filter(n -> !(n in POSSIBLE_INDEX), _names)
+    col_names_out = get_column_names(PA, _names_except_index)
+    sch_out = Tables.Schema(col_names_out, vTout)
 
+    println("# output schema")
+    println(sch_out)
 
-    #if !ismultioutput(pa_wrap.portfolio_analytics_type)
-    #    ...
-    #else
-    #    ...
+    #for row in rows
+    #    process_row(row, _names, v_pa)
     #end
 
-    for row in rows
-        process_row(row, _names, v_pa)
-    end
-    #v_out = vTout[]
-    #j = 1
-    #for colname in _names
-    #    if !(colname in POSSIBLE_INDEX)
-    #        Tin = Tables.columntype(sch, colname)
-    #        pa = v_pa[j]
-#
-    #        for row in rows
-    #            data = row[colname]
-    #            fit!(pa, data)
-    #            println(colname, " ", pa)
-    #        end
-    #        j += 1
-    #    else
-#
-    #    end
-    #end
-#
+
 end

@@ -28,9 +28,14 @@ function OnlineStatsBase._fit!(stat::AssetReturnMoments, ret)
     )
 end
 
-function expected_return_type(ind::Type{AssetReturnMoments{T}}) where {T}
-    return NamedTuple{
-        (:mean, :std, :skewness, :kurtosis),
-        Tuple{Float64,Float64,Float64,Float64},
-    }
+function expected_return_types(::Type{AssetReturnMoments{T}}) where {T}
+    #return NamedTuple{
+    #    (:mean, :std, :skewness, :kurtosis),
+    #    Tuple{T,T,T,T},
+    #}
+    return (T, T, T, T)
+end
+
+function expected_return_values(::Type{AssetReturnMoments})
+    return (:mean, :std, :skewness, :kurtosis)
 end

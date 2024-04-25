@@ -33,8 +33,8 @@ function ismultioutput(ind::Type{O}) where {O<:PortfolioAnalytics}
     return ind <: PortfolioAnalyticsMultiOutput
 end
 
-function expected_return_type(ind::Type{O}) where {O<:PortfolioAnalyticsSingleOutput}
-    return ind.parameters[end]
+function expected_return_types(ind::Type{O}) where {O<:PortfolioAnalyticsSingleOutput}
+    return (ind.parameters[end],)
 end
 
 include("asset_return.jl")
