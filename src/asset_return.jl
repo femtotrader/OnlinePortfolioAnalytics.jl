@@ -60,6 +60,10 @@ function OnlineStatsBase._fit!(stat::SimpleAssetReturn, data)
     end
 end
 
+function expected_return_type(::Type{SimpleAssetReturn{T}}) where {T}
+    Union{Missing,T}
+end
+
 @doc """
 $(TYPEDEF)
 
@@ -117,4 +121,8 @@ function OnlineStatsBase._fit!(stat::LogAssetReturn, data)
         stat.value = missing
         return stat.value
     end
+end
+
+function expected_return_type(::Type{LogAssetReturn{T}}) where {T}
+    Union{Missing,T}
 end

@@ -65,7 +65,7 @@ const weights = [0.4, 0.4, 0.2]
                 @test round(value(stat), digits = 4) == 0.1245
                 T = typeof(stat)
                 @test !ismultioutput(T)
-                @test expected_return_type(T) == Float64
+                @test expected_return_type(T) == Union{Missing, Float64}
             end
             @testset "SimpleAssetReturn with period=3" begin
                 stat = SimpleAssetReturn{Float64}(period = 3)
@@ -113,7 +113,7 @@ const weights = [0.4, 0.4, 0.2]
                 stat = LogAssetReturn{Float64}()
                 T = typeof(stat)
                 @test !ismultioutput(T)
-                @test expected_return_type(T) == Float64
+                @test expected_return_type(T) == Union{Missing, Float64}
                 fit!(stat, TSLA[1])
                 fit!(stat, TSLA[2])
                 @test isapprox(value(stat), 0.1174, atol = ATOL)
