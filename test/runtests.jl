@@ -1,6 +1,7 @@
 using Dates
 using OnlinePortfolioAnalytics
 using OnlinePortfolioAnalytics: ismultioutput, expected_return_types, expected_return_values
+using OnlinePortfolioAnalytics: load!, PortfolioAnalyticsWrapper, PortfolioAnalyticsResults
 using OnlineStatsBase
 using Rocket
 using Test
@@ -431,23 +432,31 @@ const weights = [0.4, 0.4, 0.2]
 
     @testset "Tables.jl integration" begin
 
-        using OnlinePortfolioAnalytics: load!, PortfolioAnalyticsWrapper
 
         @testset "TSFrames" begin
             prices_ts = TSFrame([TSLA NFLX MSFT], dates, colnames = [:TSLA, :NFLX, :MSFT])
 
-            @testset "SimpleAssetReturn" begin
+            @testset "SimpleAssetReturn (SingleOutput)" begin
                 pa_wrapper = PortfolioAnalyticsWrapper(SimpleAssetReturn)
-                load!(prices_ts, pa_wrapper)
-                #@test prices_ts == 1
+                par = PortfolioAnalyticsResults()
+                @testset "Using Tables.jl interface" begin
+                    load!(prices_ts, par, pa_wrapper)
+                    @test isapprox(par.columns[:TSLA][end], -0.0768, atol = ATOL)
+                end
             end
 
-            @testset "Moments" begin
+            @testset "Moments (MultiOutput)" begin
                 pa_wrapper = PortfolioAnalyticsWrapper(AssetReturnMoments)
-                load!(prices_ts, pa_wrapper)
-                #@test prices_ts == 1
+                par = PortfolioAnalyticsResults()
+                @testset "Using Tables.jl interface" begin
+                    load!(prices_ts, par, pa_wrapper)
+                    data_last = par.columns[:TSLA][end]
+                    #@test isapprox(data_last.mean, ..., atol=ATOL)
+                    #@test isapprox(data_last.std, ..., atol=ATOL)
+                    #@test isapprox(data_last.skewness, ..., atol=ATOL)
+                    #@test isapprox(data_last.kurtosis, ..., atol=ATOL)
+                end
             end
-
         end
     end
 
