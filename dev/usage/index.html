@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/><title>Usage · OnlinePortfolioAnalytics.jl</title><meta name="title" content="Usage · OnlinePortfolioAnalytics.jl"/><meta property="og:title" content="Usage · OnlinePortfolioAnalytics.jl"/><meta property="twitter:title" content="Usage · OnlinePortfolioAnalytics.jl"/><meta name="description" content="Documentation for OnlinePortfolioAnalytics.jl."/><meta property="og:description" content="Documentation for OnlinePortfolioAnalytics.jl."/><meta property="twitter:description" content="Documentation for OnlinePortfolioAnalytics.jl."/><script data-outdated-warner src="../assets/warner.js"></script><link href="https://cdnjs.cloudflare.com/ajax/libs/lato-font/3.0.0/css/lato-font.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/juliamono/0.050/juliamono.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/fontawesome.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/solid.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/brands.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.8/katex.min.css" rel="stylesheet" type="text/css"/><script>documenterBaseURL=".."</script><script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js" data-main="../assets/documenter.js"></script><script src="../search_index.js"></script><script src="../siteinfo.js"></script><script src="../../versions.js"></script><link class="docs-theme-link" rel="stylesheet" type="text/css" href="../assets/themes/documenter-dark.css" data-theme-name="documenter-dark" data-theme-primary-dark/><link class="docs-theme-link" rel="stylesheet" type="text/css" href="../assets/themes/documenter-light.css" data-theme-name="documenter-light" data-theme-primary/><script src="../assets/themeswap.js"></script></head><body><div id="documenter"><nav class="docs-sidebar"><div class="docs-package-name"><span class="docs-autofit"><a href="../">OnlinePortfolioAnalytics.jl</a></span></div><button class="docs-search-query input is-rounded is-small is-clickable my-2 mx-auto py-1 px-2" id="documenter-search-query">Search docs (Ctrl + /)</button><ul class="docs-menu"><li><a class="tocitem" href="../">Home</a></li><li class="is-active"><a class="tocitem" href>Usage</a><ul class="internal"><li><a class="tocitem" href="#Feeding-a-portfolio-analytics-one-observation-at-a-time"><span>Feeding a portfolio analytics one observation at a time</span></a></li></ul></li><li><a class="tocitem" href="../api/">API</a></li></ul><div class="docs-version-selector field has-addons"><div class="control"><span class="docs-label button is-static is-size-7">Version</span></div><div class="docs-selector control is-expanded"><div class="select is-fullwidth is-size-7"><select id="documenter-version-selector"></select></div></div></div></nav><div class="docs-main"><header class="docs-navbar"><a class="docs-sidebar-button docs-navbar-link fa-solid fa-bars is-hidden-desktop" id="documenter-sidebar-button" href="#"></a><nav class="breadcrumb"><ul class="is-hidden-mobile"><li class="is-active"><a href>Usage</a></li></ul><ul class="is-hidden-tablet"><li class="is-active"><a href>Usage</a></li></ul></nav><div class="docs-right"><a class="docs-navbar-link" href="https://github.com/femtotrader/OnlinePortfolioAnalytics.jl" title="View the repository on GitHub"><span class="docs-icon fa-brands"></span><span class="docs-label is-hidden-touch">GitHub</span></a><a class="docs-navbar-link" href="https://github.com/femtotrader/OnlinePortfolioAnalytics.jl/blob/main/docs/src/usage.md" title="Edit source on GitHub"><span class="docs-icon fa-solid"></span></a><a class="docs-settings-button docs-navbar-link fa-solid fa-gear" id="documenter-settings-button" href="#" title="Settings"></a><a class="docs-article-toggle-button fa-solid fa-chevron-up" id="documenter-article-toggle-button" href="javascript:;" title="Collapse all docstrings"></a></div></header><article class="content" id="documenter-page"><h1 id="Usage"><a class="docs-heading-anchor" href="#Usage">Usage</a><a id="Usage-1"></a><a class="docs-heading-anchor-permalink" href="#Usage" title="Permalink"></a></h1><h2 id="Feeding-a-portfolio-analytics-one-observation-at-a-time"><a class="docs-heading-anchor" href="#Feeding-a-portfolio-analytics-one-observation-at-a-time">Feeding a portfolio analytics one observation at a time</a><a id="Feeding-a-portfolio-analytics-one-observation-at-a-time-1"></a><a class="docs-heading-anchor-permalink" href="#Feeding-a-portfolio-analytics-one-observation-at-a-time" title="Permalink"></a></h2><ul><li><p>A portfolio analytics object can be feeded using <code>fit!</code> function.</p></li><li><p>It&#39;s feeded <em>one observation at a time</em>.</p></li></ul><h3 id="Showing-sample-data"><a class="docs-heading-anchor" href="#Showing-sample-data">Showing sample data</a><a id="Showing-sample-data-1"></a><a class="docs-heading-anchor-permalink" href="#Showing-sample-data" title="Permalink"></a></h3><p>Some sample data are provided for testing purpose.</p><pre><code class="language-julia hljs">julia&gt; using OnlinePortfolioAnalytics
+<html lang="en"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/><title>Usage · OnlinePortfolioAnalytics.jl</title><meta name="title" content="Usage · OnlinePortfolioAnalytics.jl"/><meta property="og:title" content="Usage · OnlinePortfolioAnalytics.jl"/><meta property="twitter:title" content="Usage · OnlinePortfolioAnalytics.jl"/><meta name="description" content="Documentation for OnlinePortfolioAnalytics.jl."/><meta property="og:description" content="Documentation for OnlinePortfolioAnalytics.jl."/><meta property="twitter:description" content="Documentation for OnlinePortfolioAnalytics.jl."/><script data-outdated-warner src="../assets/warner.js"></script><link href="https://cdnjs.cloudflare.com/ajax/libs/lato-font/3.0.0/css/lato-font.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/juliamono/0.050/juliamono.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/fontawesome.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/solid.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/brands.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.8/katex.min.css" rel="stylesheet" type="text/css"/><script>documenterBaseURL=".."</script><script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js" data-main="../assets/documenter.js"></script><script src="../search_index.js"></script><script src="../siteinfo.js"></script><script src="../../versions.js"></script><link class="docs-theme-link" rel="stylesheet" type="text/css" href="../assets/themes/documenter-dark.css" data-theme-name="documenter-dark" data-theme-primary-dark/><link class="docs-theme-link" rel="stylesheet" type="text/css" href="../assets/themes/documenter-light.css" data-theme-name="documenter-light" data-theme-primary/><script src="../assets/themeswap.js"></script></head><body><div id="documenter"><nav class="docs-sidebar"><div class="docs-package-name"><span class="docs-autofit"><a href="../">OnlinePortfolioAnalytics.jl</a></span></div><button class="docs-search-query input is-rounded is-small is-clickable my-2 mx-auto py-1 px-2" id="documenter-search-query">Search docs (Ctrl + /)</button><ul class="docs-menu"><li><a class="tocitem" href="../">Home</a></li><li class="is-active"><a class="tocitem" href>Usage</a><ul class="internal"><li><a class="tocitem" href="#Feeding-a-portfolio-analytics-one-observation-at-a-time"><span>Feeding a portfolio analytics one observation at a time</span></a></li><li><a class="tocitem" href="#Portfolio-analytics-with-Tables.jl-compatible-sources"><span>Portfolio analytics with Tables.jl compatible sources</span></a></li></ul></li><li><a class="tocitem" href="../api/">API</a></li></ul><div class="docs-version-selector field has-addons"><div class="control"><span class="docs-label button is-static is-size-7">Version</span></div><div class="docs-selector control is-expanded"><div class="select is-fullwidth is-size-7"><select id="documenter-version-selector"></select></div></div></div></nav><div class="docs-main"><header class="docs-navbar"><a class="docs-sidebar-button docs-navbar-link fa-solid fa-bars is-hidden-desktop" id="documenter-sidebar-button" href="#"></a><nav class="breadcrumb"><ul class="is-hidden-mobile"><li class="is-active"><a href>Usage</a></li></ul><ul class="is-hidden-tablet"><li class="is-active"><a href>Usage</a></li></ul></nav><div class="docs-right"><a class="docs-navbar-link" href="https://github.com/femtotrader/OnlinePortfolioAnalytics.jl" title="View the repository on GitHub"><span class="docs-icon fa-brands"></span><span class="docs-label is-hidden-touch">GitHub</span></a><a class="docs-navbar-link" href="https://github.com/femtotrader/OnlinePortfolioAnalytics.jl/blob/main/docs/src/usage.md" title="Edit source on GitHub"><span class="docs-icon fa-solid"></span></a><a class="docs-settings-button docs-navbar-link fa-solid fa-gear" id="documenter-settings-button" href="#" title="Settings"></a><a class="docs-article-toggle-button fa-solid fa-chevron-up" id="documenter-article-toggle-button" href="javascript:;" title="Collapse all docstrings"></a></div></header><article class="content" id="documenter-page"><h1 id="Usage"><a class="docs-heading-anchor" href="#Usage">Usage</a><a id="Usage-1"></a><a class="docs-heading-anchor-permalink" href="#Usage" title="Permalink"></a></h1><h2 id="Feeding-a-portfolio-analytics-one-observation-at-a-time"><a class="docs-heading-anchor" href="#Feeding-a-portfolio-analytics-one-observation-at-a-time">Feeding a portfolio analytics one observation at a time</a><a id="Feeding-a-portfolio-analytics-one-observation-at-a-time-1"></a><a class="docs-heading-anchor-permalink" href="#Feeding-a-portfolio-analytics-one-observation-at-a-time" title="Permalink"></a></h2><ul><li><p>A portfolio analytics object can be feeded using <code>fit!</code> function.</p></li><li><p>It&#39;s feeded <em>one observation at a time</em>.</p></li></ul><h3 id="Showing-sample-data"><a class="docs-heading-anchor" href="#Showing-sample-data">Showing sample data</a><a id="Showing-sample-data-1"></a><a class="docs-heading-anchor-permalink" href="#Showing-sample-data" title="Permalink"></a></h3><p>Some sample data are provided for testing purpose.</p><pre><code class="language-julia hljs">julia&gt; using OnlinePortfolioAnalytics
 julia&gt; using OnlinePortfolioAnalytics.SampleData: dates, TSLA, NFLX, MSFT, weights
 
 julia&gt; dates
@@ -57,39 +57,177 @@ julia&gt; weights
 3-element Vector{Float64}:
  0.4
  0.4
- 0.2
+ 0.2</code></pre><h3 id="Calculate-returns-(from-TSLA-prices)"><a class="docs-heading-anchor" href="#Calculate-returns-(from-TSLA-prices)">Calculate returns (from <code>TSLA</code> prices)</a><a id="Calculate-returns-(from-TSLA-prices)-1"></a><a class="docs-heading-anchor-permalink" href="#Calculate-returns-(from-TSLA-prices)" title="Permalink"></a></h3><pre><code class="language-julia hljs">julia&gt; stat = SimpleAssetReturn{Float64}()
+SimpleAssetReturn: n=0 | value=missing
+
+julia&gt; fit!(stat, 235.22)
+SimpleAssetReturn: n=1 | value=missing
+
+julia&gt; fit!(stat, 264.51)
+SimpleAssetReturn: n=2 | value=0.124522
+
+julia&gt; value(stat)
+0.12452172434316806</code></pre><h3 id="Calculate-returns-(natural-log-method)"><a class="docs-heading-anchor" href="#Calculate-returns-(natural-log-method)">Calculate returns (natural log method)</a><a id="Calculate-returns-(natural-log-method)-1"></a><a class="docs-heading-anchor-permalink" href="#Calculate-returns-(natural-log-method)" title="Permalink"></a></h3><pre><code class="language-julia hljs">julia&gt; stat = LogAssetReturn{Float64}()
+LogAssetReturn: n=0 | value=missing
+
+julia&gt; fit!(stat, 235.22)
+LogAssetReturn: n=1 | value=missing
+
+julia&gt; fit!(stat, 264.51)
+LogAssetReturn: n=2 | value=0.117358</code></pre><h3 id="Others"><a class="docs-heading-anchor" href="#Others">Others</a><a id="Others-1"></a><a class="docs-heading-anchor-permalink" href="#Others" title="Permalink"></a></h3><p>See API usage</p><h2 id="Portfolio-analytics-with-Tables.jl-compatible-sources"><a class="docs-heading-anchor" href="#Portfolio-analytics-with-Tables.jl-compatible-sources">Portfolio analytics with Tables.jl compatible sources</a><a id="Portfolio-analytics-with-Tables.jl-compatible-sources-1"></a><a class="docs-heading-anchor-permalink" href="#Portfolio-analytics-with-Tables.jl-compatible-sources" title="Permalink"></a></h2><p>Here is an example showing how to use OnlinePortfolioAnalytics with Tables.jl compatible sources.</p><h3 id="Sample-data"><a class="docs-heading-anchor" href="#Sample-data">Sample data</a><a id="Sample-data-1"></a><a class="docs-heading-anchor-permalink" href="#Sample-data" title="Permalink"></a></h3><pre><code class="language-julia hljs">julia&gt; using TSFrames
+
+julia&gt; prices_ts = TSFrame([TSLA NFLX MSFT], dates, colnames = [:TSLA, :NFLX, :MSFT])
+13×3 TSFrame with Date Index
+ Index       TSLA     NFLX     MSFT
+ Date        Float64  Float64  Float64
+───────────────────────────────────────
+ 2020-12-31   235.22   540.73   222.42
+ 2021-01-31   264.51   532.39   231.96
+ 2021-02-28   225.16   538.85   232.38
+ 2021-03-31   222.64   521.66   235.77
+ 2021-04-30   236.48   513.47   252.18
+ 2021-05-31   208.4    502.81   249.68
+ 2021-06-30   226.56   528.21   270.9
+ 2021-07-31   229.06   517.57   284.91
+ 2021-08-31   245.24   569.19   301.88
+ 2021-09-30   258.49   610.34   281.92
+ 2021-10-31   371.33   690.31   331.62
+ 2021-11-30   381.58   641.9    330.59
+ 2021-12-31   352.26   602.44   336.3</code></pre><h3 id="Returns"><a class="docs-heading-anchor" href="#Returns">Returns</a><a id="Returns-1"></a><a class="docs-heading-anchor-permalink" href="#Returns" title="Permalink"></a></h3><pre><code class="language-julia hljs">julia&gt; returns = SimpleAssetReturn(prices_ts)
+13×3 TSFrame with Date Index
+ Index       TSLA             MSFT              NFLX
+ Date        Float64?         Float64?          Float64?
+────────────────────────────────────────────────────────────────
+ 2020-12-31  missing          missing           missing
+ 2021-01-31        0.124522         0.0428918        -0.0154236
+ 2021-02-28       -0.148766         0.00181066        0.012134
+ 2021-03-31       -0.011192         0.0145882        -0.0319013
+ 2021-04-30        0.0621631        0.0696017        -0.0156999
+ 2021-05-31       -0.118742        -0.00991355       -0.0207607
+ 2021-06-30        0.0871401        0.0849888         0.0505161
+ 2021-07-31        0.0110346        0.0517165        -0.0201435
+ 2021-08-31        0.0706365        0.0595627         0.0997353
+ 2021-09-30        0.0540287       -0.066119          0.0722957
+ 2021-10-31        0.436535         0.176291          0.131025
+ 2021-11-30        0.0276035       -0.00310596       -0.0701279
+ 2021-12-31       -0.0768384        0.0173326        -0.0614737</code></pre><h3 id="Remove-missing-from-returns"><a class="docs-heading-anchor" href="#Remove-missing-from-returns">Remove <code>missing</code> from <code>returns</code></a><a id="Remove-missing-from-returns-1"></a><a class="docs-heading-anchor-permalink" href="#Remove-missing-from-returns" title="Permalink"></a></h3><pre><code class="language-julia hljs">julia&gt; using DataFrames
+
+julia&gt; returns = dropmissing(returns.coredata) |&gt; TSFrame
+12×3 TSFrame with Date Index
+ Index       TSLA        MSFT         NFLX
+ Date        Float64     Float64      Float64
+─────────────────────────────────────────────────
+ 2021-01-31   0.124522    0.0428918   -0.0154236
+ 2021-02-28  -0.148766    0.00181066   0.012134
+ 2021-03-31  -0.011192    0.0145882   -0.0319013
+ 2021-04-30   0.0621631   0.0696017   -0.0156999
+ 2021-05-31  -0.118742   -0.00991355  -0.0207607
+ 2021-06-30   0.0871401   0.0849888    0.0505161
+ 2021-07-31   0.0110346   0.0517165   -0.0201435
+ 2021-08-31   0.0706365   0.0595627    0.0997353
+ 2021-09-30   0.0540287  -0.066119     0.0722957
+ 2021-10-31   0.436535    0.176291     0.131025
+ 2021-11-30   0.0276035  -0.00310596  -0.0701279
+ 2021-12-31  -0.0768384   0.0173326   -0.0614737</code></pre><p>Calculate standard deviation of returns</p><pre><code class="language-julia hljs">julia&gt; stddev = StdDev(returns)
+12×3 TSFrame with Date Index
+ Index       TSLA       MSFT       NFLX
+ Date        Float64    Float64    Float64
+─────────────────────────────────────────────
+ 2021-01-31  1.0        1.0        1.0
+ 2021-02-28  0.193243   0.0290488  0.0194861
+ 2021-03-31  0.136645   0.0210239  0.0222487
+ 2021-04-30  0.117541   0.0302594  0.0182741
+ 2021-05-31  0.116225   0.0322773  0.016229
+ 2021-06-30  0.11253    0.0381779  0.0301918
+ 2021-07-31  0.102823   0.0354894  0.0282681
+ 2021-08-31  0.0983386  0.0338512  0.0456038
+ 2021-09-30  0.0931719  0.047328   0.0478437
+ 2021-10-31  0.159765   0.064804   0.0582396
+ 2021-11-30  0.15182    0.0630003  0.0624165
+ 2021-12-31  0.149608   0.0603753  0.0637211</code></pre><h3 id="Calculate-arithmetic-mean-returns"><a class="docs-heading-anchor" href="#Calculate-arithmetic-mean-returns">Calculate arithmetic mean returns</a><a id="Calculate-arithmetic-mean-returns-1"></a><a class="docs-heading-anchor-permalink" href="#Calculate-arithmetic-mean-returns" title="Permalink"></a></h3><pre><code class="language-julia hljs">julia&gt; amr = ArithmeticMeanReturn(returns)
+12×3 TSFrame with Date Index
+ Index       TSLA          MSFT       NFLX
+ Date        Float64       Float64    Float64
+──────────────────────────────────────────────────
+ 2021-01-31   0.124522     0.0428918  -0.0154236
+ 2021-02-28  -0.012122     0.0223512  -0.00164482
+ 2021-03-31  -0.011812     0.0197636  -0.0117303
+ 2021-04-30   0.00668179   0.0322231  -0.0127227
+ 2021-05-31  -0.0184029    0.0237958  -0.0143303
+ 2021-06-30  -0.000812376  0.0339946  -0.00352257
+ 2021-07-31   0.00088005   0.0365263  -0.00589699
+ 2021-08-31   0.00959961   0.0394058   0.00730705
+ 2021-09-30   0.0145362    0.0276809   0.014528
+ 2021-10-31   0.0567361    0.0425419   0.0261777
+ 2021-11-30   0.0540877    0.0383921   0.0174227
+ 2021-12-31   0.0431772    0.0366371   0.010848</code></pre><h3 id="Calculate-geometric-mean-returns"><a class="docs-heading-anchor" href="#Calculate-geometric-mean-returns">Calculate geometric mean returns</a><a id="Calculate-geometric-mean-returns-1"></a><a class="docs-heading-anchor-permalink" href="#Calculate-geometric-mean-returns" title="Permalink"></a></h3><pre><code class="language-julia hljs">julia&gt; gmr = GeometricMeanReturn(returns)
+12×3 TSFrame with Date Index
+ Index       TSLA         MSFT       NFLX
+ Date        Float64      Float64    Float64
+─────────────────────────────────────────────────
+ 2021-01-31   0.124522    0.0428918  -0.0154236
+ 2021-02-28  -0.0216179   0.0221449  -0.0017399
+ 2021-03-31  -0.0181549   0.0196197  -0.0118967
+ 2021-04-30   0.00133649  0.0318919  -0.0128489
+ 2021-05-31  -0.0239216   0.0233919  -0.0144363
+ 2021-06-30  -0.0062324   0.0334097  -0.00389675
+ 2021-07-31  -0.00378386  0.0360053  -0.0062341
+ 2021-08-31   0.00522813  0.0389211   0.00643238
+ 2021-09-30   0.0105369   0.0266895   0.013546
+ 2021-10-31   0.0467153   0.0407506   0.0247227
+ 2021-11-30   0.0449633   0.0366852   0.0157142
+ 2021-12-31   0.0342267   0.0350585   0.00904634</code></pre><h3 id="Calculate-asset-log-returns-from-prices"><a class="docs-heading-anchor" href="#Calculate-asset-log-returns-from-prices">Calculate asset log returns from prices</a><a id="Calculate-asset-log-returns-from-prices-1"></a><a class="docs-heading-anchor-permalink" href="#Calculate-asset-log-returns-from-prices" title="Permalink"></a></h3><pre><code class="language-julia hljs">julia&gt; log_returns = LogAssetReturn(prices_ts)
+13×3 TSFrame with Date Index
+ Index       TSLA             MSFT              NFLX
+ Date        Float64?         Float64?          Float64?
+────────────────────────────────────────────────────────────────
+ 2020-12-31  missing          missing           missing
+ 2021-01-31        0.117358         0.0419975        -0.0155438
+ 2021-02-28       -0.161068         0.00180902        0.0120609
+ 2021-03-31       -0.0112551        0.0144828        -0.0324212
+ 2021-04-30        0.0603075        0.0672864        -0.0158244
+ 2021-05-31       -0.126404        -0.00996302       -0.0209792
+ 2021-06-30        0.0835505        0.0815697         0.0492816
+ 2021-07-31        0.0109742        0.0504236        -0.0203492
+ 2021-08-31        0.0682533        0.0578562         0.0950695
+ 2021-09-30        0.0526197       -0.0684062         0.0698019
+ 2021-10-31        0.362234         0.162366          0.123125
+ 2021-11-30        0.0272294       -0.0031108        -0.0727082
+ 2021-12-31       -0.079951         0.0171842        -0.0634445</code></pre><h3 id="Calculate-cumulative-returns"><a class="docs-heading-anchor" href="#Calculate-cumulative-returns">Calculate cumulative returns</a><a id="Calculate-cumulative-returns-1"></a><a class="docs-heading-anchor-permalink" href="#Calculate-cumulative-returns" title="Permalink"></a></h3><pre><code class="language-julia hljs">julia&gt; cum_returns = CumulativeReturn(returns)
+12×3 TSFrame with Date Index
+ Index       TSLA      MSFT     NFLX
+ Date        Float64   Float64  Float64
+─────────────────────────────────────────
+ 2021-01-31  1.12452   1.04289  0.984576
+ 2021-02-28  0.957232  1.04478  0.996523
+ 2021-03-31  0.946518  1.06002  0.964733
+ 2021-04-30  1.00536   1.1338   0.949587
+ 2021-05-31  0.885979  1.12256  0.929873
+ 2021-06-30  0.963183  1.21797  0.976846
+ 2021-07-31  0.973812  1.28095  0.957169
+ 2021-08-31  1.0426    1.35725  1.05263
+ 2021-09-30  1.09893   1.26751  1.12873
+ 2021-10-31  1.57865   1.49096  1.27663
+ 2021-11-30  1.62223   1.48633  1.1871
+ 2021-12-31  1.49758   1.51209  1.11412</code></pre><h3 id="Calculate-Drawdowns"><a class="docs-heading-anchor" href="#Calculate-Drawdowns">Calculate Drawdowns</a><a id="Calculate-Drawdowns-1"></a><a class="docs-heading-anchor-permalink" href="#Calculate-Drawdowns" title="Permalink"></a></h3><pre><code class="language-julia hljs">julia&gt; dd = DrawDowns(returns)
+12×3 TSFrame with Date Index
+ Index       TSLA        MSFT         NFLX
+ Date        Float64     Float64      Float64
+─────────────────────────────────────────────────
+ 2021-01-31   0.0         0.0          0.0
+ 2021-02-28  -0.148766    0.0          0.0
+ 2021-03-31  -0.158293    0.0         -0.0319013
+ 2021-04-30  -0.10597     0.0         -0.0471003
+ 2021-05-31  -0.212128   -0.00991355  -0.0668832
+ 2021-06-30  -0.143473    0.0         -0.0197458
+ 2021-07-31  -0.134021    0.0         -0.0394915
+ 2021-08-31  -0.0728517   0.0          0.0
+ 2021-09-30  -0.0227591  -0.066119     0.0
+ 2021-10-31   0.0         0.0          0.0
+ 2021-11-30   0.0        -0.00310596  -0.0701279
+ 2021-12-31  -0.0768384   0.0         -0.127291
  ```
 
-### Calculate returns (from `TSLA` prices)
-</code></pre><p>julia julia&gt; stat = SimpleAssetReturn{Float64}() SimpleAssetReturn: n=0 | value=missing</p><p>julia&gt; fit!(stat, 235.22) SimpleAssetReturn: n=1 | value=missing</p><p>julia&gt; fit!(stat, 264.51) SimpleAssetReturn: n=2 | value=0.124522</p><p>julia&gt; value(stat) 0.12452172434316806</p><pre><code class="nohighlight hljs">
-### Calculate returns (natural log method)
-</code></pre><p>julia julia&gt; stat = LogAssetReturn{Float64}() LogAssetReturn: n=0 | value=missing</p><p>julia&gt; fit!(stat, 235.22) LogAssetReturn: n=1 | value=missing</p><p>julia&gt; fit!(stat, 264.51) LogAssetReturn: n=2 | value=0.117358</p><pre><code class="nohighlight hljs">
-### Others
-
-See API usage
-
-## Portfolio analytics with Tables.jl compatible sources
-
-Here is an example showing how to use OnlinePortfolioAnalytics with Tables.jl compatible sources.
-
-### Sample data
-</code></pre><p>julia julia&gt; using TSFrames</p><p>julia&gt; prices_ts = TSFrame([TSLA NFLX MSFT], dates, colnames = [:TSLA, :NFLX, :MSFT]) 13×3 TSFrame with Date Index  Index       TSLA     NFLX     MSFT  Date        Float64  Float64  Float64 ───────────────────────────────────────  2020-12-31   235.22   540.73   222.42  2021-01-31   264.51   532.39   231.96  2021-02-28   225.16   538.85   232.38  2021-03-31   222.64   521.66   235.77  2021-04-30   236.48   513.47   252.18  2021-05-31   208.4    502.81   249.68  2021-06-30   226.56   528.21   270.9  2021-07-31   229.06   517.57   284.91  2021-08-31   245.24   569.19   301.88  2021-09-30   258.49   610.34   281.92  2021-10-31   371.33   690.31   331.62  2021-11-30   381.58   641.9    330.59  2021-12-31   352.26   602.44   336.3</p><pre><code class="nohighlight hljs">
-### Returns
-</code></pre><p>julia julia&gt; returns = SimpleAssetReturn(prices_ts) 13×3 TSFrame with Date Index  Index       TSLA             MSFT              NFLX  Date        Float64?         Float64?          Float64? ────────────────────────────────────────────────────────────────  2020-12-31  missing          missing           missing  2021-01-31        0.124522         0.0428918        -0.0154236  2021-02-28       -0.148766         0.00181066        0.012134  2021-03-31       -0.011192         0.0145882        -0.0319013  2021-04-30        0.0621631        0.0696017        -0.0156999  2021-05-31       -0.118742        -0.00991355       -0.0207607  2021-06-30        0.0871401        0.0849888         0.0505161  2021-07-31        0.0110346        0.0517165        -0.0201435  2021-08-31        0.0706365        0.0595627         0.0997353  2021-09-30        0.0540287       -0.066119          0.0722957  2021-10-31        0.436535         0.176291          0.131025  2021-11-30        0.0276035       -0.00310596       -0.0701279  2021-12-31       -0.0768384        0.0173326        -0.0614737</p><pre><code class="nohighlight hljs">
-### Remove `missing` from `returns`
-</code></pre><p>julia julia&gt; using DataFrames</p><p>julia&gt; returns = dropmissing(returns.coredata) |&gt; TSFrame 12×3 TSFrame with Date Index  Index       TSLA        MSFT         NFLX  Date        Float64     Float64      Float64 ─────────────────────────────────────────────────  2021-01-31   0.124522    0.0428918   -0.0154236  2021-02-28  -0.148766    0.00181066   0.012134  2021-03-31  -0.011192    0.0145882   -0.0319013  2021-04-30   0.0621631   0.0696017   -0.0156999  2021-05-31  -0.118742   -0.00991355  -0.0207607  2021-06-30   0.0871401   0.0849888    0.0505161  2021-07-31   0.0110346   0.0517165   -0.0201435  2021-08-31   0.0706365   0.0595627    0.0997353  2021-09-30   0.0540287  -0.066119     0.0722957  2021-10-31   0.436535    0.176291     0.131025  2021-11-30   0.0276035  -0.00310596  -0.0701279  2021-12-31  -0.0768384   0.0173326   -0.0614737</p><pre><code class="nohighlight hljs">
-Calculate standard deviation of returns
-</code></pre><p>julia julia&gt; stddev = StdDev(returns) 12×3 TSFrame with Date Index  Index       TSLA       MSFT       NFLX  Date        Float64    Float64    Float64 ─────────────────────────────────────────────  2021-01-31  1.0        1.0        1.0  2021-02-28  0.193243   0.0290488  0.0194861  2021-03-31  0.136645   0.0210239  0.0222487  2021-04-30  0.117541   0.0302594  0.0182741  2021-05-31  0.116225   0.0322773  0.016229  2021-06-30  0.11253    0.0381779  0.0301918  2021-07-31  0.102823   0.0354894  0.0282681  2021-08-31  0.0983386  0.0338512  0.0456038  2021-09-30  0.0931719  0.047328   0.0478437  2021-10-31  0.159765   0.064804   0.0582396  2021-11-30  0.15182    0.0630003  0.0624165  2021-12-31  0.149608   0.0603753  0.0637211</p><pre><code class="nohighlight hljs">
-### Calculate arithmetic mean returns
-</code></pre><p>julia julia&gt; amr = ArithmeticMeanReturn(returns) 12×3 TSFrame with Date Index  Index       TSLA          MSFT       NFLX  Date        Float64       Float64    Float64 ──────────────────────────────────────────────────  2021-01-31   0.124522     0.0428918  -0.0154236  2021-02-28  -0.012122     0.0223512  -0.00164482  2021-03-31  -0.011812     0.0197636  -0.0117303  2021-04-30   0.00668179   0.0322231  -0.0127227  2021-05-31  -0.0184029    0.0237958  -0.0143303  2021-06-30  -0.000812376  0.0339946  -0.00352257  2021-07-31   0.00088005   0.0365263  -0.00589699  2021-08-31   0.00959961   0.0394058   0.00730705  2021-09-30   0.0145362    0.0276809   0.014528  2021-10-31   0.0567361    0.0425419   0.0261777  2021-11-30   0.0540877    0.0383921   0.0174227  2021-12-31   0.0431772    0.0366371   0.010848</p><pre><code class="nohighlight hljs">
-### Calculate geometric mean returns
-</code></pre><p>julia julia&gt; gmr = GeometricMeanReturn(returns) 12×3 TSFrame with Date Index  Index       TSLA         MSFT       NFLX  Date        Float64      Float64    Float64 ─────────────────────────────────────────────────  2021-01-31   0.124522    0.0428918  -0.0154236  2021-02-28  -0.0216179   0.0221449  -0.0017399  2021-03-31  -0.0181549   0.0196197  -0.0118967  2021-04-30   0.00133649  0.0318919  -0.0128489  2021-05-31  -0.0239216   0.0233919  -0.0144363  2021-06-30  -0.0062324   0.0334097  -0.00389675  2021-07-31  -0.00378386  0.0360053  -0.0062341  2021-08-31   0.00522813  0.0389211   0.00643238  2021-09-30   0.0105369   0.0266895   0.013546  2021-10-31   0.0467153   0.0407506   0.0247227  2021-11-30   0.0449633   0.0366852   0.0157142  2021-12-31   0.0342267   0.0350585   0.00904634</p><pre><code class="nohighlight hljs">
-### Calculate asset log returns from prices
-</code></pre><p>julia julia&gt; log<em>returns = LogAssetReturn(prices</em>ts) 13×3 TSFrame with Date Index  Index       TSLA             MSFT              NFLX  Date        Float64?         Float64?          Float64? ────────────────────────────────────────────────────────────────  2020-12-31  missing          missing           missing  2021-01-31        0.117358         0.0419975        -0.0155438  2021-02-28       -0.161068         0.00180902        0.0120609  2021-03-31       -0.0112551        0.0144828        -0.0324212  2021-04-30        0.0603075        0.0672864        -0.0158244  2021-05-31       -0.126404        -0.00996302       -0.0209792  2021-06-30        0.0835505        0.0815697         0.0492816  2021-07-31        0.0109742        0.0504236        -0.0203492  2021-08-31        0.0682533        0.0578562         0.0950695  2021-09-30        0.0526197       -0.0684062         0.0698019  2021-10-31        0.362234         0.162366          0.123125  2021-11-30        0.0272294       -0.0031108        -0.0727082  2021-12-31       -0.079951         0.0171842        -0.0634445</p><pre><code class="nohighlight hljs">
-### Calculate cumulative returns
-</code></pre><p>julia julia&gt; cum_returns = CumulativeReturn(returns) 12×3 TSFrame with Date Index  Index       TSLA      MSFT     NFLX  Date        Float64   Float64  Float64 ─────────────────────────────────────────  2021-01-31  1.12452   1.04289  0.984576  2021-02-28  0.957232  1.04478  0.996523  2021-03-31  0.946518  1.06002  0.964733  2021-04-30  1.00536   1.1338   0.949587  2021-05-31  0.885979  1.12256  0.929873  2021-06-30  0.963183  1.21797  0.976846  2021-07-31  0.973812  1.28095  0.957169  2021-08-31  1.0426    1.35725  1.05263  2021-09-30  1.09893   1.26751  1.12873  2021-10-31  1.57865   1.49096  1.27663  2021-11-30  1.62223   1.48633  1.1871  2021-12-31  1.49758   1.51209  1.11412</p><pre><code class="nohighlight hljs">
-### Calculate Drawdowns
-</code></pre><p>julia julia&gt; dd = DrawDowns(returns) 12×3 TSFrame with Date Index  Index       TSLA        MSFT         NFLX  Date        Float64     Float64      Float64 ─────────────────────────────────────────────────  2021-01-31   0.0         0.0          0.0  2021-02-28  -0.148766    0.0          0.0  2021-03-31  -0.158293    0.0         -0.0319013  2021-04-30  -0.10597     0.0         -0.0471003  2021-05-31  -0.212128   -0.00991355  -0.0668832  2021-06-30  -0.143473    0.0         -0.0197458  2021-07-31  -0.134021    0.0         -0.0394915  2021-08-31  -0.0728517   0.0          0.0  2021-09-30  -0.0227591  -0.066119     0.0  2021-10-31   0.0         0.0          0.0  2021-11-30   0.0        -0.00310596  -0.0701279  2021-12-31  -0.0768384   0.0         -0.127291</p><pre><code class="nohighlight hljs">
 ### Calculate Drawdowns (Arithmetic method)
 </code></pre><p>julia julia&gt; arith_dd = ArithmeticDrawDowns(returns) 12×3 TSFrame with Date Index  Index       TSLA        MSFT         NFLX  Date        Float64     Float64      Float64 ─────────────────────────────────────────────────  2021-01-31   0.0         0.0          0.0  2021-02-28  -0.132292    0.0          0.0  2021-03-31  -0.142245    0.0         -0.0320066  2021-04-30  -0.0869655   0.0         -0.0477583  2021-05-31  -0.192558   -0.00878166  -0.0685875  2021-06-30  -0.115068    0.0         -0.0179047  2021-07-31  -0.105255    0.0         -0.0381146  2021-08-31  -0.0424401   0.0          0.0  2021-09-30   0.0        -0.0502712    0.0  2021-10-31   0.0         0.0          0.0  2021-11-30   0.0        -0.00217898  -0.0555787  2021-12-31  -0.0481756   0.0         -0.104299</p><pre><code class="nohighlight hljs">
 ### Calculate statistical moments of returns
@@ -97,4 +235,4 @@ Calculate standard deviation of returns
 ### Calculate Sharpe ratio (from returns)
 </code></pre><p>julia julia&gt; sharpe = Sharpe(returns, period = 1) 12×3 TSFrame with Date Index  Index       TSLA         MSFT       NFLX  Date        Float64      Float64    Float64 ────────────────────────────────────────────────  2021-01-31   0.124522    0.0428918  -0.0154236  2021-02-28  -0.062729    0.769438   -0.0844096  2021-03-31  -0.086443    0.940052   -0.527235  2021-04-30   0.0568464   1.0649     -0.696214  2021-05-31  -0.158339    0.73723    -0.883007  2021-06-30  -0.00721917  0.890425   -0.116673  2021-07-31   0.00855887  1.02922    -0.208609  2021-08-31   0.0976179   1.16409     0.160229  2021-09-30   0.156015    0.584873    0.303656  2021-10-31   0.355123    0.65647     0.449484  2021-11-30   0.356261    0.609396    0.279136  2021-12-31   0.288602    0.606824    0.170242</p><pre><code class="nohighlight hljs">
 ### Calculate Sortino ratio (from returns)
-</code></pre><p>julia julia&gt; sortino = Sortino(returns) 12×3 TSFrame with Date Index  Index       TSLA       MSFT       NFLX  Date        Float64    Float64    Float64 ───────────────────────────────────────────────  2021-01-31   1.97672    0.680887   -0.244842  2021-02-28  -0.19243    0.354815   -0.0261106  2021-03-31  -1.92754    0.313737  -15.9819  2021-04-30   1.09037    0.511526  -21.4069  2021-05-31  -4.03861    0.377746  -29.527  2021-06-30  -0.17828    0.539648   -7.25811  2021-07-31   0.193132   0.579837  -14.0099  2021-08-31   2.10669    0.625548   17.3599  2021-09-30   3.19005   11.0565     34.5153  2021-10-31  12.4511    16.9924     62.1925  2021-11-30  11.8698    17.6228     13.163  2021-12-31  11.4992    16.8173      7.56288 ```</p></article><nav class="docs-footer"><a class="docs-footer-prevpage" href="../">« Home</a><a class="docs-footer-nextpage" href="../api/">API »</a><div class="flexbox-break"></div><p class="footer-message">Powered by <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> and the <a href="https://julialang.org/">Julia Programming Language</a>.</p></nav></div><div class="modal" id="documenter-settings"><div class="modal-background"></div><div class="modal-card"><header class="modal-card-head"><p class="modal-card-title">Settings</p><button class="delete"></button></header><section class="modal-card-body"><p><label class="label">Theme</label><div class="select"><select id="documenter-themepicker"><option value="auto">Automatic (OS)</option><option value="documenter-light">documenter-light</option><option value="documenter-dark">documenter-dark</option></select></div></p><hr/><p>This document was generated with <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> version 1.4.0 on <span class="colophon-date" title="Friday 26 April 2024 15:25">Friday 26 April 2024</span>. Using Julia version 1.10.2.</p></section><footer class="modal-card-foot"></footer></div></div></div></body></html>
+</code></pre><p>julia julia&gt; sortino = Sortino(returns) 12×3 TSFrame with Date Index  Index       TSLA       MSFT       NFLX  Date        Float64    Float64    Float64 ───────────────────────────────────────────────  2021-01-31   1.97672    0.680887   -0.244842  2021-02-28  -0.19243    0.354815   -0.0261106  2021-03-31  -1.92754    0.313737  -15.9819  2021-04-30   1.09037    0.511526  -21.4069  2021-05-31  -4.03861    0.377746  -29.527  2021-06-30  -0.17828    0.539648   -7.25811  2021-07-31   0.193132   0.579837  -14.0099  2021-08-31   2.10669    0.625548   17.3599  2021-09-30   3.19005   11.0565     34.5153  2021-10-31  12.4511    16.9924     62.1925  2021-11-30  11.8698    17.6228     13.163  2021-12-31  11.4992    16.8173      7.56288 ```</p></article><nav class="docs-footer"><a class="docs-footer-prevpage" href="../">« Home</a><a class="docs-footer-nextpage" href="../api/">API »</a><div class="flexbox-break"></div><p class="footer-message">Powered by <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> and the <a href="https://julialang.org/">Julia Programming Language</a>.</p></nav></div><div class="modal" id="documenter-settings"><div class="modal-background"></div><div class="modal-card"><header class="modal-card-head"><p class="modal-card-title">Settings</p><button class="delete"></button></header><section class="modal-card-body"><p><label class="label">Theme</label><div class="select"><select id="documenter-themepicker"><option value="auto">Automatic (OS)</option><option value="documenter-light">documenter-light</option><option value="documenter-dark">documenter-dark</option></select></div></p><hr/><p>This document was generated with <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> version 1.4.0 on <span class="colophon-date" title="Friday 26 April 2024 15:31">Friday 26 April 2024</span>. Using Julia version 1.10.2.</p></section><footer class="modal-card-foot"></footer></div></div></div></body></html>
