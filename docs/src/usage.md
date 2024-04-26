@@ -110,6 +110,7 @@ See API usage
 Here is an example showing how to use OnlinePortfolioAnalytics with Tables.jl compatible sources.
 
 ### Sample data
+
 ```julia
 julia> using TSFrames
 
