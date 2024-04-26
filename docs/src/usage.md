@@ -181,7 +181,7 @@ julia> returns = dropmissing(returns.coredata) |> TSFrame
  2021-12-31  -0.0768384   0.0173326   -0.0614737
 ```
 
-Calculate standard deviation of returns
+### Calculate standard deviation of returns
 
 ```julia
 julia> stddev = StdDev(returns)
