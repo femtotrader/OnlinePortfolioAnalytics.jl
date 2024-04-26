@@ -437,43 +437,78 @@ const weights = [0.4, 0.4, 0.2]
         @testset "TSFrames" begin
             prices_ts = TSFrame([TSLA NFLX MSFT], dates, colnames = [:TSLA, :NFLX, :MSFT])
 
-            @testset "SimpleAssetReturn (SingleOutput)" begin
-                pa_wrapper = PortfolioAnalyticsWrapper(SimpleAssetReturn)
-                par = PortfolioAnalyticsResults()
-                @testset "Using Tables.jl interface" begin
-                    load!(prices_ts, par, pa_wrapper)
-                    expected = -0.0768
-                    @test isapprox(par._columns[:TSLA][end], expected, atol = ATOL)
+            @testset "Low level (using PortfolioAnalyticsWrapper)" begin
+                @testset "SimpleAssetReturn (SingleOutput)" begin
+                    pa_wrapper = PortfolioAnalyticsWrapper(SimpleAssetReturn)
+                    par = PortfolioAnalyticsResults()
+                    @testset "Using Tables.jl interface" begin
+                        load!(prices_ts, par, pa_wrapper)
+                        expected = -0.0768
+                        @test isapprox(par._columns[:TSLA][end], expected, atol = ATOL)
 
-                    # test that the PortfolioAnalyticsResults `istable`
-                    @test Tables.istable(typeof(par))
-                    # test that it defines column access
-                    @test Tables.columnaccess(typeof(par))
-                    #@test Tables.columns(par) === mattbl  #
-                    # test that we can access the first "column" of our PortfolioAnalyticsResults table by column name
-                    @test isapprox(par.TSLA[end], expected, atol=ATOL)
-                    @test isapprox(Tables.getcolumn(par, :TSLA)[end], expected, atol=ATOL)
-                    @test isapprox(Tables.getcolumn(par, 2)[end], expected, atol=ATOL)
-                    @test Tables.columnnames(par) == [:Index, :TSLA, :NFLX, :MSFT]
-                    # convert a PortfolioAnalyticsResults to TSFrame thanks to Tables.jl API
-                    ts_out = par |> TSFrame
-                    @test isapprox(ts_out.coredata[end, [:TSLA]][1], expected, atol=ATOL)
+                        # test that the PortfolioAnalyticsResults `istable`
+                        @test Tables.istable(typeof(par))
+                        # test that it defines column access
+                        @test Tables.columnaccess(typeof(par))
+                        #@test Tables.columns(par) === mattbl  #
+                        # test that we can access the first "column" of our PortfolioAnalyticsResults table by column name
+                        @test isapprox(par.TSLA[end], expected, atol = ATOL)
+                        @test isapprox(
+                            Tables.getcolumn(par, :TSLA)[end],
+                            expected,
+                            atol = ATOL,
+                        )
+                        @test isapprox(Tables.getcolumn(par, 2)[end], expected, atol = ATOL)
+                        @test Tables.columnnames(par) == [:Index, :TSLA, :NFLX, :MSFT]
+                        # convert a PortfolioAnalyticsResults to TSFrame thanks to Tables.jl API
+                        ts_out = par |> TSFrame
+                        @test isapprox(
+                            ts_out.coredata[end, [:TSLA]][1],
+                            expected,
+                            atol = ATOL,
+                        )
+                    end
+                end
+
+                @testset "Moments (MultiOutput)" begin
+                    pa_wrapper = PortfolioAnalyticsWrapper(AssetReturnMoments)
+                    par = PortfolioAnalyticsResults()
+                    @testset "Using Tables.jl interface" begin
+                        load!(prices_ts, par, pa_wrapper)
+                        ts_out = par |> TSFrame
+                        data_last = ts_out.coredata[end, [:TSLA]][1]
+                        @test isapprox(data_last.mean, 265.9177, atol = ATOL)  # shouldn't use prices but returns
+                        #@test isapprox(data_last.std, ..., atol=ATOL)
+                        #@test isapprox(data_last.skewness, ..., atol=ATOL)
+                        #@test isapprox(data_last.kurtosis, ..., atol=ATOL)
+                    end
                 end
             end
-
-            @testset "Moments (MultiOutput)" begin
-                pa_wrapper = PortfolioAnalyticsWrapper(AssetReturnMoments)
-                par = PortfolioAnalyticsResults()
-                @testset "Using Tables.jl interface" begin
-                    load!(prices_ts, par, pa_wrapper)
-                    ts_out = par |> TSFrame
-                    data_last = ts_out.coredata[end, [:TSLA]][1]
-                    @test isapprox(data_last.mean, 265.9177, atol=ATOL)  # shouldn't use prices but return
-                    #@test isapprox(data_last.std, ..., atol=ATOL)
-                    #@test isapprox(data_last.skewness, ..., atol=ATOL)
-                    #@test isapprox(data_last.kurtosis, ..., atol=ATOL)
-                end
+            @testset "Higher level functions" begin
+                # Calculate asset returns from prices
+                returns = SimpleAssetReturn(prices_ts)[2:end]
+                @test isapprox(returns.coredata[end, [:TSLA]][1], -0.0768, atol = ATOL)
+                # Calculate standard deviation of returns
+                stddev = StdDev(returns)
+                @test isapprox(stddev.coredata[end, [:TSLA]][1], 0.1496, atol = ATOL)
+                # Calculate arithmetic mean returns
+                amr = ArithmeticMeanReturn(returns)
+                @test isapprox(amr.coredata[end, [:TSLA]][1], 0.0432, atol = ATOL)
+                # Calculate geometric mean returns
+                gmr = GeometricMeanReturn(returns)
+                @test isapprox(gmr.coredata[end, [:TSLA]][1], 0.0342, atol = ATOL)
+                ## Calculate asset log returns from prices
+                log_returns = LogAssetReturn(prices_ts)[2:end]
+                @test isapprox(log_returns.coredata[end, [:TSLA]][1], -0.0800, atol = ATOL)
+                # Calculate cumulative return (from)
+                cum_returns = CumulativeReturn(returns)
+                @test isapprox(cum_returns.coredata[end, [:TSLA]][1], 1.4976, atol = ATOL)
+                #dd = DrawDowns(returns)
+                #@test isapprox(dd.coredata[end, [:TSLA]][1], -0.0768, atol = ATOL)
+                #dd = ArithmeticDrawDowns(returns)
+                #@test isapprox(dd.coredata[end, [:TSLA]][1], -0.0482, atol = ATOL)
             end
+
         end
     end
 

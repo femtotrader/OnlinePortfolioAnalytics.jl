@@ -21,7 +21,7 @@ mutable struct Sharpe{T} <: PortfolioAnalyticsSingleOutput{T}
     risk_free::T
 
     function Sharpe{T}(; period = 252, risk_free = 0) where {T}
-        new{T}(T(0), 0, Mean(), StdDev{T}(), period, risk_free)
+        new{T}(zero(T), 0, Mean(), StdDev{T}(), period, risk_free)
     end
 end
 

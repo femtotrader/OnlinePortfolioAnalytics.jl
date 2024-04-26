@@ -7,7 +7,7 @@ mutable struct Prod{T} <: OnlineStat{Number}
     prod::T
     n::Int
 end
-Prod(T::Type = Float64) = Prod(T(1), 0)
+Prod(T::Type = Float64) = Prod(one(T), 0)
 Base.prod(o::Prod) = o.prod
 OnlineStatsBase._fit!(o::Prod{T}, x::Real) where {T<:AbstractFloat} =
     (o.prod *= convert(T, x); o.n += 1)

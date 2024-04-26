@@ -12,7 +12,7 @@ mutable struct AssetReturnMoments{T} <: PortfolioAnalyticsMultiOutput{T}
     moments::Moments
 
     function AssetReturnMoments{T}() where {T}
-        val = (mean = T(0), std = T(0), skewness = T(0), kurtosis = T(0))
+        val = (mean = zero(T), std = zero(T), skewness = zero(T), kurtosis = zero(T))
         new{T}(val, 0, Moments())
     end
 end

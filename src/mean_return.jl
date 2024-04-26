@@ -15,7 +15,7 @@ mutable struct ArithmeticMeanReturn{T} <: AbstractMeanReturn{T}
 
     function ArithmeticMeanReturn{T}() where {T}
         s = Sum()
-        new{T}(T(0), 0, s)
+        new{T}(zero(T), 0, s)
     end
 end
 
@@ -40,8 +40,8 @@ mutable struct GeometricMeanReturn{T} <: AbstractMeanReturn{T}
     prod::Prod
 
     function GeometricMeanReturn{T}() where {T}
-        p = Prod()
-        new{T}(T(0), 0, p)
+        p = Prod(T)
+        new{T}(zero(T), 0, p)
     end
 end
 

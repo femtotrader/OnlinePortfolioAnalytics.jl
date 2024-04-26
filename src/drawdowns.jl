@@ -15,7 +15,7 @@ mutable struct DrawDowns{T} <: AbstractDrawDowns{T}
     extrema::Extrema
 
     function DrawDowns{T}() where {T}
-        new{T}(T(0), 0, Prod(), Extrema(T))
+        new{T}(zero(T), 0, Prod(T), Extrema(T))
     end
 end
 

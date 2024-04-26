@@ -30,7 +30,7 @@ function Base.setindex!(par::PortfolioAnalyticsResults, col::Vector, colname::Sy
     end
 end
 
-Tables.istable(::Type{PortfolioAnalyticsResults})	= true
+Tables.istable(::Type{PortfolioAnalyticsResults}) = true
 Tables.columnaccess(::Type{PortfolioAnalyticsResults}) = true
 Tables.columns(par::PortfolioAnalyticsResults) = par._columns
 function Base.getproperty(par::PortfolioAnalyticsResults, name::Symbol)
@@ -166,3 +166,45 @@ function load!(
     end
     return
 end
+
+
+# === "High-level" functions which deal with Tables.jl
+
+function apply_pa(
+    portfolio_analytics_type,
+    table,
+    args...;
+    index = DEFAULT_FIELD_INDEX,
+    others_possible_index = DEFAULT_OTHERS_POSSIBLE_INDEX,
+    kwargs...,
+)
+    pa_wrapper = PortfolioAnalyticsWrapper(portfolio_analytics_type, args...; kwargs...)
+    par = PortfolioAnalyticsResults()
+    load!(
+        table,
+        par,
+        pa_wrapper;
+        index = index,
+        others_possible_index = others_possible_index,
+    )
+    return typeof(table)(par, args...; kwargs...)
+end
+
+SimpleAssetReturn(table, args...; kwargs...) =
+    apply_pa(SimpleAssetReturn, table, args...; kwargs...)
+LogAssetReturn(table, args...; kwargs...) =
+    apply_pa(LogAssetReturn, table, args...; kwargs...)
+ArithmeticMeanReturn(table, args...; kwargs...) =
+    apply_pa(ArithmeticMeanReturn, table, args...; kwargs...)
+GeometricMeanReturn(table, args...; kwargs...) =
+    apply_pa(GeometricMeanReturn, table, args...; kwargs...)
+StdDev(table, args...; kwargs...) = apply_pa(StdDev, table, args...; kwargs...)
+CumulativeReturn(table, args...; kwargs...) =
+    apply_pa(CumulativeReturn, table, args...; kwargs...)
+DrawDowns(table, args...; kwargs...) = apply_pa(DrawDowns, table, args...; kwargs...)
+ArithmeticDrawDowns(table, args...; kwargs...) =
+    apply_pa(ArithmeticDrawDowns, table, args...; kwargs...)
+AssetReturnMoments(table, args...; kwargs...) =
+    apply_pa(AssetReturnMoments, table, args...; kwargs...)
+Sharpe(table, args...; kwargs...) = apply_pa(Sharpe, table, args...; kwargs...)
+Sortino(table, args...; kwargs...) = apply_pa(Sortino, table, args...; kwargs...)
