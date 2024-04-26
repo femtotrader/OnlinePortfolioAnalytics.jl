@@ -70,7 +70,7 @@ julia> weights
  0.4
  0.4
  0.2
- ```
+```
 
 ### Calculate returns (from `TSLA` prices)
 
