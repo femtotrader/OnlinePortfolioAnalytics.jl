@@ -15,11 +15,38 @@ struct PortfolioAnalyticsWrapper{T}
 end
 
 mutable struct PortfolioAnalyticsResults
-    columns::Dict
+    _colnames::Vector
+    _columns::Dict
     function PortfolioAnalyticsResults()
-        new(Dict{Symbol,Vector}())
+        new(Symbol[], Dict{Symbol,Vector}())
     end
 end
+function Base.setindex!(par::PortfolioAnalyticsResults, col::Vector, colname::Symbol)
+    if !(colname in par._colnames)
+        par._columns[colname] = col
+        push!(par._colnames, colname)
+    else
+        error("colname $(colname) ever exists")
+    end
+end
+
+Tables.istable(::Type{PortfolioAnalyticsResults})	= true
+Tables.columnaccess(::Type{PortfolioAnalyticsResults}) = true
+Tables.columns(par::PortfolioAnalyticsResults) = par._columns
+function Base.getproperty(par::PortfolioAnalyticsResults, name::Symbol)
+    if name == :_columns
+        return getfield(par, :_columns)
+    elseif name == :_colnames
+        return getfield(par, :_colnames)
+    else
+        return par._columns[name]
+    end
+end
+function Tables.getcolumn(par::PortfolioAnalyticsResults, i::Int64)
+    colname = par._colnames[i]
+    return par._columns[colname]
+end
+Tables.columnnames(par::PortfolioAnalyticsResults) = par._colnames
 
 function process_col_by_row(row, pa::PA, colname) where {PA<:PortfolioAnalyticsSingleOutput}
     data = row[colname]
@@ -128,11 +155,13 @@ function load!(
     #colnames_out = get_column_names(PA, _names_except_index)
     #sch_out = Tables.Schema(colnames_out, vTout)
     for colname in _colnames
+        col = Tables.getcolumn(table, colname)
         if !(colname in POSSIBLE_INDEX)
-            col = Tables.getcolumn(table, colname)
             Tin = Tables.columntype(sch, colname)
             pa = PA{Tin}(pa_wrap.args...; pa_wrap.kwargs...)
-            par.columns[colname] = process_col(col, pa)
+            par[colname] = process_col(col, pa)
+        else
+            par[colname] = col
         end
     end
     return

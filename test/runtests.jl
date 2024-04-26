@@ -1,6 +1,7 @@
 using Dates
 using OnlinePortfolioAnalytics
 using OnlinePortfolioAnalytics: ismultioutput, expected_return_types, expected_return_values
+using Tables
 using OnlinePortfolioAnalytics: load!, PortfolioAnalyticsWrapper, PortfolioAnalyticsResults
 using OnlineStatsBase
 using Rocket
@@ -441,7 +442,22 @@ const weights = [0.4, 0.4, 0.2]
                 par = PortfolioAnalyticsResults()
                 @testset "Using Tables.jl interface" begin
                     load!(prices_ts, par, pa_wrapper)
-                    @test isapprox(par.columns[:TSLA][end], -0.0768, atol = ATOL)
+                    expected = -0.0768
+                    @test isapprox(par._columns[:TSLA][end], expected, atol = ATOL)
+
+                    # test that the PortfolioAnalyticsResults `istable`
+                    @test Tables.istable(typeof(par))
+                    # test that it defines column access
+                    @test Tables.columnaccess(typeof(par))
+                    #@test Tables.columns(par) === mattbl  #
+                    # test that we can access the first "column" of our PortfolioAnalyticsResults table by column name
+                    @test isapprox(par.TSLA[end], expected, atol=ATOL)
+                    @test isapprox(Tables.getcolumn(par, :TSLA)[end], expected, atol=ATOL)
+                    @test isapprox(Tables.getcolumn(par, 2)[end], expected, atol=ATOL)
+                    @test Tables.columnnames(par) == [:Index, :TSLA, :NFLX, :MSFT]
+                    # convert a PortfolioAnalyticsResults to TSFrame thanks to Tables.jl API
+                    ts_out = par |> TSFrame
+                    @test isapprox(ts_out.coredata[end, [:TSLA]][1], expected, atol=ATOL)
                 end
             end
 
@@ -450,8 +466,9 @@ const weights = [0.4, 0.4, 0.2]
                 par = PortfolioAnalyticsResults()
                 @testset "Using Tables.jl interface" begin
                     load!(prices_ts, par, pa_wrapper)
-                    data_last = par.columns[:TSLA][end]
-                    #@test isapprox(data_last.mean, ..., atol=ATOL)
+                    ts_out = par |> TSFrame
+                    data_last = ts_out.coredata[end, [:TSLA]][1]
+                    @test isapprox(data_last.mean, 265.9177, atol=ATOL)  # shouldn't use prices but return
                     #@test isapprox(data_last.std, ..., atol=ATOL)
                     #@test isapprox(data_last.skewness, ..., atol=ATOL)
                     #@test isapprox(data_last.kurtosis, ..., atol=ATOL)
