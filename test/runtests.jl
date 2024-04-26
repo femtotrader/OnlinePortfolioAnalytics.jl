@@ -6,7 +6,7 @@ using OnlinePortfolioAnalytics: load!, PortfolioAnalyticsWrapper, PortfolioAnaly
 using OnlineStatsBase
 using Rocket
 using Test
-using TSFrames
+using TSFrames, DataFrames
 
 const ATOL = 0.0001
 const dates = Date(2020, 12, 31):Month(1):Date(2021, 12, 31)
@@ -486,7 +486,9 @@ const weights = [0.4, 0.4, 0.2]
             end
             @testset "Higher level functions" begin
                 # Calculate asset returns from prices
-                returns = SimpleAssetReturn(prices_ts)[2:end]
+                returns = SimpleAssetReturn(prices_ts)
+                # Drop missing from returns
+                returns = dropmissing(returns.coredata) |> TSFrame
                 @test isapprox(returns.coredata[end, [:TSLA]][1], -0.0768, atol = ATOL)
                 # Calculate standard deviation of returns
                 stddev = StdDev(returns)
@@ -503,10 +505,10 @@ const weights = [0.4, 0.4, 0.2]
                 # Calculate cumulative return (from)
                 cum_returns = CumulativeReturn(returns)
                 @test isapprox(cum_returns.coredata[end, [:TSLA]][1], 1.4976, atol = ATOL)
-                #dd = DrawDowns(returns)
-                #@test isapprox(dd.coredata[end, [:TSLA]][1], -0.0768, atol = ATOL)
-                #dd = ArithmeticDrawDowns(returns)
-                #@test isapprox(dd.coredata[end, [:TSLA]][1], -0.0482, atol = ATOL)
+                dd = DrawDowns(returns)
+                @test isapprox(dd.coredata[end, [:TSLA]][1], -0.0768, atol = ATOL)
+                add = ArithmeticDrawDowns(returns)
+                @test isapprox(add.coredata[end, [:TSLA]][1], -0.0482, atol = ATOL)
             end
 
         end
