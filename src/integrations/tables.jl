@@ -187,7 +187,7 @@ function apply_pa(
         index = index,
         others_possible_index = others_possible_index,
     )
-    return typeof(table)(par, args...; kwargs...)
+    return typeof(table)(par)
 end
 
 SimpleAssetReturn(table, args...; kwargs...) =

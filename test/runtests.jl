@@ -1,5 +1,6 @@
 using Dates
 using OnlinePortfolioAnalytics
+using OnlinePortfolioAnalytics.SampleData: dates, TSLA, NFLX, MSFT, weights
 using OnlinePortfolioAnalytics: ismultioutput, expected_return_types, expected_return_values
 using Tables
 using OnlinePortfolioAnalytics: load!, PortfolioAnalyticsWrapper, PortfolioAnalyticsResults
@@ -9,53 +10,6 @@ using Test
 using TSFrames, DataFrames
 
 const ATOL = 0.0001
-const dates = Date(2020, 12, 31):Month(1):Date(2021, 12, 31)
-const TSLA = [
-    235.22,
-    264.51,
-    225.16,
-    222.64,
-    236.48,
-    208.40,
-    226.56,
-    229.06,
-    245.24,
-    258.49,
-    371.33,
-    381.58,
-    352.26,
-]
-const NFLX = [
-    540.73,
-    532.39,
-    538.85,
-    521.66,
-    513.47,
-    502.81,
-    528.21,
-    517.57,
-    569.19,
-    610.34,
-    690.31,
-    641.90,
-    602.44,
-]
-const MSFT = [
-    222.42,
-    231.96,
-    232.38,
-    235.77,
-    252.18,
-    249.68,
-    270.90,
-    284.91,
-    301.88,
-    281.92,
-    331.62,
-    330.59,
-    336.32,
-]
-const weights = [0.4, 0.4, 0.2]
 
 @testset "OnlinePortfolioAnalytics.jl" begin
     @testset "Basic types" begin
@@ -375,7 +329,7 @@ const weights = [0.4, 0.4, 0.2]
             end
             subscribe!(mapped_source, observer)
             moments_latest = moments[end]
-            @test isapprox(moments_latest.mean, 0.0431772, atol = ATOL)
+            @test isapprox(moments_latest.mean, 0.0432, atol = ATOL)
             @test isapprox(moments_latest.std, 0.1496, atol = ATOL)
             @test isapprox(moments_latest.skewness, 1.3688, atol = ATOL)
             @test isapprox(moments_latest.kurtosis, 2.1968, atol = ATOL)
@@ -505,12 +459,26 @@ const weights = [0.4, 0.4, 0.2]
                 # Calculate cumulative return (from)
                 cum_returns = CumulativeReturn(returns)
                 @test isapprox(cum_returns.coredata[end, [:TSLA]][1], 1.4976, atol = ATOL)
+                # Calculate Drawdowns
                 dd = DrawDowns(returns)
                 @test isapprox(dd.coredata[end, [:TSLA]][1], -0.0768, atol = ATOL)
+                # Calculate Drawdowns (Arithmetic method)
                 add = ArithmeticDrawDowns(returns)
                 @test isapprox(add.coredata[end, [:TSLA]][1], -0.0482, atol = ATOL)
+                # Calculate statistical moments of returns
+                moments = AssetReturnMoments(returns)
+                last_moments = moments.coredata[end, [:TSLA]][1]
+                @test isapprox(last_moments.mean, 0.0432, atol = ATOL)
+                @test isapprox(last_moments.std, 0.1496, atol = ATOL)
+                @test isapprox(last_moments.skewness, 1.3688, atol = ATOL)
+                @test isapprox(last_moments.kurtosis, 2.1968, atol = ATOL)
+                # Calculate Sharpe ratio (from returns)
+                sharpe = Sharpe(returns, period = 1)
+                @test isapprox(sharpe.coredata[end, [:TSLA]][1], 0.2886, atol = ATOL)
+                # Calculate Sortino ratio (from returns)
+                sortino = Sortino(returns)
+                @test isapprox(sortino.coredata[end, [:TSLA]][1], 11.4992, atol = ATOL)                
             end
-
         end
     end
 

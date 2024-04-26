@@ -46,7 +46,7 @@ mutable struct ArithmeticDrawDowns{T} <: AbstractDrawDowns{T}
     extrema::Extrema
 
     function ArithmeticDrawDowns{T}() where {T}
-        new{T}(T(0), 0, Sum(), Extrema(T))
+        new{T}(zero(T), 0, Sum(), Extrema(T))
     end
 end
 

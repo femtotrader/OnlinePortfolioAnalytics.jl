@@ -51,4 +51,6 @@ include("value_at_risk.jl")
 
 include("integrations/tables.jl")
 
+include("sample_data.jl")
+
 end
