@@ -312,7 +312,7 @@ julia> dd = DrawDowns(returns)
  2021-10-31   0.0         0.0          0.0
  2021-11-30   0.0        -0.00310596  -0.0701279
  2021-12-31  -0.0768384   0.0         -0.127291
- ```
+```
 
 ### Calculate Drawdowns (Arithmetic method)
 
@@ -378,7 +378,7 @@ julia> sharpe = Sharpe(returns, period = 1)
  2021-10-31   0.355123    0.65647     0.449484
  2021-11-30   0.356261    0.609396    0.279136
  2021-12-31   0.288602    0.606824    0.170242
- ```
+```
 
 ### Calculate Sortino ratio (from returns)
 
