@@ -13,7 +13,7 @@ mutable struct CumulativeReturn{T} <: PortfolioAnalyticsSingleOutput{T}
 
     function CumulativeReturn{T}() where {T}
         val = zero(T)
-        p = Prod()
+        p = Prod(T)
         new{T}(val, 0, p)
     end
 end

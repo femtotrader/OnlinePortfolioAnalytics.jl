@@ -86,6 +86,9 @@ end
 # ╔═╡ 04894092-b9c4-42d8-87b2-b530de95736c
 returns
 
+# ╔═╡ 2a8b580d-349a-4766-baba-c3b48622084f
+returns.coredata
+
 # ╔═╡ Cell order:
 # ╠═a1861f50-046e-11ef-348b-cb9f60ea0d1b
 # ╠═accbd5bc-4976-48cf-91c1-e12b62a94edf
@@ -98,3 +101,4 @@ returns
 # ╠═ac56bb3d-0732-4536-bb81-594643c31935
 # ╠═c61cb98d-b0ea-4bf5-a0b4-11b925b18e0d
 # ╠═04894092-b9c4-42d8-87b2-b530de95736c
+# ╠═2a8b580d-349a-4766-baba-c3b48622084f
