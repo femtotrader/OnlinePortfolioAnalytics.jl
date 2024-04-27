@@ -16,6 +16,7 @@ begin
 	using Dates
 	using Random
 	using Plots
+	using Printf
 	using OnlinePortfolioAnalytics
 end
 
@@ -65,7 +66,7 @@ cum_returns = CumulativeReturn(returns)
 
 # ╔═╡ a208fb00-cfe1-46d9-9751-e9e5f423f8fb
 begin
-	plot(cum_returns, title="Cumulative returns", color=:green)
+	plot(cum_returns, title="Cumulative returns", color=:green, yformatter=y -> @sprintf("%.01f", y))
 	hline!([1.0], color=:green, linestyle=:dashdot, label="")
 end
 
@@ -106,7 +107,10 @@ begin
 			fit!(_return, row[:STOCK1])
 			push!(cum_return, value(_return))
 		end
-		plot(dt, cum_return)
+		years = 13
+		xticks = [Dates.Date(2010 - 1 + year, 1, 1) for year in 1:years+1]
+		#plot(dt, cum_return)
+		plot(dt, cum_return, xticks=xticks, xrotation=-45, xformatter = x -> Dates.format(x, "yyyy"))
 	end
 	plot_yearly()
 end
@@ -172,14 +176,36 @@ end
 # ╔═╡ d5cc1f53-5d20-45e5-a670-477e91311bb1
 return_year_month_unstacked = unstack(return_year_month, :Year, :Month, :STOCK1_sum)
 
-# ╔═╡ d03e4364-be1b-4953-ab15-792869561864
-
-
 # ╔═╡ fef0e57c-581b-4b41-b5fb-41c972b12fed
 (return_year_month.Year, return_year_month.Month, Matrix(return_year_month_unstacked[!, Not(:Year)]))
 
+# ╔═╡ f1b8f218-c5c9-47af-939c-334af82a22fb
+max(abs.(return_year_month_unstacked[!, Not(:Year)]))
+
+# ╔═╡ 92e0d8c6-12ca-46b0-8910-f14dcf10ebb6
+begin
+	ret_monthly_max = max(abs.(return_year_month.STOCK1_sum)...) * 100.0
+	ret_monthly_max = 10^ceil(log10(ret_monthly_max))
+end
+
 # ╔═╡ c2095548-0103-4ad1-b086-9744256ab9d1
-heatmap(unique(return_year_month.Month), unique(return_year_month.Year), Matrix(return_year_month_unstacked[!, Not(:Year)]), c=:redgreensplit, clims=(-0.1, 0.1), xticks=1:12)  # :redgreensplit ou :RdYlGn_5
+begin
+	plt = heatmap(unique(return_year_month.Month), unique(return_year_month.Year), Matrix(return_year_month_unstacked[!, Not(:Year)]) .* 100.0, c=:redgreensplit, clims=(-ret_monthly_max, ret_monthly_max), xticks=1:12)  # :redgreensplit ou :RdYlGn_5
+	for year in unique(return_year_month.Year)
+		for month in unique(return_year_month.Month)
+			val = return_year_month[return_year_month.Year .== year .&& return_year_month.Month .== month, :STOCK1_sum][1]
+			val = @sprintf("%.1f", val * 100.0)
+			annotate!(month, year, val, c=:color, annotationfontsize=8)
+		end
+	end
+	plt
+end
+
+# ╔═╡ 265daee9-2342-4dcc-8399-4d7576a4f641
+returns.coredata[returns.coredata.Year .== 2010 .&& returns.coredata.Month .== 2, :STOCK1]
+
+# ╔═╡ 1f95e601-f30b-4bf1-a28c-9b3f5b2a8b99
+
 
 # ╔═╡ Cell order:
 # ╠═a1861f50-046e-11ef-348b-cb9f60ea0d1b
@@ -198,6 +224,9 @@ heatmap(unique(return_year_month.Month), unique(return_year_month.Year), Matrix(
 # ╠═d88f95a8-9a80-4930-b331-4f01771825c1
 # ╠═0b5eb641-e2c0-430c-bc98-128361cf21e8
 # ╠═d5cc1f53-5d20-45e5-a670-477e91311bb1
-# ╠═d03e4364-be1b-4953-ab15-792869561864
 # ╠═fef0e57c-581b-4b41-b5fb-41c972b12fed
+# ╠═f1b8f218-c5c9-47af-939c-334af82a22fb
+# ╠═92e0d8c6-12ca-46b0-8910-f14dcf10ebb6
 # ╠═c2095548-0103-4ad1-b086-9744256ab9d1
+# ╠═265daee9-2342-4dcc-8399-4d7576a4f641
+# ╠═1f95e601-f30b-4bf1-a28c-9b3f5b2a8b99
