@@ -39,5 +39,5 @@ function Base.empty!(stat::Sharpe{T}) where {T}
     stat.value = zero(T)
     stat.n = 0
     stat.mean = Mean(T)
-    stat.stddev = StdDev(T)
+    stat.stddev = StdDev{T}()
 end

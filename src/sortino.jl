@@ -36,3 +36,10 @@ function OnlineStatsBase._fit!(stat::Sortino, ret)
     sortino = sqrt(stat.period) * (mean_return - stat.risk_free) / stddev_neg_return
     stat.value = sortino
 end
+
+function Base.empty!(stat::Sortino{T}) where {T}
+    stat.value = zero(T)
+    stat.n = 0
+    stat.mean_ret = Mean(T)
+    stat.stddev_neg_ret = StdDev{T}()
+end

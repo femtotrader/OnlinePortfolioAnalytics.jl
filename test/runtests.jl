@@ -396,11 +396,11 @@ const ATOL = 0.0001
 
             @test isapprox(sharpes[end], 0.2886, atol = ATOL)
 
-            #empty!(_sharpe)
-            #@test _sharpe.n == 0
-            #@test value(_sharpe) == 0.0
-            #@test _sharpe.mean == Mean()
-            #@test _sharpe.stddev == StdDev()
+            empty!(_sharpe)
+            @test _sharpe.n == 0
+            @test value(_sharpe) == 0.0
+            @test _sharpe.mean == Mean()
+            @test value(_sharpe.stddev) == 1
         end
 
         @testset "Sortino" begin
@@ -426,11 +426,11 @@ const ATOL = 0.0001
 
             @test isapprox(sortinos[end], 11.4992, atol = ATOL)
 
-            #empty!(_sortino)
-            #@test _sortino.n == 0
-            #@test value(_sortino) == 0.0
-            #@test _sortino.mean == Mean()
-            #@test _sortino.stddev == StdDev()
+            empty!(_sortino)
+            @test _sortino.n == 0
+            @test value(_sortino) == 0.0
+            @test _sortino.mean_ret == Mean()
+            @test value(_sortino.stddev_neg_ret) == 1
 
         end
     end
@@ -528,7 +528,7 @@ const ATOL = 0.0001
                 @test isapprox(sharpe.coredata[end, [:TSLA]][1], 0.2886, atol = ATOL)
                 # Calculate Sortino ratio (from returns)
                 sortino = Sortino(returns)
-                @test isapprox(sortino.coredata[end, [:TSLA]][1], 11.4992, atol = ATOL)                
+                @test isapprox(sortino.coredata[end, [:TSLA]][1], 11.4992, atol = ATOL)
             end
         end
     end
