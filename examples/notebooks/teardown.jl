@@ -28,9 +28,9 @@ function random_data(rng::AbstractRNG = Random.GLOBAL_RNG;
 	price_init_min = 1.00,
 	price_init_step = 0.01,
 	price_init_max = 1000.00,
-	price_var_min = -10.0,
+	price_var_min = -5.0,
 	price_var_step = 0.1,
-	price_var_max = 10.0,
+	price_var_max = 5.0,
 )
 	idx = range(start, stop = stop, step = step)
 	n = length(idx)
@@ -42,7 +42,10 @@ function random_data(rng::AbstractRNG = Random.GLOBAL_RNG;
 end
 
 # ╔═╡ da790f5a-874b-4c65-9c7d-4243d3852859
-ts = random_data()
+begin
+	Random.seed!(123)
+	ts = random_data()
+end
 
 # ╔═╡ 21600f87-228d-4cd0-8f24-ec821de8ef8c
 plot(ts)
