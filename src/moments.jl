@@ -28,6 +28,12 @@ function OnlineStatsBase._fit!(stat::AssetReturnMoments, ret)
     )
 end
 
+function Base.empty!(stat::AssetReturnMoments{T}) where {T}
+    stat.value = (mean = zero(T), std = zero(T), skewness = zero(T), kurtosis = zero(T))
+    stat.n = 0
+    stat.moments = Moments()
+end
+
 function expected_return_types(::Type{AssetReturnMoments{T}}) where {T}
     #return NamedTuple{
     #    (:mean, :std, :skewness, :kurtosis),

@@ -60,9 +60,18 @@ function OnlineStatsBase._fit!(stat::SimpleAssetReturn, data)
     end
 end
 
+function Base.empty!(stat::SimpleAssetReturn{T}) where {T}
+    stat.value = missing
+    stat.n = 0
+    stat.ready = false
+    stat.input_values.value = []
+    stat.input_values.n = 0
+end
+
 function expected_return_types(::Type{SimpleAssetReturn{T}}) where {T}
     (Union{Missing,T},)
 end
+
 
 @doc """
 $(TYPEDEF)
@@ -114,13 +123,21 @@ function OnlineStatsBase._fit!(stat::LogAssetReturn, data)
     stat.n += 1
     if stat.n > stat.period
         data_prev = stat.input_values[end-stat.period]
-        stat.value = log(data / data_prev)  # log=ln (Neperian log not decimal log)
+        stat.value = log(data / data_prev)  # log=ln (natural log not decimal log)
         return stat.value
     else
         stat.ready = true
         stat.value = missing
         return stat.value
     end
+end
+
+function Base.empty!(stat::LogAssetReturn{T}) where {T}
+    stat.value = missing
+    stat.n = 0
+    stat.ready = false
+    stat.input_values.value = []
+    stat.input_values.n = 0
 end
 
 function expected_return_types(::Type{LogAssetReturn{T}}) where {T}

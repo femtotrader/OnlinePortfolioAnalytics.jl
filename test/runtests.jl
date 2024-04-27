@@ -61,6 +61,11 @@ const ATOL = 0.0001
                 ]
                 @test sum(ismissing.(returns)) == sum(ismissing.(expected_returns))
                 @test all(isapprox.(returns[2:end], expected_returns[2:end], atol = ATOL))
+
+                empty!(stat)
+                @test ismissing(value(stat))
+                @test stat.n == 0
+
             end
         end
 
@@ -104,6 +109,10 @@ const ATOL = 0.0001
                 ]
                 @test sum(ismissing.(returns)) == sum(ismissing.(expected_returns))
                 @test all(isapprox.(returns[2:end], expected_returns[2:end], atol = ATOL))
+
+                empty!(stat)
+                @test ismissing(value(stat))
+                @test stat.n == 0
             end
         end
 
@@ -134,6 +143,11 @@ const ATOL = 0.0001
                 end
                 subscribe!(mapped_source, observer)
                 @test isapprox(stddev_returns[end], 0.1496, atol = ATOL)
+
+                empty!(_stddev)
+                @test value(_stddev) == 1
+                @test _stddev.n == 0
+                @test value(_stddev.variance) == 1
             end
         end
 
@@ -220,6 +234,10 @@ const ATOL = 0.0001
             ]
             @test all(isapprox.(cum_returns, expected_cum_returns, atol = ATOL))
 
+            empty!(cum_ret)
+            @test cum_ret.n == 0
+            @test value(cum_ret) == 0.0
+            @test value(cum_ret.prod) == 1.0
         end
 
         @testset "DrawDowns" begin
@@ -259,6 +277,12 @@ const ATOL = 0.0001
                     -0.0768,
                 ]
                 @test all(isapprox.(drawdowns, expected_drawdowns, atol = ATOL))
+
+                empty!(_ddowns)
+                @test _ddowns.n == 0
+                @test value(_ddowns) == 0.0
+                @test value(_ddowns.prod) == 1.0
+                @test _ddowns.extrema == Extrema()
             end
 
             @testset "Arithmetic" begin
@@ -297,6 +321,12 @@ const ATOL = 0.0001
                     -0.0482,
                 ]
                 @test all(isapprox.(drawdowns, expected_drawdowns, atol = ATOL))
+
+                empty!(_ddowns)
+                @test _ddowns.n == 0
+                @test value(_ddowns) == 0.0
+                @test value(_ddowns.sum) == 0.0
+                @test _ddowns.extrema == Extrema()
             end
 
         end
@@ -333,6 +363,14 @@ const ATOL = 0.0001
             @test isapprox(moments_latest.std, 0.1496, atol = ATOL)
             @test isapprox(moments_latest.skewness, 1.3688, atol = ATOL)
             @test isapprox(moments_latest.kurtosis, 2.1968, atol = ATOL)
+
+            empty!(_moments)
+            @test _moments.n == 0
+            @test value(_moments).mean == 0.0
+            @test value(_moments).std == 0.0
+            @test value(_moments).skewness == 0.0
+            @test value(_moments).kurtosis == 0.0
+            @test _moments.moments == Moments()
         end
 
         @testset "Sharpe" begin
@@ -357,6 +395,12 @@ const ATOL = 0.0001
             subscribe!(mapped_source, observer)
 
             @test isapprox(sharpes[end], 0.2886, atol = ATOL)
+
+            #empty!(_sharpe)
+            #@test _sharpe.n == 0
+            #@test value(_sharpe) == 0.0
+            #@test _sharpe.mean == Mean()
+            #@test _sharpe.stddev == StdDev()
         end
 
         @testset "Sortino" begin
@@ -381,6 +425,13 @@ const ATOL = 0.0001
             subscribe!(mapped_source, observer)
 
             @test isapprox(sortinos[end], 11.4992, atol = ATOL)
+
+            #empty!(_sortino)
+            #@test _sortino.n == 0
+            #@test value(_sortino) == 0.0
+            #@test _sortino.mean == Mean()
+            #@test _sortino.stddev == StdDev()
+
         end
     end
 

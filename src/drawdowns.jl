@@ -30,6 +30,13 @@ function OnlineStatsBase._fit!(stat::DrawDowns, ret)
     stat.value = ddowns
 end
 
+function Base.empty!(stat::DrawDowns{T}) where {T}
+    stat.value = zero(T)
+    stat.n = 0
+    stat.prod = Prod(T)
+    stat.extrema = Extrema(T)
+end
+
 
 @doc """
 $(TYPEDEF)
@@ -58,4 +65,11 @@ function OnlineStatsBase._fit!(stat::ArithmeticDrawDowns, ret)
     max_cumulative_returns = value(stat.extrema).max
     ddowns = (r1 / max_cumulative_returns) - 1
     stat.value = ddowns
+end
+
+function Base.empty!(stat::ArithmeticDrawDowns{T}) where {T}
+    stat.value = zero(T)
+    stat.n = 0
+    stat.sum = Sum(T)
+    stat.extrema = Extrema(T)
 end

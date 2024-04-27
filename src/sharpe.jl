@@ -21,7 +21,7 @@ mutable struct Sharpe{T} <: PortfolioAnalyticsSingleOutput{T}
     risk_free::T
 
     function Sharpe{T}(; period = 252, risk_free = 0) where {T}
-        new{T}(zero(T), 0, Mean(), StdDev{T}(), period, risk_free)
+        new{T}(zero(T), 0, Mean(T), StdDev{T}(), period, risk_free)
     end
 end
 
@@ -33,4 +33,11 @@ function OnlineStatsBase._fit!(stat::Sharpe, data)
     std_dev = value(stat.stddev)
     sharpe = sqrt(stat.period) * (mean_return - stat.risk_free) / std_dev
     stat.value = sharpe
+end
+
+function Base.empty!(stat::Sharpe{T}) where {T}
+    stat.value = zero(T)
+    stat.n = 0
+    stat.mean = Mean(T)
+    stat.stddev = StdDev(T)
 end

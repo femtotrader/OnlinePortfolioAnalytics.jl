@@ -12,6 +12,13 @@ CurrentModule = OnlinePortfolioAnalytics
 OnlinePortfolioAnalytics.OnlinePortfolioAnalytics
 ```
 
+### Functions
+
+```@docs
+OnlineStats.fit!
+Base.empty!
+```
+
 ### Asset return
 
 ```@docs

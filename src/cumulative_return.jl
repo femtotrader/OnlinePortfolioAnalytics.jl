@@ -23,3 +23,9 @@ function OnlineStatsBase._fit!(stat::CumulativeReturn, data)
     stat.n += 1
     stat.value = value(stat.prod)
 end
+
+function Base.empty!(stat::CumulativeReturn{T}) where {T}
+    stat.value = zero(T)
+    stat.n = 0
+    stat.prod = Prod(T)
+end
