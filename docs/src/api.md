@@ -14,10 +14,8 @@ OnlinePortfolioAnalytics.OnlinePortfolioAnalytics
 
 ### Functions
 
-```@docs
-OnlineStats.fit!
-Base.empty!
-```
+`OnlineStats.fit!`
+`Base.empty!`
 
 ### Asset return
 
