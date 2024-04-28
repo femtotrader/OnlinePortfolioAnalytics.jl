@@ -18,7 +18,7 @@
 
 #### Yearly
 
-![prices](screenshots/prices.png)
+![yearly_returns](screenshots/yearly_returns.png)
 
 #### Monthly
 
