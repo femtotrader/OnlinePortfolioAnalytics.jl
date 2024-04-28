@@ -45,6 +45,8 @@ end
 # ╔═╡ da790f5a-874b-4c65-9c7d-4243d3852859
 begin
 	Random.seed!(123)
+	year_min, year_max = 2010, 2022
+	years = year_min:year_max
 	ts = random_data()
 end
 
@@ -107,8 +109,7 @@ begin
 			fit!(_return, row[:STOCK1])
 			push!(cum_return, value(_return))
 		end
-		years = 13
-		xticks = [Dates.Date(2010 - 1 + year, 1, 1) for year in 1:years+1]
+		xticks = [Dates.Date(year, 1, 1) for year in years]
 		#plot(dt, cum_return)
 		plot(dt, cum_return, xticks=xticks, xrotation=-45, xformatter = x -> Dates.format(x, "yyyy"))
 	end
@@ -147,8 +148,8 @@ begin
 		year_offset = 0  # 0.5
 		ts_yearly_pos = ts_yearly[ts_yearly.STOCK1_sum .>= 0, :]
 		ts_yearly_neg = ts_yearly[ts_yearly.STOCK1_sum .< 0, :]
-		bar(ts_yearly_pos.Year .+ year_offset , ts_yearly_pos.STOCK1_sum, color=:lightgreen, label="positive ret", legend=:topright, bar_width=bar_width)
-		bar!(ts_yearly_neg.Year .+ year_offset, ts_yearly_neg.STOCK1_sum, color=:red, label="negative ret", bar_width=bar_width)
+		bar(ts_yearly_pos.Year .+ year_offset , ts_yearly_pos.STOCK1_sum, color=:lightgreen, label="positive return", legend=:topright, bar_width=bar_width)
+		bar!(ts_yearly_neg.Year .+ year_offset, ts_yearly_neg.STOCK1_sum, color=:red, label="negative return", bar_width=bar_width)
 	end
 	plot_yearly_bar()
 end
@@ -187,15 +188,82 @@ end
 
 # ╔═╡ c2095548-0103-4ad1-b086-9744256ab9d1
 begin
-	plt = heatmap(unique(return_year_month.Month), unique(return_year_month.Year), Matrix(return_year_month_unstacked[!, Not(:Year)]) .* 100.0, c=:redgreensplit, clims=(-ret_monthly_max, ret_monthly_max), xticks=1:12)  # :redgreensplit ou :RdYlGn_5
-	for year in unique(return_year_month.Year)
-		for month in unique(return_year_month.Month)
-			val = return_year_month[return_year_month.Year .== year .&& return_year_month.Month .== month, :STOCK1_sum][1]
-			val = @sprintf("%.1f", val * 100.0)
-			annotate!(month, year, val, c=:color, annotationfontsize=8)
+	function plot_heatmap()
+		plt = heatmap(unique(return_year_month.Month), unique(return_year_month.Year), Matrix(return_year_month_unstacked[!, Not(:Year)]) .* 100.0, c=:redgreensplit, clims=(-ret_monthly_max, ret_monthly_max), xticks=1:12)  # :redgreensplit ou :RdYlGn_5
+		for year in unique(return_year_month.Year)
+			for month in unique(return_year_month.Month)
+				val = return_year_month[return_year_month.Year .== year .&& return_year_month.Month .== month, :STOCK1_sum][1]
+				val = @sprintf("%.1f", val * 100.0)
+				annotate!(month, year, val, c=:color, annotationfontsize=8)
+			end
 		end
+		plt
 	end
-	plt
+	plot_heatmap()
+end
+
+# ╔═╡ 183712bb-d8f0-44b8-ade2-eac1fdb38222
+begin
+	function plot_spiral()
+		xmin, xmax = -300, 300
+		ymin, ymax = xmin, xmax		
+		plt = heatmap(xlims=(xmin, xmax), ylims=(ymin, ymax), aspect_ratio=1, grid=false, axis=false)		
+		R = 190.0
+		for month in 1:12
+			θ = (90 - month * 30.0) * π / 180.0 
+			x_txt = R * cos(θ)
+			y_txt = R * sin(θ)
+			annotate!(x_txt, y_txt, month)
+		end
+		annotationfontsize = 10
+		for year in year_min:2:year_max
+			x_txt = 250
+			y_txt = (year_max - year_min) * (year - year_min) + 10
+			annotate!(x_txt, y_txt, year, annotationfontsize=annotationfontsize, annotationrotation=0)
+			annotate!(x_txt, -y_txt, year, annotationfontsize=annotationfontsize, annotationrotation=0)
+			annotate!(-x_txt, y_txt, year, annotationfontsize=annotationfontsize, annotationrotation=0)
+			annotate!(-x_txt, -y_txt, year, annotationfontsize=annotationfontsize, annotationrotation=0)
+			annotate!(y_txt, x_txt, year, annotationfontsize=annotationfontsize, annotationrotation=90)
+			annotate!(-y_txt, x_txt, year, annotationfontsize=annotationfontsize, annotationrotation=90)
+			annotate!(y_txt, -x_txt, year, annotationfontsize=annotationfontsize, annotationrotation=270)
+			annotate!(-y_txt, -x_txt, year, annotationfontsize=annotationfontsize, annotationrotation=270)
+		end
+		v_x = Float64[]
+		v_y = Float64[]
+		for year in years
+			for month in 1:12
+				θ = (90 - month * 30.0) * π / 180.0
+				t = year + (month - 1) / 12.0
+				Ryear = (year_max - year_min) * (t - year_min) + 10
+				x = Ryear * cos(θ)
+				y = Ryear * sin(θ)
+				val = return_year_month[return_year_month.Year .== year .&& return_year_month.Month .== month, :STOCK1_sum][1]
+				val *= 100.0
+				plot!([x], [y], label="", c=:grey)
+				markersize = clamp(Ryear / 30.0, 2.5, 5)
+				scatter!([x], [y], zcolor=val, label="", markercolor=:redgreensplit, markersize=markersize, markeralpha=0.8, legend=:bottomleft, clims=(-ret_monthly_max, ret_monthly_max))
+			end
+		end
+
+		for year in years
+			for month in 1:12
+				for day in 1:5:30
+					if (year != year_max) || (month != 12)
+						θ = (90 - (month + day / 30.0) * 30.0) * π / 180.0
+						t = year + (month - 1) / 12.0
+						Ryear = (year_max - year_min) * (t - year_min) + 10
+						x = Ryear * cos(θ)
+						y = Ryear * sin(θ)
+						push!(v_x, x)
+						push!(v_y, y)
+					end
+				end
+			end
+		end
+		plot!(v_x, v_y, label="", color=:grey)
+		plt
+	end
+	plot_spiral()
 end
 
 # ╔═╡ Cell order:
@@ -218,3 +286,4 @@ end
 # ╠═fef0e57c-581b-4b41-b5fb-41c972b12fed
 # ╠═92e0d8c6-12ca-46b0-8910-f14dcf10ebb6
 # ╠═c2095548-0103-4ad1-b086-9744256ab9d1
+# ╠═183712bb-d8f0-44b8-ade2-eac1fdb38222
