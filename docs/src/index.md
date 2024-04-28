@@ -34,6 +34,7 @@ See [unit tests](https://github.com/femtotrader/OnlinePortfolioAnalytics.jl/tree
 Pages = [
     "index.md",
     "usage.md",
+    "examples.md",
     "api.md"
 ]
 ```
