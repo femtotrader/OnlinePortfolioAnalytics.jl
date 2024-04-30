@@ -17,8 +17,8 @@ julia = "1"
 OnlineStats = "1"
 OnlineStatsBase = "1"
 Tables = "1"
-StatsBase = "0"
-DocStringExtensions = "0"
+StatsBase = "0.34.3"
+DocStringExtensions = "0.9.3"
 
 [extras]
 DataFrames = "a93c6f00-e57d-5684-b7b6-d8193f3e46c0"
