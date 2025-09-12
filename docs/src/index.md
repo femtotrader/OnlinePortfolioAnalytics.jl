@@ -15,6 +15,14 @@ It's inspired by the following projects:
   - [pyfolio](https://github.com/quantopian/pyfolio)
   - [empyrical](https://quantopian.github.io/empyrical)
 
+## ⚠️ Disclaimer – No Investment Advice
+
+OnlinePortfolioAnalytics.jl is an open-source library provided **"as-is" for educational and informational purposes only**.
+* It does **not** constitute investment advice, brokerage services, or a recommendation to buy or sell any financial instrument.
+* All trading involves substantial risk; **past performance is not indicative of future results**. You may lose some or all of your capital.
+* By using OnlinePortfolioAnalytics.jl you acknowledge that **you alone are responsible for your trading decisions** and agree that the OnlinePortfolioAnalytics.jl maintainers and contributors will **not be liable for any loss or damage** arising from the use of this software.
+* Consult a qualified financial professional before deploying live capital.
+
 ## Installation
 
 Open Julia command line interface. 
