@@ -8,3 +8,8 @@ This project aims to provide users with functionality for performing quantitativ
 
 ## Resources
 - **Documentation**: [https://femtotrader.github.io/OnlinePortfolioAnalytics.jl/](https://femtotrader.github.io/OnlinePortfolioAnalytics.jl/)
+
+
+## Star History
+
+[![Star History Chart](https://api.star-history.com/svg?repos=femtotrader/OnlinePortfolioAnalytics.jl&type=Timeline?refresh=1)](https://www.star-history.com/#femtotrader/OnlinePortfolioAnalytics.jl&Timeline)
