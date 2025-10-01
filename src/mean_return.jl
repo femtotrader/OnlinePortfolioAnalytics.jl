@@ -19,6 +19,8 @@ mutable struct ArithmeticMeanReturn{T} <: AbstractMeanReturn{T}
     end
 end
 
+ArithmeticMeanReturn(; T = Float64) = ArithmeticMeanReturn{T}()
+
 function OnlineStatsBase._fit!(stat::ArithmeticMeanReturn, data)
     fit!(stat.sum, data)
     stat.n += 1
@@ -44,6 +46,8 @@ mutable struct GeometricMeanReturn{T} <: AbstractMeanReturn{T}
         new{T}(zero(T), 0, p)
     end
 end
+
+GeometricMeanReturn(; T = Float64) = GeometricMeanReturn{T}()
 
 function OnlineStatsBase._fit!(stat::GeometricMeanReturn, data)
     fit!(stat.prod, 1 + data)

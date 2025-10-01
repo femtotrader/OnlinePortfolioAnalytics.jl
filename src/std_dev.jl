@@ -17,6 +17,8 @@ mutable struct StdDev{T} <: PortfolioAnalyticsSingleOutput{T}
     end
 end
 
+StdDev(; T = Float64) = StdDev{T}()
+
 function OnlineStatsBase._fit!(stat::StdDev, data)
     fit!(stat.variance, data)
     stat.n += 1

@@ -1,3 +1,5 @@
+const SORTINO_PERIOD = 252  # Daily
+
 @doc """
 $(TYPEDEF)
 
@@ -20,10 +22,12 @@ mutable struct Sortino{T} <: PortfolioAnalyticsSingleOutput{T}
     period::Int
     risk_free::T
 
-    function Sortino{T}(; period = 252, risk_free = 0) where {T}
+    function Sortino{T}(; period = SORTINO_PERIOD, risk_free = zero(T)) where {T}
         new{T}(zero(T), 0, Mean(), StdDev{T}(), period, risk_free)
     end
 end
+
+Sortino(; T = Float64, period::Int = SORTINO_PERIOD, risk_free = zero(T)) = Sortino{T}(period = period, risk_free = risk_free)
 
 function OnlineStatsBase._fit!(stat::Sortino, ret)
     fit!(stat.mean_ret, ret)

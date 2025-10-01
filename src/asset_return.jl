@@ -46,6 +46,8 @@ mutable struct SimpleAssetReturn{T} <: AssetReturn{T}
     end
 end
 
+SimpleAssetReturn(; T = Float64, period::Int = 1) = SimpleAssetReturn{T}(period = period)
+
 function OnlineStatsBase._fit!(stat::SimpleAssetReturn, data)
     fit!(stat.input_values, data)
     stat.n += 1
@@ -117,6 +119,8 @@ mutable struct LogAssetReturn{T} <: AssetReturn{T}
         new{T}(missing, 0, false, period, input_values)
     end
 end
+
+LogAssetReturn(; T = Float64, period::Int = 1) = LogAssetReturn{T}(period = period)
 
 function OnlineStatsBase._fit!(stat::LogAssetReturn, data)
     fit!(stat.input_values, data)

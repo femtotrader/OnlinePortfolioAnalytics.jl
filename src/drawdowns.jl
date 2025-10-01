@@ -19,6 +19,8 @@ mutable struct DrawDowns{T} <: AbstractDrawDowns{T}
     end
 end
 
+DrawDowns(; T = Float64) = DrawDowns{T}()
+
 function OnlineStatsBase._fit!(stat::DrawDowns, ret)
     r1 = 1 + ret
     fit!(stat.prod, r1)
@@ -56,6 +58,8 @@ mutable struct ArithmeticDrawDowns{T} <: AbstractDrawDowns{T}
         new{T}(zero(T), 0, Sum(), Extrema(T))
     end
 end
+
+ArithmeticDrawDowns(; T = Float64) = ArithmeticDrawDowns{T}()
 
 function OnlineStatsBase._fit!(stat::ArithmeticDrawDowns, ret)
     fit!(stat.sum, ret)

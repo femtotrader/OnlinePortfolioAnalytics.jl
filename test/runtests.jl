@@ -15,7 +15,8 @@ const ATOL = 0.0001
     @testset "Basic types" begin
         @testset "SimpleAssetReturn" begin
             @testset "SimpleAssetReturn with period=1" begin
-                stat = SimpleAssetReturn{Float64}()
+                #stat = SimpleAssetReturn{Float64}()
+                stat = SimpleAssetReturn()
                 fit!(stat, TSLA[1])
                 fit!(stat, TSLA[2])
                 @test round(value(stat), digits = 4) == 0.1245
@@ -24,7 +25,8 @@ const ATOL = 0.0001
                 @test expected_return_types(T) == (Union{Missing,Float64},)
             end
             @testset "SimpleAssetReturn with period=3" begin
-                stat = SimpleAssetReturn{Float64}(period = 3)
+                #stat = SimpleAssetReturn{Float64}(period = 3)
+                stat = SimpleAssetReturn(period = 3)
                 fit!(stat, TSLA[1])
                 fit!(stat, TSLA[2])
                 fit!(stat, TSLA[3])
@@ -32,7 +34,8 @@ const ATOL = 0.0001
                 @test isapprox(value(stat), (222.64 - 235.22) / 235.2, atol = ATOL)
             end
             @testset "SimpleAssetReturn with period=1 and Rocket" begin
-                stat = SimpleAssetReturn{Float64}()
+                #stat = SimpleAssetReturn{Float64}()
+                stat = SimpleAssetReturn()
                 source = from(TSLA)
 
                 mapped_source =
@@ -71,7 +74,8 @@ const ATOL = 0.0001
 
         @testset "LogAssetReturn" begin
             @testset "1 point" begin
-                stat = LogAssetReturn{Float64}()
+                #stat = LogAssetReturn{Float64}()
+                stat = LogAssetReturn()
                 T = typeof(stat)
                 @test !ismultioutput(T)
                 @test expected_return_types(T) == (Union{Missing,Float64},)
@@ -81,7 +85,8 @@ const ATOL = 0.0001
             end
 
             @testset "several points" begin
-                stat = LogAssetReturn{Float64}()
+                #stat = LogAssetReturn{Float64}()
+                stat = LogAssetReturn()
                 source = from(TSLA)
 
                 mapped_source =
@@ -118,7 +123,8 @@ const ATOL = 0.0001
 
         @testset "StdDev" begin
             @testset "StdDev of prices" begin
-                _stddev = StdDev{Float64}()
+                #_stddev = StdDev{Float64}()
+                _stddev = StdDev()
                 T = typeof(_stddev)
                 @test !ismultioutput(T)
                 @test expected_return_types(T) == (Float64,)
@@ -128,8 +134,10 @@ const ATOL = 0.0001
 
             @testset "StdDev of returns" begin
                 source = from(TSLA)
-                _ret = SimpleAssetReturn{Float64}()
-                _stddev = StdDev{Float64}()
+                #_ret = SimpleAssetReturn{Float64}()
+                #_stddev = StdDev{Float64}()
+                _ret = SimpleAssetReturn()
+                _stddev = StdDev()
 
                 mapped_source =
                     source |>
@@ -154,8 +162,10 @@ const ATOL = 0.0001
         @testset "MeanReturn" begin
             @testset "ArithmeticMeanReturn" begin
                 source = from(TSLA)
-                _ret = SimpleAssetReturn{Float64}()
-                _mean = ArithmeticMeanReturn{Float64}()
+                #_ret = SimpleAssetReturn{Float64}()
+                #_mean = ArithmeticMeanReturn{Float64}()
+                _ret = SimpleAssetReturn()
+                _mean = ArithmeticMeanReturn()
                 @test !ismultioutput(typeof(_mean))  # ToFix
 
                 mapped_source =
@@ -174,8 +184,10 @@ const ATOL = 0.0001
 
             @testset "GeometricMeanReturn" begin
                 source = from(TSLA)
-                _ret = SimpleAssetReturn{Float64}()
-                _mean = GeometricMeanReturn{Float64}()
+                #_ret = SimpleAssetReturn{Float64}()
+                #_mean = GeometricMeanReturn{Float64}()
+                _ret = SimpleAssetReturn()
+                _mean = GeometricMeanReturn()
                 T = typeof(_mean)
                 @test !ismultioutput(T)
                 @test expected_return_types(T) == (Float64,)
@@ -197,8 +209,10 @@ const ATOL = 0.0001
 
         @testset "CumulativeReturn" begin
             source = from(TSLA)
-            ret = SimpleAssetReturn{Float64}()
-            cum_ret = CumulativeReturn{Float64}()
+            #ret = SimpleAssetReturn{Float64}()
+            #cum_ret = CumulativeReturn{Float64}()
+            ret = SimpleAssetReturn()
+            cum_ret = CumulativeReturn()
             T = typeof(cum_ret)
             @test !ismultioutput(T)
             @test expected_return_types(T) == (Float64,)
@@ -243,8 +257,10 @@ const ATOL = 0.0001
         @testset "DrawDowns" begin
             @testset "Geometric" begin
                 source = from(TSLA)
-                _ret = SimpleAssetReturn{Float64}()
-                _ddowns = DrawDowns{Float64}()
+                #_ret = SimpleAssetReturn{Float64}()
+                #_ddowns = DrawDowns{Float64}()
+                _ret = SimpleAssetReturn()
+                _ddowns = DrawDowns()
                 T = typeof(_ddowns)
                 @test !ismultioutput(T)
                 @test expected_return_types(T) == (Float64,)
@@ -287,8 +303,10 @@ const ATOL = 0.0001
 
             @testset "Arithmetic" begin
                 source = from(TSLA)
-                _ret = SimpleAssetReturn{Float64}()
-                _ddowns = ArithmeticDrawDowns{Float64}()
+                #_ret = SimpleAssetReturn{Float64}()
+                #_ddowns = ArithmeticDrawDowns{Float64}()
+                _ret = SimpleAssetReturn()
+                _ddowns = ArithmeticDrawDowns()
                 T = typeof(_ddowns)
                 @test !ismultioutput(T)
                 @test expected_return_types(T) == (Float64,)
@@ -333,8 +351,10 @@ const ATOL = 0.0001
 
         @testset "Moments" begin
             source = from(TSLA)
-            _ret = SimpleAssetReturn{Float64}()
-            _moments = AssetReturnMoments{Float64}()
+            #_ret = SimpleAssetReturn{Float64}()
+            #_moments = AssetReturnMoments{Float64}()
+            _ret = SimpleAssetReturn()
+            _moments = AssetReturnMoments()
             T = typeof(_moments)
             @test ismultioutput(T)
             @test expected_return_types(T) == (Float64, Float64, Float64, Float64)
@@ -375,8 +395,10 @@ const ATOL = 0.0001
 
         @testset "Sharpe" begin
             source = from(TSLA)
-            _ret = SimpleAssetReturn{Float64}()
-            _sharpe = Sharpe{Float64}(period = 1)
+            #_ret = SimpleAssetReturn{Float64}()
+            #_sharpe = Sharpe{Float64}(period = 1)
+            _ret = SimpleAssetReturn()
+            _sharpe = Sharpe(period = 1)
             T = typeof(_sharpe)
             @test !ismultioutput(T)
             @test expected_return_types(T) == (Float64,)
@@ -405,8 +427,10 @@ const ATOL = 0.0001
 
         @testset "Sortino" begin
             source = from(TSLA)
-            _ret = SimpleAssetReturn{Float64}()
-            _sortino = Sortino{Float64}()
+            #_ret = SimpleAssetReturn{Float64}()
+            #_sortino = Sortino{Float64}()
+            _ret = SimpleAssetReturn()
+            _sortino = Sortino()
             T = typeof(_sortino)
             @test !ismultioutput(T)
             @test expected_return_types(T) == (Float64,)
