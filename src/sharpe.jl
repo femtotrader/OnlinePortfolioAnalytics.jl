@@ -1,3 +1,5 @@
+const SHARPE_PERIOD = 252  # Daily
+
 @doc """
 $(TYPEDEF)
 
@@ -20,10 +22,12 @@ mutable struct Sharpe{T} <: PortfolioAnalyticsSingleOutput{T}
     period::Int
     risk_free::T
 
-    function Sharpe{T}(; period = 252, risk_free = 0) where {T}
+    function Sharpe{T}(; period = SHARPE_PERIOD, risk_free = zero(T)) where {T}
         new{T}(zero(T), 0, Mean(T), StdDev{T}(), period, risk_free)
     end
 end
+
+Sharpe(; T = Float64, period::Int = SHARPE_PERIOD, risk_free = zero(T)) = Sharpe{T}(period = period, risk_free = risk_free)
 
 function OnlineStatsBase._fit!(stat::Sharpe, data)
     fit!(stat.mean, data)

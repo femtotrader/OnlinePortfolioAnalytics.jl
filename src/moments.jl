@@ -17,6 +17,8 @@ mutable struct AssetReturnMoments{T} <: PortfolioAnalyticsMultiOutput{T}
     end
 end
 
+AssetReturnMoments(; T = Float64) = AssetReturnMoments{T}()
+
 function OnlineStatsBase._fit!(stat::AssetReturnMoments, ret)
     stat.n += 1
     fit!(stat.moments, ret)

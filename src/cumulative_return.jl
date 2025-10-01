@@ -18,6 +18,8 @@ mutable struct CumulativeReturn{T} <: PortfolioAnalyticsSingleOutput{T}
     end
 end
 
+CumulativeReturn(; T = Float64) = CumulativeReturn{T}()
+
 function OnlineStatsBase._fit!(stat::CumulativeReturn, data)
     fit!(stat.prod, 1 + data)
     stat.n += 1
