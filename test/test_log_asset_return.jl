@@ -1,12 +1,4 @@
-@testitem "LogAssetReturn with 1 point" begin
-    using OnlinePortfolioAnalytics
-    using OnlinePortfolioAnalytics.SampleData: TSLA
-    using OnlinePortfolioAnalytics: ismultioutput, expected_return_types
-    using OnlineStatsBase
-    using Test
-    
-    const ATOL = 0.0001
-    
+@testitem "LogAssetReturn with 1 point" setup=[CommonTestSetup] begin
     stat = LogAssetReturn()
     T = typeof(stat)
     @test !ismultioutput(T)
@@ -16,14 +8,7 @@
     @test isapprox(value(stat), 0.1174, atol = ATOL)
 end
 
-@testitem "LogAssetReturn with several points" begin
-    using OnlinePortfolioAnalytics
-    using OnlinePortfolioAnalytics.SampleData: TSLA
-    using OnlineStatsBase
-    using Rocket
-    
-    const ATOL = 0.0001
-    
+@testitem "LogAssetReturn with several points" setup=[CommonTestSetup] begin
     stat = LogAssetReturn()
     source = from(TSLA)
 

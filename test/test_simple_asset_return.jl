@@ -1,11 +1,4 @@
-@testitem "SimpleAssetReturn with period=1" begin
-    using OnlinePortfolioAnalytics
-    using OnlinePortfolioAnalytics.SampleData: TSLA
-    using OnlinePortfolioAnalytics: ismultioutput, expected_return_types
-    using OnlineStatsBase
-
-    const ATOL = 0.0001
-    
+@testitem "SimpleAssetReturn with period=1" setup=[CommonTestSetup] begin
     stat = SimpleAssetReturn()
     fit!(stat, TSLA[1])
     fit!(stat, TSLA[2])
@@ -15,13 +8,7 @@
     @test expected_return_types(T) == (Union{Missing,Float64},)
 end
 
-@testitem "SimpleAssetReturn with period=3" begin
-    using OnlinePortfolioAnalytics
-    using OnlinePortfolioAnalytics.SampleData: TSLA
-    using OnlineStatsBase
-    
-    const ATOL = 0.0001
-    
+@testitem "SimpleAssetReturn with period=3" setup=[CommonTestSetup] begin
     stat = SimpleAssetReturn(period = 3)
     fit!(stat, TSLA[1])
     fit!(stat, TSLA[2])
@@ -30,14 +17,7 @@ end
     @test isapprox(value(stat), (222.64 - 235.22) / 235.2, atol = ATOL)
 end
 
-@testitem "SimpleAssetReturn with period=1 and Rocket" begin
-    using OnlinePortfolioAnalytics
-    using OnlinePortfolioAnalytics.SampleData: TSLA
-    using OnlineStatsBase
-    using Rocket
-
-    const ATOL = 0.0001
-    
+@testitem "SimpleAssetReturn with period=1 and Rocket" setup=[CommonTestSetup] begin
     stat = SimpleAssetReturn()
     source = from(TSLA)
 

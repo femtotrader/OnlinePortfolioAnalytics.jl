@@ -1,12 +1,4 @@
-@testitem "ArithmeticMeanReturn" begin
-    using OnlinePortfolioAnalytics
-    using OnlinePortfolioAnalytics.SampleData: TSLA
-    using OnlinePortfolioAnalytics: ismultioutput
-    using OnlineStatsBase
-    using Rocket
-    
-    const ATOL = 0.0001
-    
+@testitem "ArithmeticMeanReturn" setup=[CommonTestSetup] begin
     source = from(TSLA)
     _ret = SimpleAssetReturn()
     _mean = ArithmeticMeanReturn()
@@ -26,15 +18,7 @@
     @test isapprox(mean_returns[end], 0.0432, atol = ATOL)
 end
 
-@testitem "GeometricMeanReturn" begin
-    using OnlinePortfolioAnalytics
-    using OnlinePortfolioAnalytics.SampleData: TSLA
-    using OnlinePortfolioAnalytics: ismultioutput, expected_return_types
-    using OnlineStatsBase
-    using Rocket
-    
-    const ATOL = 0.0001
-    
+@testitem "GeometricMeanReturn" setup=[CommonTestSetup] begin
     source = from(TSLA)
     _ret = SimpleAssetReturn()
     _mean = GeometricMeanReturn()

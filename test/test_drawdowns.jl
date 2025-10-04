@@ -1,12 +1,4 @@
-@testitem "DrawDowns - Geometric" begin
-    using OnlinePortfolioAnalytics
-    using OnlinePortfolioAnalytics.SampleData: TSLA
-    using OnlinePortfolioAnalytics: ismultioutput, expected_return_types
-    using OnlineStatsBase
-    using Rocket
-    
-    const ATOL = 0.0001
-    
+@testitem "DrawDowns - Geometric" setup=[CommonTestSetup] begin
     source = from(TSLA)
     _ret = SimpleAssetReturn()
     _ddowns = DrawDowns()
@@ -50,15 +42,7 @@
     @test _ddowns.extrema == Extrema()
 end
 
-@testitem "DrawDowns - Arithmetic" begin
-    using OnlinePortfolioAnalytics
-    using OnlinePortfolioAnalytics.SampleData: TSLA
-    using OnlinePortfolioAnalytics: ismultioutput, expected_return_types
-    using OnlineStatsBase
-    using Rocket
-    
-    const ATOL = 0.0001
-    
+@testitem "DrawDowns - Arithmetic" setup=[CommonTestSetup] begin
     source = from(TSLA)
     _ret = SimpleAssetReturn()
     _ddowns = ArithmeticDrawDowns()

@@ -1,13 +1,4 @@
-@testitem "TSFrames - SimpleAssetReturn (SingleOutput)" begin
-    using Dates
-    using OnlinePortfolioAnalytics
-    using OnlinePortfolioAnalytics.SampleData: dates, TSLA, NFLX, MSFT
-    using OnlinePortfolioAnalytics: load!, PortfolioAnalyticsWrapper, PortfolioAnalyticsResults
-    using Tables
-    using TSFrames
-    
-    const ATOL = 0.0001
-    
+@testitem "TSFrames - SimpleAssetReturn (SingleOutput)" setup=[CommonTestSetup] begin
     prices_ts = TSFrame([TSLA NFLX MSFT], dates, colnames = [:TSLA, :NFLX, :MSFT])
     
     pa_wrapper = PortfolioAnalyticsWrapper(SimpleAssetReturn)
@@ -31,15 +22,7 @@
     @test isapprox(ts_out.coredata[end, [:TSLA]][1], expected, atol = ATOL)
 end
 
-@testitem "TSFrames - Moments (MultiOutput)" begin
-    using Dates
-    using OnlinePortfolioAnalytics
-    using OnlinePortfolioAnalytics.SampleData: dates, TSLA, NFLX, MSFT
-    using OnlinePortfolioAnalytics: load!, PortfolioAnalyticsWrapper, PortfolioAnalyticsResults
-    using TSFrames
-    
-    const ATOL = 0.0001
-    
+@testitem "TSFrames - Moments (MultiOutput)" setup=[CommonTestSetup] begin
     prices_ts = TSFrame([TSLA NFLX MSFT], dates, colnames = [:TSLA, :NFLX, :MSFT])
     
     pa_wrapper = PortfolioAnalyticsWrapper(AssetReturnMoments)
@@ -51,15 +34,7 @@ end
     @test isapprox(data_last.mean, 265.9177, atol = ATOL)  # shouldn't use prices but returns
 end
 
-@testitem "TSFrames - Higher level functions" begin
-    using Dates
-    using OnlinePortfolioAnalytics
-    using OnlinePortfolioAnalytics.SampleData: dates, TSLA, NFLX, MSFT
-    using DataFrames
-    using TSFrames
-    
-    const ATOL = 0.0001
-    
+@testitem "TSFrames - Higher level functions" setup=[CommonTestSetup] begin
     prices_ts = TSFrame([TSLA NFLX MSFT], dates, colnames = [:TSLA, :NFLX, :MSFT])
     
     # Calculate asset returns from prices

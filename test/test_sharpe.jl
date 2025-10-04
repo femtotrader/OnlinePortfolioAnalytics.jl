@@ -1,12 +1,4 @@
-@testitem "Sharpe" begin
-    using OnlinePortfolioAnalytics
-    using OnlinePortfolioAnalytics.SampleData: TSLA
-    using OnlinePortfolioAnalytics: ismultioutput, expected_return_types
-    using OnlineStatsBase
-    using Rocket
-    
-    const ATOL = 0.0001
-    
+@testitem "Sharpe" setup=[CommonTestSetup] begin
     source = from(TSLA)
     _ret = SimpleAssetReturn()
     _sharpe = Sharpe(period = 1)

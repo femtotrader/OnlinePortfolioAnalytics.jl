@@ -1,12 +1,4 @@
-@testitem "Sortino" begin
-    using OnlinePortfolioAnalytics
-    using OnlinePortfolioAnalytics.SampleData: TSLA
-    using OnlinePortfolioAnalytics: ismultioutput, expected_return_types
-    using OnlineStatsBase
-    using Rocket
-    
-    const ATOL = 0.0001
-    
+@testitem "Sortino" setup=[CommonTestSetup] begin
     source = from(TSLA)
     _ret = SimpleAssetReturn()
     _sortino = Sortino()

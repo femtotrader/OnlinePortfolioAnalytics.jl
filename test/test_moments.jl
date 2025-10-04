@@ -1,12 +1,4 @@
-@testitem "AssetReturnMoments" begin
-    using OnlinePortfolioAnalytics
-    using OnlinePortfolioAnalytics.SampleData: TSLA
-    using OnlinePortfolioAnalytics: ismultioutput, expected_return_types, expected_return_values
-    using OnlineStatsBase
-    using Rocket
-    
-    const ATOL = 0.0001
-    
+@testitem "AssetReturnMoments" setup=[CommonTestSetup] begin
     source = from(TSLA)
     _ret = SimpleAssetReturn()
     _moments = AssetReturnMoments()

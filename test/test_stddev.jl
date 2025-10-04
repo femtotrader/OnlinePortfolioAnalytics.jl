@@ -1,11 +1,4 @@
-@testitem "StdDev of prices" begin
-    using OnlinePortfolioAnalytics
-    using OnlinePortfolioAnalytics.SampleData: TSLA
-    using OnlinePortfolioAnalytics: ismultioutput, expected_return_types
-    using OnlineStatsBase
-    
-    const ATOL = 0.0001
-    
+@testitem "StdDev of prices" setup=[CommonTestSetup] begin
     _stddev = StdDev()
     T = typeof(_stddev)
     @test !ismultioutput(T)
@@ -14,14 +7,7 @@
     @test isapprox(value(_stddev), 60.5448, atol = ATOL)
 end
 
-@testitem "StdDev of returns" begin
-    using OnlinePortfolioAnalytics
-    using OnlinePortfolioAnalytics.SampleData: TSLA
-    using OnlineStatsBase
-    using Rocket
-    
-    const ATOL = 0.0001
-    
+@testitem "StdDev of returns" setup=[CommonTestSetup] begin
     source = from(TSLA)
     _ret = SimpleAssetReturn()
     _stddev = StdDev()
