@@ -100,12 +100,66 @@ Beta
 ExpectedReturn
 ```
 
-## Input types
-
-### Asset/Market return pair
+### Value at Risk (VaR)
 
 ```@docs
-AssetMarketReturn
+VaR
+```
+
+### Expected Shortfall (CVaR)
+
+```@docs
+ExpectedShortfall
+```
+
+### Treynor ratio
+
+```@docs
+Treynor
+```
+
+### Information ratio
+
+```@docs
+InformationRatio
+```
+
+### Tracking error
+
+```@docs
+TrackingError
+```
+
+### Downside deviation
+
+```@docs
+DownsideDeviation
+```
+
+### Upside deviation
+
+```@docs
+UpsideDeviation
+```
+
+### Omega ratio
+
+```@docs
+Omega
+```
+
+### Jensen's Alpha
+
+```@docs
+JensenAlpha
+```
+
+## Input types
+
+### Asset/Benchmark return pair
+
+```@docs
+AssetBenchmarkReturn
 ```
 
 ## Other

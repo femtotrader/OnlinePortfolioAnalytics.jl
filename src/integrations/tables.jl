@@ -214,3 +214,11 @@ MaxArithmeticDrawDown(table, args...; kwargs...) =
 AnnualizedReturn(table, args...; kwargs...) =
     apply_pa(AnnualizedReturn, table, args...; kwargs...)
 Calmar(table, args...; kwargs...) = apply_pa(Calmar, table, args...; kwargs...)
+VaR(table, args...; kwargs...) = apply_pa(VaR, table, args...; kwargs...)
+ExpectedShortfall(table, args...; kwargs...) =
+    apply_pa(ExpectedShortfall, table, args...; kwargs...)
+DownsideDeviation(table, args...; kwargs...) =
+    apply_pa(DownsideDeviation, table, args...; kwargs...)
+UpsideDeviation(table, args...; kwargs...) =
+    apply_pa(UpsideDeviation, table, args...; kwargs...)
+Omega(table, args...; kwargs...) = apply_pa(Omega, table, args...; kwargs...)

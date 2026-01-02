@@ -27,7 +27,7 @@ Where:
 
 # Input Type
 
-Accepts [`AssetMarketReturn`](@ref) observations via `fit!`.
+Accepts [`AssetBenchmarkReturn`](@ref) observations via `fit!`.
 
 # Edge Cases
 
@@ -44,14 +44,14 @@ Accepts [`AssetMarketReturn`](@ref) observations via `fit!`.
 
 ```julia
 stat = ExpectedReturn(risk_free=0.02)  # 2% risk-free rate
-fit!(stat, AssetMarketReturn(0.05, 0.03))  # Asset +5%, Market +3%
-fit!(stat, AssetMarketReturn(0.02, 0.01))  # Asset +2%, Market +1%
+fit!(stat, AssetBenchmarkReturn(0.05, 0.03))  # Asset +5%, Market +3%
+fit!(stat, AssetBenchmarkReturn(0.02, 0.01))  # Asset +2%, Market +1%
 value(stat)  # CAPM expected return
 ```
 
-See also: [`AssetMarketReturn`](@ref), [`Beta`](@ref)
+See also: [`AssetBenchmarkReturn`](@ref), [`Beta`](@ref)
 """
-mutable struct ExpectedReturn{T} <: PortfolioAnalyticsSingleOutput{AssetMarketReturn{T}}
+mutable struct ExpectedReturn{T} <: PortfolioAnalyticsSingleOutput{AssetBenchmarkReturn{T}}
     value::T
     n::Int
     beta::Beta{T}
@@ -67,12 +67,12 @@ end
 ExpectedReturn(; T::Type = Float64, risk_free = zero(T)) =
     ExpectedReturn{T}(risk_free = convert(T, risk_free))
 
-function OnlineStatsBase._fit!(stat::ExpectedReturn{T}, obs::AssetMarketReturn) where {T}
+function OnlineStatsBase._fit!(stat::ExpectedReturn{T}, obs::AssetBenchmarkReturn) where {T}
     # Delegate to internal beta tracker
     fit!(stat.beta, obs)
 
     # Track market mean separately
-    fit!(stat.market_mean, obs.market)
+    fit!(stat.market_mean, obs.benchmark)
 
     stat.n += 1
 

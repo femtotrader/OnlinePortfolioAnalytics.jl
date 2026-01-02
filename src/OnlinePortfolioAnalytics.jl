@@ -23,11 +23,20 @@ export MaxDrawDown, MaxArithmeticDrawDown
 export AssetReturnMoments
 export Sharpe
 export Sortino
-export AssetMarketReturn
+export AssetBenchmarkReturn
 export AnnualizedReturn
 export Calmar
 export Beta
 export ExpectedReturn
+export VaR
+export ExpectedShortfall
+export TrackingError
+export InformationRatio
+export Treynor
+export DownsideDeviation
+export UpsideDeviation
+export Omega
+export JensenAlpha
 
 export fit!, value
 
@@ -53,13 +62,20 @@ include("max_drawdown.jl")
 include("moments.jl")
 include("sharpe.jl")
 include("sortino.jl")
-include("asset_market_return.jl")
+include("asset_benchmark_return.jl")
+include("tracking_error.jl")
+include("information_ratio.jl")
 include("annualized_return.jl")
 include("calmar.jl")
 include("beta.jl")
+include("treynor.jl")
 include("expected_return.jl")
-
-include("value_at_risk.jl")
+include("var.jl")
+include("expected_shortfall.jl")
+include("downside_deviation.jl")
+include("upside_deviation.jl")
+include("omega.jl")
+include("jensen_alpha.jl")
 
 include("integrations/tables.jl")
 

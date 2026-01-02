@@ -25,7 +25,7 @@ Where:
 
 # Input Type
 
-Accepts [`AssetMarketReturn`](@ref) observations via `fit!`.
+Accepts [`AssetBenchmarkReturn`](@ref) observations via `fit!`.
 
 # Edge Cases
 
@@ -42,15 +42,15 @@ Accepts [`AssetMarketReturn`](@ref) observations via `fit!`.
 
 ```julia
 stat = Beta()
-fit!(stat, AssetMarketReturn(0.05, 0.03))  # Asset +5%, Market +3%
-fit!(stat, AssetMarketReturn(0.02, 0.01))  # Asset +2%, Market +1%
-fit!(stat, AssetMarketReturn(-0.01, -0.02)) # Asset -1%, Market -2%
+fit!(stat, AssetBenchmarkReturn(0.05, 0.03))  # Asset +5%, Market +3%
+fit!(stat, AssetBenchmarkReturn(0.02, 0.01))  # Asset +2%, Market +1%
+fit!(stat, AssetBenchmarkReturn(-0.01, -0.02)) # Asset -1%, Market -2%
 value(stat)  # Beta coefficient
 ```
 
-See also: [`AssetMarketReturn`](@ref), [`ExpectedReturn`](@ref)
+See also: [`AssetBenchmarkReturn`](@ref), [`ExpectedReturn`](@ref)
 """
-mutable struct Beta{T} <: PortfolioAnalyticsSingleOutput{AssetMarketReturn{T}}
+mutable struct Beta{T} <: PortfolioAnalyticsSingleOutput{AssetBenchmarkReturn{T}}
     value::T
     n::Int
     cov_matrix::CovMatrix
@@ -63,9 +63,9 @@ end
 # Convenience constructor (default Float64)
 Beta(; T::Type = Float64) = Beta{T}()
 
-function OnlineStatsBase._fit!(stat::Beta{T}, obs::AssetMarketReturn) where {T}
+function OnlineStatsBase._fit!(stat::Beta{T}, obs::AssetBenchmarkReturn) where {T}
     # Fit the covariance matrix with [asset, market] vector
-    fit!(stat.cov_matrix, [obs.asset, obs.market])
+    fit!(stat.cov_matrix, [obs.asset, obs.benchmark])
     stat.n += 1
 
     # Calculate beta = Cov(asset, market) / Var(market)
