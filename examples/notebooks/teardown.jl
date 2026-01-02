@@ -1,5 +1,5 @@
 ### A Pluto.jl notebook ###
-# v0.19.40
+# v0.20.21
 
 using Markdown
 using InteractiveUtils
@@ -9,6 +9,12 @@ begin
     import Pkg
     Pkg.activate(mktempdir())
     Pkg.add([
+        Pkg.PackageSpec(name = "TSFrames"),
+        Pkg.PackageSpec(name = "DataFrames"),
+        Pkg.PackageSpec(name = "Dates"),
+        Pkg.PackageSpec(name = "Random"),
+        Pkg.PackageSpec(name = "Plots"),
+        Pkg.PackageSpec(name = "Printf"),
         Pkg.PackageSpec(url = "https://github.com/femtotrader/OnlinePortfolioAnalytics.jl"),
     ])
     using TSFrames
@@ -94,6 +100,20 @@ begin
     plot(
         dd,
         title = "Drawdowns (%)",
+        color = :red,
+        fillcolor = :red,
+        fillrange = 0,
+        fillalpha = 0.35,
+    )
+end
+
+# ╔═╡ fb8baf9c-a4dd-44f1-8da5-2479ceb94fe8
+begin
+    max_dd = MaxDrawDown(returns)
+    max_dd.coredata.STOCK1 = max_dd.coredata.STOCK1 .* 100.0
+    plot(
+        max_dd,
+        title = "Max Drawdowns (%)",
         color = :red,
         fillcolor = :red,
         fillrange = 0,
@@ -409,6 +429,7 @@ end
 # ╠═a208fb00-cfe1-46d9-9751-e9e5f423f8fb
 # ╠═2d92945c-1ad5-4ef6-8c6e-1d77b23698f6
 # ╠═ac56bb3d-0732-4536-bb81-594643c31935
+# ╠═fb8baf9c-a4dd-44f1-8da5-2479ceb94fe8
 # ╠═c61cb98d-b0ea-4bf5-a0b4-11b925b18e0d
 # ╠═9fbe723e-219c-48e2-b47b-cf8acde6ba01
 # ╠═812c3c39-d1e2-40f6-9ef5-08b738dae7ea
