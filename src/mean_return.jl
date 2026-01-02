@@ -60,6 +60,12 @@ function OnlineStatsBase._fit!(stat::ArithmeticMeanReturn, data)
     stat.value = value(stat.sum) / stat.n
 end
 
+function Base.empty!(stat::ArithmeticMeanReturn{T}) where {T}
+    stat.value = zero(T)
+    stat.n = 0
+    stat.sum = Sum()
+end
+
 
 @doc """
 $(TYPEDEF)
@@ -121,4 +127,10 @@ function OnlineStatsBase._fit!(stat::GeometricMeanReturn, data)
     fit!(stat.prod, 1 + data)
     stat.n += 1
     stat.value = value(stat.prod)^(1 / stat.n) - 1
+end
+
+function Base.empty!(stat::GeometricMeanReturn{T}) where {T}
+    stat.value = zero(T)
+    stat.n = 0
+    stat.prod = Prod(T)
 end
