@@ -27,10 +27,10 @@ end
 
     # Create observations that produce known beta and market mean
     # Use perfect correlation so beta = 1.0 (asset moves exactly with market)
-    fit!(stat, AssetMarketReturn(0.05, 0.05))
-    fit!(stat, AssetMarketReturn(0.10, 0.10))
-    fit!(stat, AssetMarketReturn(-0.02, -0.02))
-    fit!(stat, AssetMarketReturn(0.07, 0.07))
+    fit!(stat, AssetBenchmarkReturn(0.05, 0.05))
+    fit!(stat, AssetBenchmarkReturn(0.10, 0.10))
+    fit!(stat, AssetBenchmarkReturn(-0.02, -0.02))
+    fit!(stat, AssetBenchmarkReturn(0.07, 0.07))
 
     @test stat.n == 4
 
@@ -46,9 +46,9 @@ end
     stat = ExpectedReturn(risk_free=0.0)  # rf=0 for simpler calculation
 
     # Perfect correlation: asset = market (beta = 1.0)
-    fit!(stat, AssetMarketReturn(0.04, 0.04))
-    fit!(stat, AssetMarketReturn(0.06, 0.06))
-    fit!(stat, AssetMarketReturn(0.08, 0.08))
+    fit!(stat, AssetBenchmarkReturn(0.04, 0.04))
+    fit!(stat, AssetBenchmarkReturn(0.06, 0.06))
+    fit!(stat, AssetBenchmarkReturn(0.08, 0.08))
 
     @test stat.n == 3
 
@@ -64,10 +64,10 @@ end
 
     # Asset has no correlation with market (constant asset return)
     # This produces beta ≈ 0
-    fit!(stat, AssetMarketReturn(0.05, 0.01))
-    fit!(stat, AssetMarketReturn(0.05, 0.03))
-    fit!(stat, AssetMarketReturn(0.05, -0.01))
-    fit!(stat, AssetMarketReturn(0.05, 0.02))
+    fit!(stat, AssetBenchmarkReturn(0.05, 0.01))
+    fit!(stat, AssetBenchmarkReturn(0.05, 0.03))
+    fit!(stat, AssetBenchmarkReturn(0.05, -0.01))
+    fit!(stat, AssetBenchmarkReturn(0.05, 0.02))
 
     @test stat.n == 4
 
@@ -83,7 +83,7 @@ end
 
     @test value(stat) == 0.025  # n=0
 
-    fit!(stat, AssetMarketReturn(0.05, 0.03))
+    fit!(stat, AssetBenchmarkReturn(0.05, 0.03))
     @test stat.n == 1
     @test value(stat) == 0.025  # n=1, still insufficient
 end
@@ -91,9 +91,9 @@ end
 # T051: empty!() reset test
 @testitem "ExpectedReturn - empty! reset behavior" setup=[CommonTestSetup] begin
     stat = ExpectedReturn(risk_free=0.02)
-    fit!(stat, AssetMarketReturn(0.05, 0.03))
-    fit!(stat, AssetMarketReturn(0.02, 0.01))
-    fit!(stat, AssetMarketReturn(-0.01, -0.02))
+    fit!(stat, AssetBenchmarkReturn(0.05, 0.03))
+    fit!(stat, AssetBenchmarkReturn(0.02, 0.01))
+    fit!(stat, AssetBenchmarkReturn(-0.01, -0.02))
 
     @test stat.n > 0
 
@@ -107,19 +107,19 @@ end
 # T052: merge!() test
 @testitem "ExpectedReturn - merge!" setup=[CommonTestSetup] begin
     stat1 = ExpectedReturn(risk_free=0.01)
-    fit!(stat1, AssetMarketReturn(0.05, 0.05))
-    fit!(stat1, AssetMarketReturn(0.10, 0.10))
+    fit!(stat1, AssetBenchmarkReturn(0.05, 0.05))
+    fit!(stat1, AssetBenchmarkReturn(0.10, 0.10))
 
     stat2 = ExpectedReturn(risk_free=0.01)
-    fit!(stat2, AssetMarketReturn(-0.02, -0.02))
-    fit!(stat2, AssetMarketReturn(0.07, 0.07))
+    fit!(stat2, AssetBenchmarkReturn(-0.02, -0.02))
+    fit!(stat2, AssetBenchmarkReturn(0.07, 0.07))
 
     # Full sequence
     full_stat = ExpectedReturn(risk_free=0.01)
-    fit!(full_stat, AssetMarketReturn(0.05, 0.05))
-    fit!(full_stat, AssetMarketReturn(0.10, 0.10))
-    fit!(full_stat, AssetMarketReturn(-0.02, -0.02))
-    fit!(full_stat, AssetMarketReturn(0.07, 0.07))
+    fit!(full_stat, AssetBenchmarkReturn(0.05, 0.05))
+    fit!(full_stat, AssetBenchmarkReturn(0.10, 0.10))
+    fit!(full_stat, AssetBenchmarkReturn(-0.02, -0.02))
+    fit!(full_stat, AssetBenchmarkReturn(0.07, 0.07))
 
     merge!(stat1, stat2)
 
@@ -137,10 +137,10 @@ end
     stat = ExpectedReturn(risk_free=0.02)
 
     # Asset moves 1.5x the market (beta ≈ 1.5)
-    fit!(stat, AssetMarketReturn(0.015, 0.01))
-    fit!(stat, AssetMarketReturn(0.030, 0.02))
-    fit!(stat, AssetMarketReturn(-0.015, -0.01))
-    fit!(stat, AssetMarketReturn(0.045, 0.03))
+    fit!(stat, AssetBenchmarkReturn(0.015, 0.01))
+    fit!(stat, AssetBenchmarkReturn(0.030, 0.02))
+    fit!(stat, AssetBenchmarkReturn(-0.015, -0.01))
+    fit!(stat, AssetBenchmarkReturn(0.045, 0.03))
 
     @test stat.n == 4
 
@@ -154,7 +154,7 @@ end
 
 # T064: TSFrames integration test (paired columns approach)
 @testitem "ExpectedReturn - TSFrames paired columns integration" setup=[CommonTestSetup] begin
-    # ExpectedReturn requires paired (asset, market) returns via AssetMarketReturn
+    # ExpectedReturn requires paired (asset, market) returns via AssetBenchmarkReturn
     # For TSFrames, we manually iterate over columns
 
     # Create TSFrame with price data
@@ -171,7 +171,7 @@ end
     # Calculate ExpectedReturn for TSLA against NFLX (as market proxy)
     stat = ExpectedReturn(risk_free=0.02)
     for i in 1:length(tsla_returns)
-        fit!(stat, AssetMarketReturn(tsla_returns[i], nflx_returns[i]))
+        fit!(stat, AssetBenchmarkReturn(tsla_returns[i], nflx_returns[i]))
     end
 
     @test stat.n == length(tsla_returns)

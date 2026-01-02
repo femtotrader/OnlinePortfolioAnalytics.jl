@@ -87,3 +87,48 @@ end
     sortino = Sortino(returns)
     @test isapprox(sortino.coredata[end, [:TSLA]][1], 11.4992, atol = ATOL)
 end
+
+@testitem "TSFrames - VaR and ExpectedShortfall" setup=[CommonTestSetup] begin
+    prices_ts = TSFrame([TSLA NFLX MSFT], dates, colnames = [:TSLA, :NFLX, :MSFT])
+    returns = SimpleAssetReturn(prices_ts)
+    returns = dropmissing(returns.coredata) |> TSFrame
+
+    # Calculate VaR at 95%
+    var_ts = VaR(returns, confidence=0.95)
+    @test var_ts isa TSFrame
+    @test length(var_ts.coredata[:, :TSLA]) == length(returns.coredata[:, :TSLA])
+
+    # Calculate Expected Shortfall at 95%
+    es_ts = ExpectedShortfall(returns, confidence=0.95)
+    @test es_ts isa TSFrame
+    @test length(es_ts.coredata[:, :TSLA]) == length(returns.coredata[:, :TSLA])
+end
+
+@testitem "TSFrames - DownsideDeviation and UpsideDeviation" setup=[CommonTestSetup] begin
+    prices_ts = TSFrame([TSLA NFLX MSFT], dates, colnames = [:TSLA, :NFLX, :MSFT])
+    returns = SimpleAssetReturn(prices_ts)
+    returns = dropmissing(returns.coredata) |> TSFrame
+
+    # Calculate DownsideDeviation
+    dd_ts = DownsideDeviation(returns, threshold=0.0)
+    @test dd_ts isa TSFrame
+    @test length(dd_ts.coredata[:, :TSLA]) == length(returns.coredata[:, :TSLA])
+
+    # Calculate UpsideDeviation
+    ud_ts = UpsideDeviation(returns, threshold=0.0)
+    @test ud_ts isa TSFrame
+    @test length(ud_ts.coredata[:, :TSLA]) == length(returns.coredata[:, :TSLA])
+end
+
+@testitem "TSFrames - Omega Ratio" setup=[CommonTestSetup] begin
+    prices_ts = TSFrame([TSLA NFLX MSFT], dates, colnames = [:TSLA, :NFLX, :MSFT])
+    returns = SimpleAssetReturn(prices_ts)
+    returns = dropmissing(returns.coredata) |> TSFrame
+
+    # Calculate Omega
+    omega_ts = Omega(returns, threshold=0.0)
+    @test omega_ts isa TSFrame
+    @test length(omega_ts.coredata[:, :TSLA]) == length(returns.coredata[:, :TSLA])
+    # Final omega should be positive for TSLA (if gains > losses)
+    @test omega_ts.coredata[end, :TSLA] > 0.0 || omega_ts.coredata[end, :TSLA] == Inf
+end

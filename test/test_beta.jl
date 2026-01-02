@@ -4,7 +4,7 @@
     @test stat.n == 0
     @test value(stat) == 0.0
     @test !ismultioutput(typeof(stat))
-    # Beta accepts AssetMarketReturn input
+    # Beta accepts AssetBenchmarkReturn input
     @test stat isa Beta{Float64}
 end
 
@@ -18,10 +18,10 @@ end
 @testitem "Beta - Perfect correlation (beta=1.0)" setup=[CommonTestSetup] begin
     stat = Beta()
     # Asset moves exactly with market
-    fit!(stat, AssetMarketReturn(0.01, 0.01))
-    fit!(stat, AssetMarketReturn(0.02, 0.02))
-    fit!(stat, AssetMarketReturn(0.03, 0.03))
-    fit!(stat, AssetMarketReturn(-0.01, -0.01))
+    fit!(stat, AssetBenchmarkReturn(0.01, 0.01))
+    fit!(stat, AssetBenchmarkReturn(0.02, 0.02))
+    fit!(stat, AssetBenchmarkReturn(0.03, 0.03))
+    fit!(stat, AssetBenchmarkReturn(-0.01, -0.01))
 
     @test stat.n == 4
     @test isapprox(value(stat), 1.0, atol=ATOL)
@@ -30,10 +30,10 @@ end
 @testitem "Beta - Asset moves twice as much as market (beta=2.0)" setup=[CommonTestSetup] begin
     stat = Beta()
     # Asset moves 2x the market
-    fit!(stat, AssetMarketReturn(0.02, 0.01))
-    fit!(stat, AssetMarketReturn(0.04, 0.02))
-    fit!(stat, AssetMarketReturn(-0.02, -0.01))
-    fit!(stat, AssetMarketReturn(0.06, 0.03))
+    fit!(stat, AssetBenchmarkReturn(0.02, 0.01))
+    fit!(stat, AssetBenchmarkReturn(0.04, 0.02))
+    fit!(stat, AssetBenchmarkReturn(-0.02, -0.01))
+    fit!(stat, AssetBenchmarkReturn(0.06, 0.03))
 
     @test stat.n == 4
     @test isapprox(value(stat), 2.0, atol=ATOL)
@@ -42,10 +42,10 @@ end
 @testitem "Beta - Asset moves half as much as market (beta=0.5)" setup=[CommonTestSetup] begin
     stat = Beta()
     # Asset moves 0.5x the market
-    fit!(stat, AssetMarketReturn(0.005, 0.01))
-    fit!(stat, AssetMarketReturn(0.01, 0.02))
-    fit!(stat, AssetMarketReturn(-0.005, -0.01))
-    fit!(stat, AssetMarketReturn(0.015, 0.03))
+    fit!(stat, AssetBenchmarkReturn(0.005, 0.01))
+    fit!(stat, AssetBenchmarkReturn(0.01, 0.02))
+    fit!(stat, AssetBenchmarkReturn(-0.005, -0.01))
+    fit!(stat, AssetBenchmarkReturn(0.015, 0.03))
 
     @test stat.n == 4
     @test isapprox(value(stat), 0.5, atol=ATOL)
@@ -55,10 +55,10 @@ end
 @testitem "Beta - Negative correlation (beta<0)" setup=[CommonTestSetup] begin
     stat = Beta()
     # Asset moves opposite to market
-    fit!(stat, AssetMarketReturn(-0.01, 0.01))
-    fit!(stat, AssetMarketReturn(-0.02, 0.02))
-    fit!(stat, AssetMarketReturn(0.01, -0.01))
-    fit!(stat, AssetMarketReturn(-0.03, 0.03))
+    fit!(stat, AssetBenchmarkReturn(-0.01, 0.01))
+    fit!(stat, AssetBenchmarkReturn(-0.02, 0.02))
+    fit!(stat, AssetBenchmarkReturn(0.01, -0.01))
+    fit!(stat, AssetBenchmarkReturn(-0.03, 0.03))
 
     @test stat.n == 4
     @test value(stat) < 0.0
@@ -70,7 +70,7 @@ end
     stat = Beta()
     @test value(stat) == 0.0  # n=0
 
-    fit!(stat, AssetMarketReturn(0.05, 0.03))
+    fit!(stat, AssetBenchmarkReturn(0.05, 0.03))
     @test stat.n == 1
     @test value(stat) == 0.0  # n=1, still insufficient
 end
@@ -79,9 +79,9 @@ end
 @testitem "Beta - Zero market variance (returns 0.0)" setup=[CommonTestSetup] begin
     stat = Beta()
     # Market has zero variance (all same values)
-    fit!(stat, AssetMarketReturn(0.01, 0.02))
-    fit!(stat, AssetMarketReturn(0.03, 0.02))
-    fit!(stat, AssetMarketReturn(0.02, 0.02))
+    fit!(stat, AssetBenchmarkReturn(0.01, 0.02))
+    fit!(stat, AssetBenchmarkReturn(0.03, 0.02))
+    fit!(stat, AssetBenchmarkReturn(0.02, 0.02))
 
     @test stat.n == 3
     @test value(stat) == 0.0  # Avoid division by zero
@@ -90,9 +90,9 @@ end
 # T036: empty!() reset test
 @testitem "Beta - empty! reset behavior" setup=[CommonTestSetup] begin
     stat = Beta()
-    fit!(stat, AssetMarketReturn(0.05, 0.03))
-    fit!(stat, AssetMarketReturn(0.02, 0.01))
-    fit!(stat, AssetMarketReturn(-0.01, -0.02))
+    fit!(stat, AssetBenchmarkReturn(0.05, 0.03))
+    fit!(stat, AssetBenchmarkReturn(0.02, 0.01))
+    fit!(stat, AssetBenchmarkReturn(-0.01, -0.02))
 
     @test stat.n > 0
 
@@ -105,19 +105,19 @@ end
 # T037: merge!() test
 @testitem "Beta - merge!" setup=[CommonTestSetup] begin
     stat1 = Beta()
-    fit!(stat1, AssetMarketReturn(0.01, 0.01))
-    fit!(stat1, AssetMarketReturn(0.02, 0.02))
+    fit!(stat1, AssetBenchmarkReturn(0.01, 0.01))
+    fit!(stat1, AssetBenchmarkReturn(0.02, 0.02))
 
     stat2 = Beta()
-    fit!(stat2, AssetMarketReturn(0.03, 0.03))
-    fit!(stat2, AssetMarketReturn(-0.01, -0.01))
+    fit!(stat2, AssetBenchmarkReturn(0.03, 0.03))
+    fit!(stat2, AssetBenchmarkReturn(-0.01, -0.01))
 
     # Full sequence
     full_stat = Beta()
-    fit!(full_stat, AssetMarketReturn(0.01, 0.01))
-    fit!(full_stat, AssetMarketReturn(0.02, 0.02))
-    fit!(full_stat, AssetMarketReturn(0.03, 0.03))
-    fit!(full_stat, AssetMarketReturn(-0.01, -0.01))
+    fit!(full_stat, AssetBenchmarkReturn(0.01, 0.01))
+    fit!(full_stat, AssetBenchmarkReturn(0.02, 0.02))
+    fit!(full_stat, AssetBenchmarkReturn(0.03, 0.03))
+    fit!(full_stat, AssetBenchmarkReturn(-0.01, -0.01))
 
     merge!(stat1, stat2)
 
@@ -136,10 +136,10 @@ end
     # Known sequence for manual verification
     # Asset returns: [0.10, 0.05, -0.02, 0.08]
     # Market returns: [0.08, 0.04, -0.01, 0.06]
-    fit!(stat, AssetMarketReturn(0.10, 0.08))
-    fit!(stat, AssetMarketReturn(0.05, 0.04))
-    fit!(stat, AssetMarketReturn(-0.02, -0.01))
-    fit!(stat, AssetMarketReturn(0.08, 0.06))
+    fit!(stat, AssetBenchmarkReturn(0.10, 0.08))
+    fit!(stat, AssetBenchmarkReturn(0.05, 0.04))
+    fit!(stat, AssetBenchmarkReturn(-0.02, -0.01))
+    fit!(stat, AssetBenchmarkReturn(0.08, 0.06))
 
     @test stat.n == 4
 
@@ -165,7 +165,7 @@ end
 
 # T063: TSFrames integration test (paired columns approach)
 @testitem "Beta - TSFrames paired columns integration" setup=[CommonTestSetup] begin
-    # Beta requires paired (asset, market) returns via AssetMarketReturn
+    # Beta requires paired (asset, market) returns via AssetBenchmarkReturn
     # For TSFrames, we manually iterate over columns
 
     # Create TSFrame with price data
@@ -182,7 +182,7 @@ end
     # Calculate Beta for TSLA against NFLX (as market proxy)
     stat = Beta()
     for i in 1:length(tsla_returns)
-        fit!(stat, AssetMarketReturn(tsla_returns[i], nflx_returns[i]))
+        fit!(stat, AssetBenchmarkReturn(tsla_returns[i], nflx_returns[i]))
     end
 
     @test stat.n == length(tsla_returns)
