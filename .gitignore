@@ -23,4 +23,8 @@ docs/site/
 # environment.
 Manifest.toml
 
+# AI-assisted code generation files
 .claude/
+CLAUDE.md
+.specify/
+specs/
