@@ -211,3 +211,6 @@ Sortino(table, args...; kwargs...) = apply_pa(Sortino, table, args...; kwargs...
 MaxDrawDown(table, args...; kwargs...) = apply_pa(MaxDrawDown, table, args...; kwargs...)
 MaxArithmeticDrawDown(table, args...; kwargs...) =
     apply_pa(MaxArithmeticDrawDown, table, args...; kwargs...)
+AnnualizedReturn(table, args...; kwargs...) =
+    apply_pa(AnnualizedReturn, table, args...; kwargs...)
+Calmar(table, args...; kwargs...) = apply_pa(Calmar, table, args...; kwargs...)

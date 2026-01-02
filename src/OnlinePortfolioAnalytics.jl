@@ -23,6 +23,11 @@ export MaxDrawDown, MaxArithmeticDrawDown
 export AssetReturnMoments
 export Sharpe
 export Sortino
+export AssetMarketReturn
+export AnnualizedReturn
+export Calmar
+export Beta
+export ExpectedReturn
 
 export fit!, value
 
@@ -48,6 +53,11 @@ include("max_drawdown.jl")
 include("moments.jl")
 include("sharpe.jl")
 include("sortino.jl")
+include("asset_market_return.jl")
+include("annualized_return.jl")
+include("calmar.jl")
+include("beta.jl")
+include("expected_return.jl")
 
 include("value_at_risk.jl")
 
