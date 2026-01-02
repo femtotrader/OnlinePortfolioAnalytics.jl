@@ -154,6 +154,52 @@ Omega
 JensenAlpha
 ```
 
+### Market Capture Ratios
+
+```@docs
+UpCapture
+DownCapture
+UpDownCaptureRatio
+```
+
+### Extended Risk-Adjusted Ratios
+
+```@docs
+UlcerIndex
+PainIndex
+SterlingRatio
+BurkeRatio
+PainRatio
+```
+
+### Volatility & Stability Metrics
+
+```@docs
+AnnualVolatility
+Stability
+TailRatio
+```
+
+### Modigliani Measures
+
+```@docs
+M2
+MSquaredExcess
+ActivePremium
+```
+
+### Upside Potential Ratio
+
+```@docs
+UpsidePotentialRatio
+```
+
+### Rolling Window Framework
+
+```@docs
+Rolling
+```
+
 ## Input types
 
 ### Asset/Benchmark return pair

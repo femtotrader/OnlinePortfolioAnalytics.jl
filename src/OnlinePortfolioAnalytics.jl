@@ -78,6 +78,24 @@ export UpsideDeviation
 export Omega
 export JensenAlpha
 
+# Phase 1: Market Capture Ratios
+export UpCapture, DownCapture, UpDownCaptureRatio
+
+# Phase 2: Extended Risk-Adjusted Ratios
+export SterlingRatio, BurkeRatio, UlcerIndex, PainIndex, PainRatio
+
+# Phase 3: Volatility & Stability Metrics
+export AnnualVolatility, Stability, TailRatio
+
+# Phase 4: Modigliani Measures
+export M2, MSquaredExcess, ActivePremium
+
+# Phase 5: Upside Potential Ratio
+export UpsidePotentialRatio
+
+# Phase 6: Rolling Window Framework
+export Rolling
+
 export fit!, value
 
 abstract type PortfolioAnalytics{T} <: OnlineStat{T} end
@@ -116,6 +134,34 @@ include("downside_deviation.jl")
 include("upside_deviation.jl")
 include("omega.jl")
 include("jensen_alpha.jl")
+
+# Phase 1: Market Capture Ratios
+include("up_capture.jl")
+include("down_capture.jl")
+include("up_down_capture_ratio.jl")
+
+# Phase 2: Extended Risk-Adjusted Ratios
+include("ulcer_index.jl")
+include("pain_index.jl")
+include("sterling_ratio.jl")
+include("burke_ratio.jl")
+include("pain_ratio.jl")
+
+# Phase 3: Volatility & Stability Metrics
+include("annual_volatility.jl")
+include("stability.jl")
+include("tail_ratio.jl")
+
+# Phase 4: Modigliani Measures
+include("m2.jl")
+include("m_squared_excess.jl")
+include("active_premium.jl")
+
+# Phase 5: Upside Potential Ratio
+include("upside_potential_ratio.jl")
+
+# Phase 6: Rolling Window Framework
+include("rolling.jl")
 
 include("integrations/tables.jl")
 

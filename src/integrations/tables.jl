@@ -222,3 +222,26 @@ DownsideDeviation(table, args...; kwargs...) =
 UpsideDeviation(table, args...; kwargs...) =
     apply_pa(UpsideDeviation, table, args...; kwargs...)
 Omega(table, args...; kwargs...) = apply_pa(Omega, table, args...; kwargs...)
+
+# Phase 1: Market Capture Ratios
+# Note: These require paired (asset, benchmark) data via AssetBenchmarkReturn
+# Table wrapper functions not applicable for paired-input metrics
+
+# Phase 2: Extended Risk-Adjusted Ratios (single return input)
+SterlingRatio(table, args...; kwargs...) = apply_pa(SterlingRatio, table, args...; kwargs...)
+BurkeRatio(table, args...; kwargs...) = apply_pa(BurkeRatio, table, args...; kwargs...)
+UlcerIndex(table, args...; kwargs...) = apply_pa(UlcerIndex, table, args...; kwargs...)
+PainIndex(table, args...; kwargs...) = apply_pa(PainIndex, table, args...; kwargs...)
+PainRatio(table, args...; kwargs...) = apply_pa(PainRatio, table, args...; kwargs...)
+
+# Phase 3: Volatility & Stability Metrics (single return input)
+AnnualVolatility(table, args...; kwargs...) = apply_pa(AnnualVolatility, table, args...; kwargs...)
+Stability(table, args...; kwargs...) = apply_pa(Stability, table, args...; kwargs...)
+TailRatio(table, args...; kwargs...) = apply_pa(TailRatio, table, args...; kwargs...)
+
+# Phase 4: Modigliani Measures (require paired asset/benchmark data)
+# Note: M2, MSquaredExcess, ActivePremium require AssetBenchmarkReturn
+# Table wrapper functions not applicable for paired-input metrics
+
+# Phase 5: Upside Potential Ratio (single return input)
+UpsidePotentialRatio(table, args...; kwargs...) = apply_pa(UpsidePotentialRatio, table, args...; kwargs...)
