@@ -14,6 +14,10 @@
 
 ![drawdowns](screenshots/drawdowns.png)
 
+### Max Drawdown
+
+![max drawdown](screenshots/max_dd.png)
+
 ### Returns
 
 #### Yearly

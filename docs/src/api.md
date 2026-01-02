@@ -76,6 +76,38 @@ Sharpe
 Sortino
 ```
 
+### Annualized return
+
+```@docs
+AnnualizedReturn
+```
+
+### Calmar ratio
+
+```@docs
+Calmar
+```
+
+### Beta
+
+```@docs
+Beta
+```
+
+### Expected return (CAPM)
+
+```@docs
+ExpectedReturn
+```
+
+## Input types
+
+### Asset/Market return pair
+
+```@docs
+AssetMarketReturn
+```
+
 ## Other
 
 ```@docs
