@@ -5,12 +5,56 @@ $(TYPEDEF)
 
     Sortino{T}(; period=252, risk_free=0)
 
-The `Sortino` type implements Sortino ratio calculations.
+Calculate the Sortino ratio from a stream of periodic returns.
+
+The Sortino ratio is similar to the Sharpe ratio but uses only downside deviation
+(volatility of negative returns) in the denominator, making it more appropriate
+for asymmetric return distributions.
+
+# Mathematical Definition
+
+``So = \\sqrt{T} \\times \\frac{E[R] - r_f}{\\sigma_{down}}``
+
+Where:
+- ``E[R]`` = expected (mean) return
+- ``r_f`` = risk-free rate
+- ``\\sigma_{down}`` = standard deviation of negative returns only
+- ``T`` = annualization period
 
 # Parameters
 
-- `period`: default is `252`. Daily (`252`), Hourly (`252*6.5`), Minutely(`252*6.5*60`) etc...
-- `risk_free`: default is `0`. Constant risk-free return throughout the period.
+- `period`: Annualization factor (default: 252)
+  - Daily: 252 (trading days per year)
+  - Weekly: 52
+  - Monthly: 12
+  - Hourly: 252 × 6.5
+- `risk_free`: Risk-free rate per period (default: 0)
+
+# Edge Cases
+
+- Returns `NaN` or `Inf` when downside deviation is zero (no negative returns)
+- Returns `0.0` when no observations
+
+# Fields
+
+- `value::T`: Current Sortino ratio
+- `n::Int`: Number of observations
+- `mean_ret::Mean`: Internal mean return tracker
+- `stddev_neg_ret::StdDev`: Internal downside deviation tracker
+- `period::Int`: Annualization factor
+- `risk_free::T`: Risk-free rate
+
+# Example
+
+```julia
+stat = Sortino{Float64}(period=252, risk_free=0.0)
+fit!(stat, 0.02)   # 2% return (positive, not included in downside)
+fit!(stat, -0.01)  # -1% return (negative, included in downside)
+fit!(stat, 0.03)   # 3% return
+value(stat)        # Annualized Sortino ratio
+```
+
+See also: [`Sharpe`](@ref), [`DownsideDeviation`](@ref), [`Calmar`](@ref)
 """
 mutable struct Sortino{T} <: PortfolioAnalyticsSingleOutput{T}
     value::T

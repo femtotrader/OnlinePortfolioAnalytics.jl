@@ -5,12 +5,55 @@ $(TYPEDEF)
 
     Sharpe{T}(; period=252, risk_free=0)
 
-The `Sharpe` type implements sharpe ratio calculations.
+Calculate the Sharpe ratio from a stream of periodic returns.
+
+The Sharpe ratio measures risk-adjusted performance by dividing excess return
+(above risk-free rate) by volatility. Higher values indicate better risk-adjusted returns.
+
+# Mathematical Definition
+
+``S = \\sqrt{T} \\times \\frac{E[R] - r_f}{\\sigma}``
+
+Where:
+- ``E[R]`` = expected (mean) return
+- ``r_f`` = risk-free rate
+- ``\\sigma`` = standard deviation of returns
+- ``T`` = annualization period
 
 # Parameters
 
-- `period`: default is `252`. Daily (`252`), Hourly (`252*6.5`), Minutely(`252*6.5*60`) etc...
-- `risk_free`: default is `0`. Constant risk-free return throughout the period.
+- `period`: Annualization factor (default: 252)
+  - Daily: 252 (trading days per year)
+  - Weekly: 52
+  - Monthly: 12
+  - Hourly: 252 × 6.5
+- `risk_free`: Risk-free rate per period (default: 0)
+
+# Edge Cases
+
+- Returns `NaN` when standard deviation is zero (all returns identical)
+- Returns `0.0` when no observations
+
+# Fields
+
+- `value::T`: Current Sharpe ratio
+- `n::Int`: Number of observations
+- `mean::Mean`: Internal mean tracker
+- `stddev::StdDev`: Internal standard deviation tracker
+- `period::Int`: Annualization factor
+- `risk_free::T`: Risk-free rate
+
+# Example
+
+```julia
+stat = Sharpe{Float64}(period=252, risk_free=0.0)
+fit!(stat, 0.02)   # 2% return
+fit!(stat, -0.01)  # -1% return
+fit!(stat, 0.03)   # 3% return
+value(stat)        # Annualized Sharpe ratio
+```
+
+See also: [`Sortino`](@ref), [`Treynor`](@ref), [`Omega`](@ref)
 """
 mutable struct Sharpe{T} <: PortfolioAnalyticsSingleOutput{T}
     value::T

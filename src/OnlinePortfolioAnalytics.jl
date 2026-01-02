@@ -1,5 +1,45 @@
 @doc """
-[`OnlinePortfolioAnalytics`](@ref) module aims to provide users with functionality for performing quantitative portfolio analytics via [online algorithms](https://en.wikipedia.org/wiki/Online_algorithm).
+[`OnlinePortfolioAnalytics`](@ref) provides streaming portfolio analytics using
+online algorithms that process data incrementally without storing the full history.
+
+## Features
+
+- **Return Calculations**: [`SimpleAssetReturn`](@ref), [`LogAssetReturn`](@ref), [`CumulativeReturn`](@ref), [`AnnualizedReturn`](@ref)
+- **Mean Returns**: [`ArithmeticMeanReturn`](@ref), [`GeometricMeanReturn`](@ref)
+- **Volatility**: [`StdDev`](@ref), [`DownsideDeviation`](@ref), [`UpsideDeviation`](@ref)
+- **Drawdown Analysis**: [`DrawDowns`](@ref), [`ArithmeticDrawDowns`](@ref), [`MaxDrawDown`](@ref), [`MaxArithmeticDrawDown`](@ref)
+- **Risk-Adjusted Returns**: [`Sharpe`](@ref), [`Sortino`](@ref), [`Calmar`](@ref), [`Omega`](@ref)
+- **CAPM Metrics**: [`Beta`](@ref), [`ExpectedReturn`](@ref), [`Treynor`](@ref), [`JensenAlpha`](@ref)
+- **Relative Performance**: [`TrackingError`](@ref), [`InformationRatio`](@ref)
+- **Risk Metrics**: [`VaR`](@ref), [`ExpectedShortfall`](@ref)
+- **Statistical Moments**: [`AssetReturnMoments`](@ref)
+
+## Usage
+
+All types implement the OnlineStatsBase interface:
+
+```julia
+using OnlinePortfolioAnalytics
+
+# Create a statistic
+stat = Sharpe{Float64}()
+
+# Feed observations one at a time
+for return_value in returns
+    fit!(stat, return_value)
+end
+
+# Get current value
+result = value(stat)
+```
+
+For metrics requiring paired asset/benchmark data, use [`AssetBenchmarkReturn`](@ref):
+
+```julia
+stat = Beta{Float64}()
+fit!(stat, AssetBenchmarkReturn(0.05, 0.03))  # Asset +5%, Market +3%
+value(stat)
+```
 
 ---
 

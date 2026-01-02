@@ -6,29 +6,45 @@ $(TYPEDEF)
 
     SimpleAssetReturn{T}(; period::Int = 1)
 
-The `SimpleAssetReturn` implements asset return (simple method) calculations.
+Calculate simple (arithmetic) returns from a stream of price observations.
+
+Simple returns measure the percentage change in price between two periods using
+the formula (P_t - P_{t-k}) / P_{t-k}, where k is the period.
+
+# Mathematical Definition
+
+``R_t = \\frac{P_t - P_{t-k}}{P_{t-k}}``
+
+Where:
+- ``P_t`` = price at time t
+- ``P_{t-k}`` = price k periods ago
+- ``k`` = period (default: 1)
 
 # Parameters
 
-- `period`
+- `period`: Number of periods for return calculation (default: 1)
 
-# Usage
+# Edge Cases
 
-## Feed `SimpleAssetReturn` one observation at a time
+- Returns `missing` until `period + 1` observations have been received
+- Returns `missing` if price at t-k is zero (division by zero avoided)
 
-    julia> using OnlinePortfolioAnalytics
+# Fields
 
-    julia> ret = SimpleAssetReturn{Float64}()
-    SimpleAssetReturn: n=0 | value=missing
+- `value::Union{Missing,T}`: Current return value
+- `n::Int`: Number of observations
+- `period::Int`: Return calculation period
 
-    julia> fit!(ret, 10.0)
-    SimpleAssetReturn: n=1 | value=missing
+# Example
 
-    julia> fit!(ret, 11.0)
-    SimpleAssetReturn: n=2 | value=0.1
+```julia
+stat = SimpleAssetReturn{Float64}()
+fit!(stat, 100.0)  # First price observation
+fit!(stat, 110.0)  # Second price observation
+value(stat)        # Returns 0.1 (10% return)
+```
 
-    julia> value(ret)
-    0.1
+See also: [`LogAssetReturn`](@ref), [`CumulativeReturn`](@ref)
 """
 mutable struct SimpleAssetReturn{T} <: AssetReturn{T}
     value::Union{Missing,T}
@@ -80,29 +96,46 @@ $(TYPEDEF)
 
     LogAssetReturn{T}(; period::Int = 1)
 
-The `LogAssetReturn` implements asset return (natural log method) calculations.
+Calculate logarithmic (continuously compounded) returns from a stream of price observations.
+
+Log returns are additive across time periods and are commonly used in financial modeling
+because they have better statistical properties than simple returns.
+
+# Mathematical Definition
+
+``R_t = \\ln\\left(\\frac{P_t}{P_{t-k}}\\right)``
+
+Where:
+- ``P_t`` = price at time t
+- ``P_{t-k}`` = price k periods ago
+- ``k`` = period (default: 1)
+- ``\\ln`` = natural logarithm
 
 # Parameters
 
-- `period`
+- `period`: Number of periods for return calculation (default: 1)
 
-# Usage
+# Edge Cases
 
-## Feed `LogAssetReturn` one observation at a time
+- Returns `missing` until `period + 1` observations have been received
+- Undefined behavior if price at t-k is zero or negative
 
-    julia> using OnlinePortfolioAnalytics
+# Fields
 
-    julia> ret = LogAssetReturn{Float64}()
-    LogAssetReturn: n=0 | value=missing
-    
-    julia> fit!(ret, 10.0)
-    LogAssetReturn: n=1 | value=missing
-    
-    julia> fit!(ret, 11.0)
-    LogAssetReturn: n=2 | value=0.0953102
-    
-    julia> value(ret)
-    0.09531017980432493
+- `value::Union{Missing,T}`: Current return value
+- `n::Int`: Number of observations
+- `period::Int`: Return calculation period
+
+# Example
+
+```julia
+stat = LogAssetReturn{Float64}()
+fit!(stat, 100.0)  # First price observation
+fit!(stat, 110.0)  # Second price observation
+value(stat)        # Returns ~0.0953 (log return)
+```
+
+See also: [`SimpleAssetReturn`](@ref), [`CumulativeReturn`](@ref)
 """
 mutable struct LogAssetReturn{T} <: AssetReturn{T}
     value::Union{Missing,T}
