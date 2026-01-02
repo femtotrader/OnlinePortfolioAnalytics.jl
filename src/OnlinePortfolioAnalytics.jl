@@ -19,6 +19,7 @@ export ArithmeticMeanReturn, GeometricMeanReturn  # GeometricMeanReturn is diffe
 export StdDev
 export CumulativeReturn
 export DrawDowns, ArithmeticDrawDowns
+export MaxDrawDown, MaxArithmeticDrawDown
 export AssetReturnMoments
 export Sharpe
 export Sortino
@@ -43,6 +44,7 @@ include("mean_return.jl")
 include("cumulative_return.jl")
 include("std_dev.jl")
 include("drawdowns.jl")
+include("max_drawdown.jl")
 include("moments.jl")
 include("sharpe.jl")
 include("sortino.jl")

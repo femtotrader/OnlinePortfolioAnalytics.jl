@@ -208,3 +208,6 @@ AssetReturnMoments(table, args...; kwargs...) =
     apply_pa(AssetReturnMoments, table, args...; kwargs...)
 Sharpe(table, args...; kwargs...) = apply_pa(Sharpe, table, args...; kwargs...)
 Sortino(table, args...; kwargs...) = apply_pa(Sortino, table, args...; kwargs...)
+MaxDrawDown(table, args...; kwargs...) = apply_pa(MaxDrawDown, table, args...; kwargs...)
+MaxArithmeticDrawDown(table, args...; kwargs...) =
+    apply_pa(MaxArithmeticDrawDown, table, args...; kwargs...)
