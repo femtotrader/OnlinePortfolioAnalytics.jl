@@ -50,6 +50,13 @@ DrawDowns
 ArithmeticDrawDowns
 ```
 
+### Maximum Drawdown
+
+```@docs
+MaxDrawDown
+MaxArithmeticDrawDown
+```
+
 ### Statistical moments
 
 ```@docs
