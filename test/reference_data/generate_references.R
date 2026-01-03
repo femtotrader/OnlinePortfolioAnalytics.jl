@@ -154,10 +154,20 @@ cat(sprintf("const REF_STERLING_RATIO = %.16f  # SterlingRatio(returns)\n",
     as.numeric(SterlingRatio(returns_xts))))
 cat(sprintf("const REF_BURKE_RATIO = %.16f  # BurkeRatio(returns)\n",
     as.numeric(BurkeRatio(returns_xts))))
-cat(sprintf("const REF_PAIN_INDEX = %.16f  # PainIndex(returns)\n",
-    as.numeric(PainIndex(returns_xts))))
-cat(sprintf("const REF_PAIN_RATIO = %.16f  # PainRatio(returns)\n",
-    as.numeric(PainRatio(returns_xts))))
+# NOTE: R's PainIndex has a quirk - DrawdownPeak divides returns by 100 internally,
+# treating decimal returns as percentages. We compute the CORRECT formula manually.
+# See: https://github.com/braverock/PerformanceAnalytics/issues/132
+prices <- cumprod(1 + returns)
+peak_prices <- cummax(prices)
+drawdowns <- (prices - peak_prices) / peak_prices
+pain_index_correct <- mean(abs(drawdowns))
+ann_return <- as.numeric(Return.annualized(returns_xts, scale = 12))
+pain_ratio_correct <- ann_return / pain_index_correct
+cat("# NOTE: R's PainIndex has a quirk - DrawdownPeak divides returns by 100 internally,\n")
+cat("# treating decimal returns (0.01) as if they were percentages. Julia uses the\n")
+cat("# mathematically correct formula. The values below are computed with the CORRECT formula.\n")
+cat(sprintf("const REF_PAIN_INDEX = %.16f  # Correct: mean(abs(drawdowns))\n", pain_index_correct))
+cat(sprintf("const REF_PAIN_RATIO = %.16f  # Correct: AnnualizedReturn / PainIndex\n", pain_ratio_correct))
 
 updown <- UpDownRatios(returns_xts, benchmark_xts, method = "Capture")
 cat(sprintf("const REF_UP_CAPTURE = %.16f  # UpDownRatios(returns, benchmark, side='Up')\n",

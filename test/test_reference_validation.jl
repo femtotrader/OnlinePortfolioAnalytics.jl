@@ -361,8 +361,10 @@ end
 end
 
 @testitem "Reference Validation: Extended - PainIndex" setup=[ReferenceValidationSetup] begin
-    # Test PainIndex against R's PainIndex
-    # NOTE: Actual difference is ~2.5% relative
+    # Test PainIndex against mathematically correct formula: mean(abs(drawdowns))
+    # NOTE: R's PainIndex has a quirk (divides returns by 100 in DrawdownPeak)
+    # See: https://github.com/braverock/PerformanceAnalytics/issues/132
+    # Reference value is computed with the correct formula
     stat = PainIndex{Float64}()
     for r in RReferenceValues.RETURNS
         fit!(stat, r)
@@ -370,12 +372,12 @@ end
     computed = value(stat)
     expected = RReferenceValues.REF_PAIN_INDEX
 
-    @test validate_against_reference(computed, expected, "PainIndex"; rtol=0.03)  # 3% tolerance
+    @test validate_against_reference(computed, expected, "PainIndex"; rtol=TOL_EXACT)
 end
 
 @testitem "Reference Validation: Extended - PainRatio" setup=[ReferenceValidationSetup] begin
-    # Test PainRatio against R's PainRatio
-    # NOTE: Actual difference is ~2.5% relative
+    # Test PainRatio against mathematically correct formula: AnnualizedReturn / PainIndex
+    # NOTE: Reference value uses correct PainIndex (not R's quirky version)
     stat = PainRatio{Float64}(period=12)
     for r in RReferenceValues.RETURNS
         fit!(stat, r)
@@ -383,7 +385,7 @@ end
     computed = value(stat)
     expected = RReferenceValues.REF_PAIN_RATIO
 
-    @test validate_against_reference(computed, expected, "PainRatio"; rtol=0.03)  # 3% tolerance
+    @test validate_against_reference(computed, expected, "PainRatio"; rtol=TOL_RATIO)
 end
 
 @testitem "Reference Validation: Extended - UpCapture" setup=[ReferenceValidationSetup] begin

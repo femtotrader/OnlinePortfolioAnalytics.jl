@@ -298,8 +298,12 @@ const REF_INFORMATION_RATIO = 0.3437122999290333  # InformationRatio(returns, be
 const REF_ULCER_INDEX = 0.0378289451223048  # UlcerIndex(returns)
 const REF_STERLING_RATIO = 0.5202561803658314  # SterlingRatio(returns)
 const REF_BURKE_RATIO = 0.6350791620264767  # BurkeRatio(returns)
-const REF_PAIN_INDEX = 0.0167310954279797  # PainIndex(returns)
-const REF_PAIN_RATIO = 7.8289201498247554  # PainRatio(returns)
+# NOTE: R's PainIndex has a quirk - DrawdownPeak divides returns by 100 internally,
+# treating decimal returns (0.01) as if they were percentages. Julia uses the
+# mathematically correct formula. The values below are computed with the CORRECT formula.
+# See: https://github.com/braverock/PerformanceAnalytics/issues/132
+const REF_PAIN_INDEX = 0.01715642019931583  # Correct: mean(abs(drawdowns))
+const REF_PAIN_RATIO = 7.634833409476332  # Correct: AnnualizedReturn / PainIndex
 const REF_UP_CAPTURE = 0.5956924351350552  # UpDownRatios(returns, benchmark, side='Up')
 const REF_DOWN_CAPTURE = 0.1955089110996060  # UpDownRatios(returns, benchmark, side='Down')
 # Modigliani Measures (User Story 6)
