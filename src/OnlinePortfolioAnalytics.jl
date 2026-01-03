@@ -77,26 +77,19 @@ export DownsideDeviation
 export UpsideDeviation
 export Omega
 export JensenAlpha
-
-# Phase 1: Market Capture Ratios
+# Market Capture Ratios
 export UpCapture, DownCapture, UpDownCaptureRatio
-
-# Phase 2: Extended Risk-Adjusted Ratios
+# Extended Risk-Adjusted Ratios
 export SterlingRatio, BurkeRatio, UlcerIndex, PainIndex, PainRatio
-
-# Phase 3: Volatility & Stability Metrics
+# Volatility & Stability Metrics
 export AnnualVolatility, Stability, TailRatio
-
-# Phase 4: Modigliani Measures
+# Modigliani Measures
 export M2, MSquaredExcess, ActivePremium
-
-# Phase 5: Upside Potential Ratio
+# Upside Potential Ratio
 export UpsidePotentialRatio
-
-# Phase 6: Rolling Window Framework
+# Rolling Window Framework
 export Rolling
-
-# Phase 7: Fundamental Statistics
+# Fundamental Statistics
 export RMS
 
 export fit!, value
