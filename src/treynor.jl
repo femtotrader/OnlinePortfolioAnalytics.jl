@@ -1,7 +1,5 @@
 # Treynor Ratio - Excess return per unit of systematic risk
 
-using OnlineStats: Mean
-
 @doc """
 $(TYPEDEF)
 

@@ -212,4 +212,5 @@ AssetBenchmarkReturn
 
 ```@docs
 Prod
+LogProd
 ```
