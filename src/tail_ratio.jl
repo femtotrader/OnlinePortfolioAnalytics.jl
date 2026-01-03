@@ -1,7 +1,5 @@
 # TailRatio - Ratio of 95th to 5th percentile
 
-using OnlineStats: Quantile
-
 @doc """
 $(TYPEDEF)
 

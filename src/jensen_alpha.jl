@@ -1,7 +1,5 @@
 # JensenAlpha - Excess return above CAPM prediction
 
-using OnlineStats: Mean
-
 @doc """
 $(TYPEDEF)
 
