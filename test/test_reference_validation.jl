@@ -227,7 +227,7 @@ end
 @testitem "Reference Validation: Ratios - Treynor" setup=[ReferenceValidationSetup] begin
     # Test Treynor against R's TreynorRatio(Rf=rf)
     # NOTE: R TreynorRatio is annualized using geometric mean, Julia uses arithmetic mean
-    # ~7% difference due to annualization method
+    # Actual difference is ~0.8% relative
     stat = Treynor{Float64}(risk_free=RReferenceValues.RF_MONTHLY)
     for i in eachindex(RReferenceValues.RETURNS)
         fit!(stat, AssetBenchmarkReturn(
@@ -238,7 +238,7 @@ end
     computed = value(stat) * 12  # Annualize for monthly data
     expected = RReferenceValues.REF_TREYNOR
 
-    @test validate_against_reference(computed, expected, "Treynor"; rtol=0.1)  # 10% tolerance for annualization diff
+    @test validate_against_reference(computed, expected, "Treynor"; rtol=0.02)  # 2% tolerance
 end
 
 # =============================================================================
@@ -319,7 +319,7 @@ end
 
 @testitem "Reference Validation: Extended - UlcerIndex" setup=[ReferenceValidationSetup] begin
     # Test UlcerIndex against R's UlcerIndex
-    # NOTE: Small difference (~2.5%) due to RMS calculation method
+    # NOTE: Actual difference is ~0.25% relative
     stat = UlcerIndex{Float64}()
     for r in RReferenceValues.RETURNS
         fit!(stat, r)
@@ -327,7 +327,7 @@ end
     computed = value(stat)
     expected = RReferenceValues.REF_ULCER_INDEX
 
-    @test validate_against_reference(computed, expected, "UlcerIndex"; rtol=0.05)
+    @test validate_against_reference(computed, expected, "UlcerIndex"; rtol=0.01)  # 1% tolerance
 end
 
 @testitem "Reference Validation: Extended - SterlingRatio" setup=[ReferenceValidationSetup] begin
@@ -362,7 +362,7 @@ end
 
 @testitem "Reference Validation: Extended - PainIndex" setup=[ReferenceValidationSetup] begin
     # Test PainIndex against R's PainIndex
-    # NOTE: ~2.5% difference due to calculation method
+    # NOTE: Actual difference is ~2.5% relative
     stat = PainIndex{Float64}()
     for r in RReferenceValues.RETURNS
         fit!(stat, r)
@@ -370,12 +370,12 @@ end
     computed = value(stat)
     expected = RReferenceValues.REF_PAIN_INDEX
 
-    @test validate_against_reference(computed, expected, "PainIndex"; rtol=0.05)
+    @test validate_against_reference(computed, expected, "PainIndex"; rtol=0.03)  # 3% tolerance
 end
 
 @testitem "Reference Validation: Extended - PainRatio" setup=[ReferenceValidationSetup] begin
     # Test PainRatio against R's PainRatio
-    # NOTE: ~2.5% difference due to PainIndex calculation method
+    # NOTE: Actual difference is ~2.5% relative
     stat = PainRatio{Float64}(period=12)
     for r in RReferenceValues.RETURNS
         fit!(stat, r)
@@ -383,7 +383,7 @@ end
     computed = value(stat)
     expected = RReferenceValues.REF_PAIN_RATIO
 
-    @test validate_against_reference(computed, expected, "PainRatio"; rtol=0.05)
+    @test validate_against_reference(computed, expected, "PainRatio"; rtol=0.03)  # 3% tolerance
 end
 
 @testitem "Reference Validation: Extended - UpCapture" setup=[ReferenceValidationSetup] begin
@@ -404,7 +404,7 @@ end
 
 @testitem "Reference Validation: Extended - DownCapture" setup=[ReferenceValidationSetup] begin
     # Test DownCapture against R's UpDownRatios(side='Down')
-    # NOTE: ~3% difference - acceptable
+    # NOTE: Actual difference is ~3.1% relative
     stat = DownCapture{Float64}()
     for i in eachindex(RReferenceValues.RETURNS)
         fit!(stat, AssetBenchmarkReturn(
@@ -415,7 +415,7 @@ end
     computed = value(stat)
     expected = RReferenceValues.REF_DOWN_CAPTURE
 
-    @test validate_against_reference(computed, expected, "DownCapture"; rtol=0.05)
+    @test validate_against_reference(computed, expected, "DownCapture"; rtol=0.04)  # 4% tolerance
 end
 
 # =============================================================================
