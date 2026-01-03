@@ -1,7 +1,7 @@
 name = "OnlinePortfolioAnalytics"
 uuid = "d39dbdee-9d7b-4a6f-a064-c0eaa0a6e939"
 authors = ["FemtoTrader <femto.trader@gmail.com>"]
-version = "0.2.0"
+version = "0.2.1"
 
 [deps]
 Dates = "ade2ca70-3891-5945-98fb-dc099432e06a"
