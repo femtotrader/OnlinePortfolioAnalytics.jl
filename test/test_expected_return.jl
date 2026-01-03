@@ -170,7 +170,7 @@ end
 
     # Calculate ExpectedReturn for TSLA against NFLX (as market proxy)
     stat = ExpectedReturn(risk_free=0.02)
-    for i in 1:length(tsla_returns)
+    for i in eachindex(tsla_returns)
         fit!(stat, AssetBenchmarkReturn(tsla_returns[i], nflx_returns[i]))
     end
 
