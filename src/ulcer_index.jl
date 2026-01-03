@@ -47,17 +47,13 @@ value(stat)        # RMS of drawdown values
 See also: [`PainIndex`](@ref), [`DrawDowns`](@ref), [`MaxDrawDown`](@ref)
 """
 mutable struct UlcerIndex{T} <: PortfolioAnalyticsSingleOutput{T}
-    "Current Ulcer Index value"
-    value::T
-    "Number of observations"
-    n::Int
     "Internal drawdown tracker"
     drawdowns::DrawDowns{T}
-    "Sum of squared drawdowns"
-    sum_dd_squared::T
+    "RMS of drawdown values"
+    rms::RMS{T}
 
     function UlcerIndex{T}() where {T}
-        new{T}(zero(T), 0, DrawDowns{T}(), zero(T))
+        new{T}(DrawDowns{T}(), RMS{T}())
     end
 end
 
@@ -67,27 +63,20 @@ UlcerIndex(; T::Type = Float64) = UlcerIndex{T}()
 function OnlineStatsBase._fit!(stat::UlcerIndex{T}, ret) where {T}
     # Update drawdown tracker
     fit!(stat.drawdowns, ret)
-    stat.n += 1
 
-    # Get current drawdown (always ≤ 0)
+    # Get current drawdown (always ≤ 0) and feed to RMS
     current_dd = value(stat.drawdowns)
-
-    # Accumulate squared drawdown
-    stat.sum_dd_squared += current_dd^2
-
-    # Calculate Ulcer Index = sqrt(mean(DD^2))
-    if stat.n > 0
-        stat.value = sqrt(stat.sum_dd_squared / stat.n)
-    end
+    fit!(stat.rms, current_dd)
 end
 
 function OnlineStatsBase.value(stat::UlcerIndex)
-    return stat.value
+    return value(stat.rms)
 end
 
 function Base.empty!(stat::UlcerIndex{T}) where {T}
-    stat.value = zero(T)
-    stat.n = 0
     empty!(stat.drawdowns)
-    stat.sum_dd_squared = zero(T)
+    empty!(stat.rms)
 end
+
+# Provide n accessor for backward compatibility with tests
+Base.getproperty(stat::UlcerIndex, name::Symbol) = name === :n ? getfield(stat, :rms).n : getfield(stat, name)

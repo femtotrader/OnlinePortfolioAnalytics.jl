@@ -96,6 +96,9 @@ export UpsidePotentialRatio
 # Phase 6: Rolling Window Framework
 export Rolling
 
+# Phase 7: Fundamental Statistics
+export RMS
+
 export fit!, value
 
 abstract type PortfolioAnalytics{T} <: OnlineStat{T} end
@@ -139,6 +142,9 @@ include("jensen_alpha.jl")
 include("up_capture.jl")
 include("down_capture.jl")
 include("up_down_capture_ratio.jl")
+
+# Fundamental Statistics (required by UlcerIndex)
+include("rms.jl")
 
 # Phase 2: Extended Risk-Adjusted Ratios
 include("ulcer_index.jl")
