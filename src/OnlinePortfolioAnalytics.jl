@@ -77,24 +77,20 @@ export DownsideDeviation
 export UpsideDeviation
 export Omega
 export JensenAlpha
-
-# Phase 1: Market Capture Ratios
+# Market Capture Ratios
 export UpCapture, DownCapture, UpDownCaptureRatio
-
-# Phase 2: Extended Risk-Adjusted Ratios
+# Extended Risk-Adjusted Ratios
 export SterlingRatio, BurkeRatio, UlcerIndex, PainIndex, PainRatio
-
-# Phase 3: Volatility & Stability Metrics
+# Volatility & Stability Metrics
 export AnnualVolatility, Stability, TailRatio
-
-# Phase 4: Modigliani Measures
+# Modigliani Measures
 export M2, MSquaredExcess, ActivePremium
-
-# Phase 5: Upside Potential Ratio
+# Upside Potential Ratio
 export UpsidePotentialRatio
-
-# Phase 6: Rolling Window Framework
+# Rolling Window Framework
 export Rolling
+# Fundamental Statistics
+export RMS
 
 export fit!, value
 
@@ -110,8 +106,11 @@ function expected_return_types(ind::Type{O}) where {O<:PortfolioAnalyticsSingleO
     return (ind.parameters[end],)
 end
 
-include("asset_return.jl")
+# Fundamental Statistics
 include("prod.jl")
+include("rms.jl")  # required by UlcerIndex
+
+include("asset_return.jl")
 include("mean_return.jl")
 include("cumulative_return.jl")
 include("std_dev.jl")
@@ -135,36 +134,38 @@ include("upside_deviation.jl")
 include("omega.jl")
 include("jensen_alpha.jl")
 
-# Phase 1: Market Capture Ratios
+# Market Capture Ratios
 include("up_capture.jl")
 include("down_capture.jl")
 include("up_down_capture_ratio.jl")
 
-# Phase 2: Extended Risk-Adjusted Ratios
+# Extended Risk-Adjusted Ratios
 include("ulcer_index.jl")
 include("pain_index.jl")
 include("sterling_ratio.jl")
 include("burke_ratio.jl")
 include("pain_ratio.jl")
 
-# Phase 3: Volatility & Stability Metrics
+# Volatility & Stability Metrics
 include("annual_volatility.jl")
 include("stability.jl")
 include("tail_ratio.jl")
 
-# Phase 4: Modigliani Measures
+# Modigliani Measures
 include("m2.jl")
 include("m_squared_excess.jl")
 include("active_premium.jl")
 
-# Phase 5: Upside Potential Ratio
+# Upside Potential Ratio
 include("upside_potential_ratio.jl")
 
-# Phase 6: Rolling Window Framework
+# Rolling Window Framework
 include("rolling.jl")
 
+# Integration with Tables.jl
 include("integrations/tables.jl")
 
+# Sample Data for Testing and Examples
 include("sample_data.jl")
 
 end

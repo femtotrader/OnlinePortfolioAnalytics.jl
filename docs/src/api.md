@@ -213,4 +213,5 @@ AssetBenchmarkReturn
 ```@docs
 Prod
 LogProd
+RMS
 ```
