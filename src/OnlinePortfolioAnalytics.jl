@@ -108,7 +108,7 @@ end
 
 # Fundamental Statistics
 include("prod.jl")
-include("rms.jl"). # required by UlcerIndex
+include("rms.jl")  # required by UlcerIndex
 
 include("asset_return.jl")
 include("mean_return.jl")
