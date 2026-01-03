@@ -119,7 +119,7 @@ end
     # Test VaR against R's VaR(p=0.95, method='historical')
     # NOTE: VaR differs due to quantile interpolation methods
     # R uses different quantile types (type 1-9), Julia uses online estimation
-    # Difference is typically within 5-10% relative
+    # Actual difference is ~1% relative
     stat = VaR{Float64}(confidence=RReferenceValues.VAR_CONFIDENCE)
     for r in RReferenceValues.RETURNS
         fit!(stat, r)
@@ -127,8 +127,8 @@ end
     computed = value(stat)
     expected = RReferenceValues.REF_VAR_95
 
-    # Using looser tolerance (10%) for quantile estimation differences
-    @test validate_against_reference(computed, expected, "VaR"; rtol=0.1)
+    # Using 2% tolerance for quantile estimation differences
+    @test validate_against_reference(computed, expected, "VaR"; rtol=0.02)
 end
 
 @testitem "Reference Validation: Risk - ExpectedShortfall" setup=[ReferenceValidationSetup] begin
