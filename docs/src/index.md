@@ -27,6 +27,12 @@ OnlinePortfolioAnalytics.jl is an open-source library provided **"as-is" for edu
 
 Open Julia command line interface. 
 
+## Stable version
+
+Type `] add OnlinePortfolioAnalytics`
+
+## Development version
+
 Type `] dev https://github.com/femtotrader/OnlinePortfolioAnalytics.jl/`
 
 ## Usage
