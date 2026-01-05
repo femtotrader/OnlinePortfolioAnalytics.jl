@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/><title>Internals · OnlinePortfolioAnalytics.jl</title><meta name="title" content="Internals · OnlinePortfolioAnalytics.jl"/><meta property="og:title" content="Internals · OnlinePortfolioAnalytics.jl"/><meta property="twitter:title" content="Internals · OnlinePortfolioAnalytics.jl"/><meta name="description" content="Documentation for OnlinePortfolioAnalytics.jl."/><meta property="og:description" content="Documentation for OnlinePortfolioAnalytics.jl."/><meta property="twitter:description" content="Documentation for OnlinePortfolioAnalytics.jl."/><script data-outdated-warner src="../assets/warner.js"></script><link href="https://cdnjs.cloudflare.com/ajax/libs/lato-font/3.0.0/css/lato-font.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/juliamono/0.050/juliamono.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/fontawesome.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/solid.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/brands.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.8/katex.min.css" rel="stylesheet" type="text/css"/><script>documenterBaseURL=".."</script><script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js" data-main="../assets/documenter.js"></script><script src="../search_index.js"></script><script src="../siteinfo.js"></script><script src="../../versions.js"></script><link class="docs-theme-link" rel="stylesheet" type="text/css" href="../assets/themes/documenter-dark.css" data-theme-name="documenter-dark" data-theme-primary-dark/><link class="docs-theme-link" rel="stylesheet" type="text/css" href="../assets/themes/documenter-light.css" data-theme-name="documenter-light" data-theme-primary/><script src="../assets/themeswap.js"></script></head><body><div id="documenter"><nav class="docs-sidebar"><div class="docs-package-name"><span class="docs-autofit"><a href="../">OnlinePortfolioAnalytics.jl</a></span></div><button class="docs-search-query input is-rounded is-small is-clickable my-2 mx-auto py-1 px-2" id="documenter-search-query">Search docs (Ctrl + /)</button><ul class="docs-menu"><li><a class="tocitem" href="../">Home</a></li><li><a class="tocitem" href="../architecture/">Architecture</a></li><li><a class="tocitem" href="../metrics/">Metrics</a></li><li class="is-active"><a class="tocitem" href>Internals</a><ul class="internal"><li><a class="tocitem" href="#Type-Hierarchy"><span>Type Hierarchy</span></a></li><li><a class="tocitem" href="#Composition-Pattern"><span>Composition Pattern</span></a></li><li><a class="tocitem" href="#Data-Flow"><span>Data Flow</span></a></li><li><a class="tocitem" href="#OnlineStatsBase-Interface"><span>OnlineStatsBase Interface</span></a></li><li><a class="tocitem" href="#Adding-New-Metrics"><span>Adding New Metrics</span></a></li></ul></li><li><a class="tocitem" href="../usage/">Usage</a></li><li><a class="tocitem" href="../examples/">Examples</a></li><li><a class="tocitem" href="../api/">API</a></li></ul><div class="docs-version-selector field has-addons"><div class="control"><span class="docs-label button is-static is-size-7">Version</span></div><div class="docs-selector control is-expanded"><div class="select is-fullwidth is-size-7"><select id="documenter-version-selector"></select></div></div></div></nav><div class="docs-main"><header class="docs-navbar"><a class="docs-sidebar-button docs-navbar-link fa-solid fa-bars is-hidden-desktop" id="documenter-sidebar-button" href="#"></a><nav class="breadcrumb"><ul class="is-hidden-mobile"><li class="is-active"><a href>Internals</a></li></ul><ul class="is-hidden-tablet"><li class="is-active"><a href>Internals</a></li></ul></nav><div class="docs-right"><a class="docs-navbar-link" href="https://github.com/femtotrader/OnlinePortfolioAnalytics.jl" title="View the repository on GitHub"><span class="docs-icon fa-brands"></span><span class="docs-label is-hidden-touch">GitHub</span></a><a class="docs-navbar-link" href="https://github.com/femtotrader/OnlinePortfolioAnalytics.jl/blob/main/docs/src/internals.md" title="Edit source on GitHub"><span class="docs-icon fa-solid"></span></a><a class="docs-settings-button docs-navbar-link fa-solid fa-gear" id="documenter-settings-button" href="#" title="Settings"></a><a class="docs-article-toggle-button fa-solid fa-chevron-up" id="documenter-article-toggle-button" href="javascript:;" title="Collapse all docstrings"></a></div></header><article class="content" id="documenter-page"><h1 id="Internals"><a class="docs-heading-anchor" href="#Internals">Internals</a><a id="Internals-1"></a><a class="docs-heading-anchor-permalink" href="#Internals" title="Permalink"></a></h1><p>This page provides detailed technical documentation for contributors and users who want to understand the internal design of OnlinePortfolioAnalytics.jl.</p><h2 id="Type-Hierarchy"><a class="docs-heading-anchor" href="#Type-Hierarchy">Type Hierarchy</a><a id="Type-Hierarchy-1"></a><a class="docs-heading-anchor-permalink" href="#Type-Hierarchy" title="Permalink"></a></h2><p>All analytics in OnlinePortfolioAnalytics inherit from the <code>OnlineStat{T}</code> interface provided by OnlineStatsBase.jl:</p><div class="mermaid">classDiagram
+    class OnlineStat~T~ {
+        &lt;&lt;interface&gt;&gt;
+        +fit!(data)
+        +value()
+        +merge!(other)
+    }
+
+    class PortfolioAnalytics~T~ {
+        &lt;&lt;abstract&gt;&gt;
+    }
+
+    class PortfolioAnalyticsSingleOutput~T~ {
+        &lt;&lt;abstract&gt;&gt;
+        Returns single value
+    }
+
+    class PortfolioAnalyticsMultiOutput~T~ {
+        &lt;&lt;abstract&gt;&gt;
+        Returns NamedTuple
+    }
+
+    OnlineStat &lt;|-- PortfolioAnalytics
+    PortfolioAnalytics &lt;|-- PortfolioAnalyticsSingleOutput
+    PortfolioAnalytics &lt;|-- PortfolioAnalyticsMultiOutput
+
+    PortfolioAnalyticsSingleOutput &lt;|-- Sharpe
+    PortfolioAnalyticsSingleOutput &lt;|-- Sortino
+    PortfolioAnalyticsSingleOutput &lt;|-- Beta
+    PortfolioAnalyticsSingleOutput &lt;|-- MaxDrawDown
+    PortfolioAnalyticsSingleOutput &lt;|-- VaR
+    PortfolioAnalyticsSingleOutput &lt;|-- UpCapture
+    PortfolioAnalyticsSingleOutput &lt;|-- M2
+    PortfolioAnalyticsSingleOutput &lt;|-- UlcerIndex
+
+    PortfolioAnalyticsMultiOutput &lt;|-- AssetReturnMoments</div><h3 id="Type-Categories"><a class="docs-heading-anchor" href="#Type-Categories">Type Categories</a><a id="Type-Categories-1"></a><a class="docs-heading-anchor-permalink" href="#Type-Categories" title="Permalink"></a></h3><ul><li><strong>PortfolioAnalyticsSingleOutput{T}</strong>: Metrics that return a single scalar value (e.g., Sharpe ratio returns a <code>Float64</code>)</li><li><strong>PortfolioAnalyticsMultiOutput{T}</strong>: Metrics that return a NamedTuple with multiple values (e.g., AssetReturnMoments returns <code>(mean, std, skewness, kurtosis)</code>)</li></ul><h2 id="Composition-Pattern"><a class="docs-heading-anchor" href="#Composition-Pattern">Composition Pattern</a><a id="Composition-Pattern-1"></a><a class="docs-heading-anchor-permalink" href="#Composition-Pattern" title="Permalink"></a></h2><p>Complex metrics are built by composing simpler online statistics. This enables code reuse and ensures numerical stability:</p><div class="mermaid">classDiagram
+    class Sharpe {
+        +Mean mean
+        +StdDev stddev
+        +Int period
+        +T risk_free
+    }
+
+    class Calmar {
+        +AnnualizedReturn annualized
+        +MaxDrawDown max_dd
+    }
+
+    class Beta {
+        +CovMatrix cov_matrix
+    }
+
+    class MaxDrawDown {
+        +DrawDowns drawdowns
+        +Extrema max_dd_extrema
+    }
+
+    class DrawDowns {
+        +Prod cumulative
+        +Extrema peak
+    }
+
+    class Rolling {
+        +OnlineStat stat
+        +CircBuff buffer
+        +Int window
+    }
+
+    Sharpe --&gt; Mean
+    Sharpe --&gt; StdDev
+    Calmar --&gt; AnnualizedReturn
+    Calmar --&gt; MaxDrawDown
+    MaxDrawDown --&gt; DrawDowns
+    MaxDrawDown --&gt; Extrema
+    DrawDowns --&gt; Prod
+    DrawDowns --&gt; Extrema
+    Rolling --&gt; OnlineStat
+    Rolling --&gt; CircBuff</div><h3 id="Key-Composition-Examples"><a class="docs-heading-anchor" href="#Key-Composition-Examples">Key Composition Examples</a><a id="Key-Composition-Examples-1"></a><a class="docs-heading-anchor-permalink" href="#Key-Composition-Examples" title="Permalink"></a></h3><ul><li><strong>Sharpe</strong> composes <code>Mean</code> and <code>StdDev</code> to compute risk-adjusted returns</li><li><strong>Calmar</strong> composes <code>AnnualizedReturn</code> and <code>MaxDrawDown</code> to compute the Calmar ratio</li><li><strong>MaxDrawDown</strong> composes <code>DrawDowns</code> and <code>Extrema</code> to track the worst drawdown</li><li><strong>Rolling</strong> wraps any <code>OnlineStat</code> with a <code>CircBuff</code> (circular buffer) for rolling window calculations</li></ul><h2 id="Data-Flow"><a class="docs-heading-anchor" href="#Data-Flow">Data Flow</a><a id="Data-Flow-1"></a><a class="docs-heading-anchor-permalink" href="#Data-Flow" title="Permalink"></a></h2><h3 id="Single-Observation-Processing"><a class="docs-heading-anchor" href="#Single-Observation-Processing">Single Observation Processing</a><a id="Single-Observation-Processing-1"></a><a class="docs-heading-anchor-permalink" href="#Single-Observation-Processing" title="Permalink"></a></h3><p>When you call <code>fit!</code> with a new observation, here&#39;s what happens:</p><div class="mermaid">sequenceDiagram
+    participant User
+    participant Metric as Portfolio Metric
+    participant Internal as Internal Stats
+    participant Value as value()
+
+    User-&gt;&gt;Metric: fit!(stat, observation)
+    Metric-&gt;&gt;Internal: Update internal trackers
+    Internal--&gt;&gt;Metric: Updated state
+    Metric-&gt;&gt;Metric: Compute current value
+    User-&gt;&gt;Value: value(stat)
+    Value--&gt;&gt;User: Current metric value</div><h3 id="Rolling-Window-Processing"><a class="docs-heading-anchor" href="#Rolling-Window-Processing">Rolling Window Processing</a><a id="Rolling-Window-Processing-1"></a><a class="docs-heading-anchor-permalink" href="#Rolling-Window-Processing" title="Permalink"></a></h3><p>Rolling window metrics maintain a buffer of recent observations:</p><div class="mermaid">sequenceDiagram
+    participant User
+    participant Rolling as Rolling Wrapper
+    participant Buffer as CircBuff
+    participant Stat as Wrapped Stat
+
+    User-&gt;&gt;Rolling: fit!(rolling, observation)
+    Rolling-&gt;&gt;Buffer: Add observation to buffer
+    Buffer--&gt;&gt;Rolling: Buffer updated (oldest dropped if full)
+    Rolling-&gt;&gt;Stat: empty!(stat)
+    loop For each buffered observation
+        Rolling-&gt;&gt;Stat: fit!(stat, obs)
+    end
+    User-&gt;&gt;Rolling: value(rolling)
+    Rolling-&gt;&gt;Stat: value(stat)
+    Stat--&gt;&gt;Rolling: Current window value
+    Rolling--&gt;&gt;User: Rolling metric value</div><h2 id="OnlineStatsBase-Interface"><a class="docs-heading-anchor" href="#OnlineStatsBase-Interface">OnlineStatsBase Interface</a><a id="OnlineStatsBase-Interface-1"></a><a class="docs-heading-anchor-permalink" href="#OnlineStatsBase-Interface" title="Permalink"></a></h2><p>All types implement the standard OnlineStatsBase interface:</p><pre><code class="language-julia hljs"># Core functions
+fit!(stat, observation)  # Update statistic with new observation
+value(stat)              # Get current value
+empty!(stat)             # Reset to initial state
+merge!(stat1, stat2)     # Combine statistics (for parallel computation)</code></pre><h3 id="Input-Types"><a class="docs-heading-anchor" href="#Input-Types">Input Types</a><a id="Input-Types-1"></a><a class="docs-heading-anchor-permalink" href="#Input-Types" title="Permalink"></a></h3><h4 id="Scalar-Returns"><a class="docs-heading-anchor" href="#Scalar-Returns">Scalar Returns</a><a id="Scalar-Returns-1"></a><a class="docs-heading-anchor-permalink" href="#Scalar-Returns" title="Permalink"></a></h4><p>Most metrics accept scalar return values directly:</p><pre><code class="language-julia hljs">stat = Sharpe{Float64}()
+fit!(stat, 0.05)   # 5% return
+fit!(stat, -0.02)  # -2% return</code></pre><h4 id="AssetBenchmarkReturn"><a class="docs-heading-anchor" href="#AssetBenchmarkReturn">AssetBenchmarkReturn</a><a id="AssetBenchmarkReturn-1"></a><a class="docs-heading-anchor-permalink" href="#AssetBenchmarkReturn" title="Permalink"></a></h4><p>For relative/CAPM metrics, use paired observations:</p><pre><code class="language-julia hljs">struct AssetBenchmarkReturn{T&lt;:Real}
+    asset::T      # Asset/portfolio return
+    benchmark::T  # Benchmark/market return
+end
+
+# Usage
+stat = Beta{Float64}()
+fit!(stat, AssetBenchmarkReturn(0.05, 0.03))  # Asset +5%, Market +3%</code></pre><h2 id="Adding-New-Metrics"><a class="docs-heading-anchor" href="#Adding-New-Metrics">Adding New Metrics</a><a id="Adding-New-Metrics-1"></a><a class="docs-heading-anchor-permalink" href="#Adding-New-Metrics" title="Permalink"></a></h2><p>To add a new metric, follow this pattern:</p><ol><li>Create a new file in <code>src/</code> (e.g., <code>src/my_metric.jl</code>)</li><li>Define a struct extending <code>PortfolioAnalyticsSingleOutput{T}</code> or <code>PortfolioAnalyticsMultiOutput{T}</code></li><li>Implement required functions:<ul><li><code>OnlineStatsBase._fit!(stat, data)</code> - Update logic</li><li><code>OnlineStatsBase.value(stat)</code> - Return current value</li><li><code>Base.empty!(stat)</code> - Reset state</li><li>(Optional) <code>OnlineStatsBase._merge!(stat1, stat2)</code> - Parallel support</li></ul></li><li>Add export in <code>OnlinePortfolioAnalytics.jl</code></li><li>Include file in <code>OnlinePortfolioAnalytics.jl</code></li><li>Create test file in <code>test/</code></li></ol><p>See the API page for the full list of available metrics.</p><script type="module">import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs';
+mermaid.initialize({
+    startOnLoad: true,
+    theme: "neutral"
+});
+</script></article><nav class="docs-footer"><a class="docs-footer-prevpage" href="../metrics/">« Metrics</a><a class="docs-footer-nextpage" href="../usage/">Usage »</a><div class="flexbox-break"></div><p class="footer-message">Powered by <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> and the <a href="https://julialang.org/">Julia Programming Language</a>.</p></nav></div><div class="modal" id="documenter-settings"><div class="modal-background"></div><div class="modal-card"><header class="modal-card-head"><p class="modal-card-title">Settings</p><button class="delete"></button></header><section class="modal-card-body"><p><label class="label">Theme</label><div class="select"><select id="documenter-themepicker"><option value="auto">Automatic (OS)</option><option value="documenter-light">documenter-light</option><option value="documenter-dark">documenter-dark</option></select></div></p><hr/><p>This document was generated with <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> version 1.4.0 on <span class="colophon-date" title="Monday 5 January 2026 18:33">Monday 5 January 2026</span>. Using Julia version 1.10.10.</p></section><footer class="modal-card-foot"></footer></div></div></div></body></html>
