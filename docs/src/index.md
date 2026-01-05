@@ -47,6 +47,9 @@ See [unit tests](https://github.com/femtotrader/OnlinePortfolioAnalytics.jl/tree
 ```@contents
 Pages = [
     "index.md",
+    "architecture.md",
+    "metrics.md",
+    "internals.md",
     "usage.md",
     "examples.md",
     "api.md"
