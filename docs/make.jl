@@ -1,4 +1,5 @@
 using Documenter
+using DocumenterMermaid
 push!(LOAD_PATH, "../src/")
 using OnlinePortfolioAnalytics
 
@@ -8,6 +9,9 @@ makedocs(
     modules = [OnlinePortfolioAnalytics],
     pages = [
         "Home" => "index.md",
+        "Architecture" => "architecture.md",
+        "Metrics" => "metrics.md",
+        "Internals" => "internals.md",
         "Usage" => "usage.md",
         "Examples" => "examples.md",
         "API" => "api.md",
