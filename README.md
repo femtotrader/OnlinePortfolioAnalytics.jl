@@ -14,3 +14,6 @@ This project aims to provide users with functionality for performing quantitativ
 ## Star History
 
 [![Star History Chart](https://api.star-history.com/svg?repos=femtotrader/OnlinePortfolioAnalytics.jl&type=Timeline?refresh=1)](https://www.star-history.com/#femtotrader/OnlinePortfolioAnalytics.jl&Timeline)
+
+## Donations / Support
+[Support and donations are appreciated but not required.](https://github.com/femtotrader/support/)
